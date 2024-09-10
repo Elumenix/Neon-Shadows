@@ -11,7 +11,10 @@ config_version=5
 [application]
 
 config/name="Neon Shadows"
+<<<<<<< HEAD
 run/main_scene="res://Assets/Scenes/GameTest.tscn"
+=======
+>>>>>>> origin/main
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

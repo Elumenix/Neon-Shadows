@@ -1,0 +1,26 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://kg0pda5jvqu6"
+path="res://.godot/imported/Small-8-Direction-Characters_by_AxulArt.png-6f70d3a13b871b6711ea30e47a2bca4a.ctexarray"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png"
+dest_files=["res://.godot/imported/Small-8-Direction-Characters_by_AxulArt.png-6f70d3a13b871b6711ea30e47a2bca4a.ctexarray"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=8
+slices/vertical=12
