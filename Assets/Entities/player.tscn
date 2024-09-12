@@ -5,12 +5,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvrkd"]
 
 [node name="Player" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(306, 180)
 script = ExtResource("1_3w1gt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_pvrkd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(306, 180)
-
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
-shape = SubResource("RectangleShape2D_pvrkd")
