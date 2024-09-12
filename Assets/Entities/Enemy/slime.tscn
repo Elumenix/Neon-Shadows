@@ -1,7 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dx50r3tdnt0wo"]
+[gd_scene load_steps=18 format=3 uid="uid://dx50r3tdnt0wo"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/AI/SlimeMovement.cs" id="1_hk0cm"]
+[ext_resource type="Script" path="res://Assets/Scripts/AI/Movement/SlimeMovement.cs" id="1_hk0cm"]
+[ext_resource type="Script" path="res://Assets/Scripts/AI/CollisionHandler/BaseCollisionHandler.cs" id="2_l11k8"]
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
+[ext_resource type="Script" path="res://Assets/Scripts/AI/Share/Health.cs" id="4_gp08i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk0lu"]
 atlas = ExtResource("2_xcxxb")
@@ -88,17 +92,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Slime" type="CharacterBody2D"]
-
-[node name="Rigidbody2D" type="RigidBody2D" parent="."]
-collision_mask = 0
-gravity_scale = -8.0
+[node name="Slime" type="Node2D"]
 script = ExtResource("1_hk0cm")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Rigidbody2D"]
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_l11k8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ejd0x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rigidbody2D"]
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Rigidbody2D"]
+script = ExtResource("4_gp08i")
