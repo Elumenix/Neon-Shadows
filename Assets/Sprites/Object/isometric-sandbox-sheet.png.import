@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gspfe0kedwt7"
-path="res://.godot/imported/Sidewalk_Chunk2.png-82ed1c162edf066e10884fbe3789bb91.ctex"
+uid="uid://clyo1sivettyy"
+path="res://.godot/imported/isometric-sandbox-sheet.png-4a7500b74c85308bfd5cbda359bf9082.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Object/Sidewalk_Chunk2.png"
-dest_files=["res://.godot/imported/Sidewalk_Chunk2.png-82ed1c162edf066e10884fbe3789bb91.ctex"]
+source_file="res://Assets/Sprites/Object/isometric-sandbox-sheet.png"
+dest_files=["res://.godot/imported/isometric-sandbox-sheet.png-4a7500b74c85308bfd5cbda359bf9082.ctex"]
 
 [params]
 
