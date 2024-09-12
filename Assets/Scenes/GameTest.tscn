@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwnb8b8hu21lk"]
+[gd_scene load_steps=6 format=3 uid="uid://bwnb8b8hu21lk"]
 
 [ext_resource type="Texture2D" uid="uid://gspfe0kedwt7" path="res://Assets/Sprites/Object/Sidewalk_Chunk2.png" id="1_6mjqw"]
+[ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_hoprf"]
 
 [sub_resource type="MeshTexture" id="MeshTexture_q8m6h"]
 
@@ -200,3 +201,6 @@ texture = SubResource("MeshTexture_q8m6h")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_ttviy")
+
+[node name="Slime" parent="." instance=ExtResource("2_hoprf")]
+position = Vector2(1000, 300)

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class SlimeMovement : Node
+public partial class SlimeMovement : Node2D
 {
 	// Speed of the enemy
 	[Export] public float Speed = 100f;
@@ -17,10 +17,10 @@ public partial class SlimeMovement : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Movement();
+		Movement(delta);
 	}
 	
-	private void Movement(){
+	private void Movement(double delta){
 		Vector2 targetPosition;
 		if (player != null)
 		{
@@ -33,9 +33,9 @@ public partial class SlimeMovement : Node
 		MoveTowardsTarget(targetPosition, delta);
 	}
 	
-	private void MoveTowardsTarget(Vector2 targetPosition, float delta)
+	private void MoveTowardsTarget(Vector2 targetPosition, double delta)
 	{
-		Vector2 direction = (targetPosition - Position).Normalized();
-		Position += direction * Speed * delta;
+        Vector2 direction = (targetPosition - Position).Normalized();
+		Position += direction * (float) (Speed * delta);
 	}
 }
