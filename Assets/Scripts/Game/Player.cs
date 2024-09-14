@@ -10,12 +10,15 @@ public partial class Player : Area2D
 	private Vector2 velocity;
 	private float maxSpeed = 50.0f;
 	private float speed;
-	public Sprite2D sprite;
+	private AnimatedSprite2D animatedSprite;
 	private FACING_DIRECTION facing;
 
+	// Health related fields
 	private int health;
 	private bool dead;
 	public bool isDead { get { return dead; } }
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -24,6 +27,8 @@ public partial class Player : Area2D
 		facing = FACING_DIRECTION.Right;
 		health = 3;
 		dead = false;
+
+		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,6 +62,7 @@ public partial class Player : Area2D
 
 		// Update facing and apply change sprite accordingly
 		updateFacing();
+		walkAnimation();
 
 		GD.Print($"Facing {facing}");
 	}
@@ -70,27 +76,27 @@ public partial class Player : Area2D
 		{
 			facing = FACING_DIRECTION.Left;
 		}
-		else if (heading.X == 0 && heading.Y > 0)
+		else if (heading.X == 0 && heading.Y < 0)
 		{
 			facing = FACING_DIRECTION.Up;
 		}
-		else if (heading.X == 0 && heading.Y < 0)
+		else if (heading.X == 0 && heading.Y > 0)
 		{
 			facing = FACING_DIRECTION.Down;
 		}
-		else if(heading.X > 0 && heading.Y > 0)
+		else if(heading.X > 0 && heading.Y < 0)
 		{
 			facing = FACING_DIRECTION.UpRight;
 		}
-		else if(heading.X > 0 && heading.Y < 0)
+		else if(heading.X > 0 && heading.Y > 0)
 		{
 			facing = FACING_DIRECTION.DownRight;
 		}
-		else if(heading.X < 0 && heading.Y > 0)
+		else if(heading.X < 0 && heading.Y < 0)
 		{
 			facing = FACING_DIRECTION.UpLeft;
 		}
-		else if(heading.X < 0 && heading.Y < 0)
+		else if(heading.X < 0 && heading.Y > 0)
 		{
 			facing = FACING_DIRECTION.DownLeft;
 		}
@@ -107,5 +113,54 @@ public partial class Player : Area2D
 			}
 		}
 
+	}
+	private void walkAnimation()
+	{
+		switch (facing)
+		{
+			case (FACING_DIRECTION.Up): { 
+					animatedSprite.Play("walk_up");
+					break;
+				}
+			case (FACING_DIRECTION.Left):
+				{
+					animatedSprite.Play("walk_left");
+					break;
+				}
+			case (FACING_DIRECTION.Right):
+				{
+					animatedSprite.Play("walk_right");
+					break;
+				}
+			case (FACING_DIRECTION.Down):
+				{
+					animatedSprite.Play("walk_down");
+					break;
+				}
+			case (FACING_DIRECTION.UpLeft):
+				{
+					animatedSprite.Play("walk_upleft");
+					break;
+				}
+			case (FACING_DIRECTION.DownLeft):
+				{
+					animatedSprite.Play("walk_downleft");
+					break;
+				}
+			case (FACING_DIRECTION.UpRight):
+				{
+					animatedSprite.Play("walk_upright");
+					break;
+				}
+			case (FACING_DIRECTION.DownRight):
+				{
+					animatedSprite.Play("walk_downright");
+					break;
+				}
+			default: { 
+					animatedSprite.Play("default");
+					break;
+				}
+		}
 	}
 }
