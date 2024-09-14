@@ -255,4 +255,4 @@ tile_map_data = PackedByteArray("AAAAAAEAAQAAAAMAAAABAAEAAQAAAAMAAAACAAEAAQAAAAM
 tile_set = SubResource("TileSet_ttviy")
 
 [node name="Slime" parent="." instance=ExtResource("2_jbgst")]
-position = Vector2(235, 67)
+position = Vector2(351, 170)
