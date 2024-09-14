@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bks420rnxyona"]
+
+[ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="1_oxc1c"]
+[ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/UI/hud.tscn" id="2_vgprf"]
+
+[node name="WeijieTestScene" type="Node2D"]
+
+[node name="Slime" parent="." instance=ExtResource("1_oxc1c")]
+position = Vector2(623.329, 83.3517)
+
+[node name="HUD" parent="." instance=ExtResource("2_vgprf")]
