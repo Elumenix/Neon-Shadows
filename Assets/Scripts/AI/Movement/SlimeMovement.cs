@@ -34,7 +34,7 @@ public partial class SlimeMovement : Node2D
 	
 	private void MoveTowardsTarget(Vector2 targetPosition, double delta)
 	{
-        Vector2 direction = (targetPosition - Position).Normalized();
+		Vector2 direction = (targetPosition - Position).Normalized();
 		Position += direction * (float) (Speed * delta);
 	}
 }
