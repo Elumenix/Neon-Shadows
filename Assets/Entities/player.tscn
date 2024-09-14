@@ -174,7 +174,6 @@ animations = [{
 }]
 
 [node name="Player" type="Area2D"]
-position = Vector2(100, 100)
 script = ExtResource("1_3yn2a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -185,4 +184,4 @@ scale = Vector2(20, 20)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0r6mp")
-frame_progress = 0.0376733
+frame_progress = 0.802369
