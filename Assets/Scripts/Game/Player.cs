@@ -8,7 +8,7 @@ public partial class Player : Area2D
 	// Fields
 	private Vector2 heading;
 	private Vector2 velocity;
-	private float maxSpeed = 5.0f;
+	private float maxSpeed = 25.0f;
 	private float speed;
 	public Sprite2D sprite;
 	private FACING_DIRECTION facing;
@@ -23,6 +23,8 @@ public partial class Player : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// "Friction"
+		heading = Vector2.Zero;
 		// Recieve inputs
 		if (Input.IsActionPressed("move_up"))
 		{
@@ -54,13 +56,13 @@ public partial class Player : Area2D
 	}
 	private void updateFacing()
 	{
-        if (heading.X > 0)
-        {
-            facing = FACING_DIRECTION.Right;
-        }
-        else if (heading.X < 0)
-        {
-            facing = FACING_DIRECTION.Left;
-        }
-    }
+		if (heading.X > 0)
+		{
+			facing = FACING_DIRECTION.Right;
+		}
+		else if (heading.X < 0)
+		{
+			facing = FACING_DIRECTION.Left;
+		}
+	}
 }
