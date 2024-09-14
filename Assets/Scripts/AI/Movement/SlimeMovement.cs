@@ -27,7 +27,8 @@ public partial class SlimeMovement : Node2D
 		}
 		else
 		{
-			targetPosition = new Vector2(0, 0);
+			//targetPosition = new Vector2(0, 0);
+			targetPosition = GetViewport().GetMousePosition();
 		}
 		MoveTowardsTarget(targetPosition, delta);
 	}
