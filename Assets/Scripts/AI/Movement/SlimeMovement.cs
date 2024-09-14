@@ -7,7 +7,6 @@ public partial class SlimeMovement : Node2D
 	[Export] public float Speed = 100f;
 	
 	private Node2D player;
-	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -35,7 +34,7 @@ public partial class SlimeMovement : Node2D
 	
 	private void MoveTowardsTarget(Vector2 targetPosition, double delta)
 	{
-        Vector2 direction = (targetPosition - Position).Normalized();
+		Vector2 direction = (targetPosition - Position).Normalized();
 		Position += direction * (float) (Speed * delta);
 	}
 }
