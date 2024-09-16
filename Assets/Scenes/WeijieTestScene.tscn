@@ -111,8 +111,7 @@ sources/1 = SubResource("TileSetAtlasSource_2dbf3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HUD" parent="CanvasLayer" node_paths=PackedStringArray("HealthIconList") instance=ExtResource("2_vgprf")]
-HealthIconList = []
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_vgprf")]
 
 [node name="Slime" parent="." instance=ExtResource("1_oxc1c")]
 position = Vector2(347, 184)

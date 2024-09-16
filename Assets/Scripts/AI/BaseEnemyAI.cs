@@ -51,6 +51,7 @@ public partial class BaseEnemyAI : Node2D
 
     private void Movement(double delta)
     {
+		// TODO: Player not found
         Vector2 targetPosition;
         if (player != null)
         {
@@ -60,6 +61,8 @@ public partial class BaseEnemyAI : Node2D
         {
             targetPosition = new Vector2(0, 0);
         }
+		// Testing
+		//targetPosition = GetViewport().GetMousePosition();
         MoveTowardsTarget(targetPosition, delta);
     }
 
