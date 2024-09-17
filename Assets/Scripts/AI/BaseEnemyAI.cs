@@ -9,7 +9,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     [ExportCategory("Movement")]
     // Speed of the enemy
-    [Export] public float Speed = 100f;
+    [Export] public float Speed;
 
 
     private Node2D player;
