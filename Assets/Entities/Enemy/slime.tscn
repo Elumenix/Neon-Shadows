@@ -1,10 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dx50r3tdnt0wo"]
+[gd_scene load_steps=16 format=3 uid="uid://dx50r3tdnt0wo"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/BaseEnemyAI.cs" id="1_7mvx3"]
-[ext_resource type="Script" path="res://Assets/Scripts/AI/CollisionHandler/BaseCollisionHandler.cs" id="2_rkc0u"]
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
+size = Vector2(13, 11)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk0lu"]
 atlas = ExtResource("2_xcxxb")
@@ -91,16 +91,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Slime" type="Node2D"]
+[node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_7mvx3")
+Speed = 10.0
 
-[node name="Area2D" type="Area2D" parent="."]
-script = ExtResource("2_rkc0u")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
