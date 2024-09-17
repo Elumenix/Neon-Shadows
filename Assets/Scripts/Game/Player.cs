@@ -3,13 +3,12 @@ using System;
 
 enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
 
-public partial class Player : Area2D
+public partial class Player : CharacterBody2D
 {
 	// Fields
 	private Vector2 heading;
-	private Vector2 velocity;
 	private float maxSpeed = 50.0f;
-	private float speed;
+	private float speed = 50.0f;
 	private AnimatedSprite2D animatedSprite;
 	private FACING_DIRECTION facing;
 
@@ -23,7 +22,6 @@ public partial class Player : Area2D
 	public override void _Ready()
 	{
 		heading = new Vector2();
-		velocity = new Vector2();
 		facing = FACING_DIRECTION.Right;
 		health = 3;
 		dead = false;
@@ -31,40 +29,50 @@ public partial class Player : Area2D
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
+
+
 		// "Friction"
-		heading = Vector2.Zero;
-		// Recieve inputs
-		if (Input.IsActionPressed("move_up"))
-		{
-			heading += Vector2.Up;
-		}
-		if (Input.IsActionPressed("move_down"))
-		{
-			heading += Vector2.Down;
-		}
-		if (Input.IsActionPressed("move_left"))
-		{
-			heading += Vector2.Left;
-		}
-		if (Input.IsActionPressed("move_right"))
-		{
-			heading += Vector2.Right;
-		}
+		//heading = Vector2.Zero;
+		//// Recieve inputs
+		//if (Input.IsActionPressed("move_up"))
+		//{
+		//	heading += Vector2.Up;
+		//}
+		//if (Input.IsActionPressed("move_down"))
+		//{
+		//	heading += Vector2.Down;
+		//}
+		//if (Input.IsActionPressed("move_left"))
+		//{
+		//	heading += Vector2.Left;
+		//}
+		//if (Input.IsActionPressed("move_right"))
+		//{
+		//	heading += Vector2.Right;
+		//}
+		//
+		//// Noralize heading
+		//heading = heading.Normalized();
+		//velocity = heading * maxSpeed * (float)delta;
+		//GD.Print($"The Velocity is X{velocity.X}, Y{velocity.Y}");
+		//Translate(velocity);
 
-		// Noralize heading
-		heading = heading.Normalized();
-		velocity = heading * maxSpeed * (float)delta;
-		GD.Print($"The Velocity is X{velocity.X}, Y{velocity.Y}");
-		Translate(velocity);
+		GetInput();
+		MoveAndSlide();
+		//walkAnimation();
 
-		// Update facing and apply change sprite accordingly
-		updateFacing();
-		walkAnimation();
-
-		GD.Print($"Facing {facing}");
+		//GD.Print($"Facing {facing}");
+	}
+	public void GetInput()
+	{
+		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+		heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		Velocity = heading * speed;
 	}
 	private void updateFacing()
 	{
@@ -116,6 +124,7 @@ public partial class Player : Area2D
 	}
 	private void walkAnimation()
 	{
+		updateFacing();
 		switch (facing)
 		{
 			case (FACING_DIRECTION.Up): { 
