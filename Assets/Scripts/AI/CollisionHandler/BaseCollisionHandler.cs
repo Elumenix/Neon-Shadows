@@ -7,16 +7,15 @@ public partial class BaseCollisionHandler : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		BodyEntered += OnCollisionEnter;
-	}
+		GD.Print("hi");
+		AreaEntered += OnCollisionEntered;
+		GetNode<Area2D>("Area2D").Connect("area_entered", new Callable(this, "OnCollisionEntered"));
+    }
 
-	private void OnCollisionEnter(Node body)
-	{
-		GD.Print("hit!");
-		if (body is Player player)
-		{
-			//player take damage method
-
-		}
+    public override void _Process(double delta)
+    {
+    }
+	private void OnCollisionEntered(Node2D body) {
+		GD.Print("hi");
 	}
 }

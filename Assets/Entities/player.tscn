@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=13 format=3 uid="uid://bwtbjn6col3j8"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
