@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class BaseEnemyAI : Node2D
+public partial class BaseEnemyAI : CharacterBody2D
 {
     [ExportCategory("Health")]
     [Export] public int MaxHealth = 100;
@@ -9,7 +9,7 @@ public partial class BaseEnemyAI : Node2D
 
     [ExportCategory("Movement")]
     // Speed of the enemy
-    [Export] public float Speed = 100f;
+    [Export] public float Speed;
 
 
     private Node2D player;
@@ -23,7 +23,8 @@ public partial class BaseEnemyAI : Node2D
 	public override void _Process(double delta)
 	{
         Movement(delta);
-        GD.Print(player);
+    }
+    public override void _PhysicsProcess(double delta) {
     }
 
     public void TakeDamage(int damageAmount)
@@ -64,5 +65,9 @@ public partial class BaseEnemyAI : Node2D
     {
         Vector2 direction = (targetPosition - Position).Normalized();
         Position += direction * (float)(Speed * delta);
+    }
+
+    public void HandlePlayerCollison() {
+        
     }
 }
