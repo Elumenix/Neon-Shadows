@@ -17,6 +17,10 @@ public partial class Player : CharacterBody2D
 	private bool dead;
 	public bool isDead { get { return dead; } }
 
+	// attack realted fields
+	private bool hasMoved;
+	private int attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,52 +30,36 @@ public partial class Player : CharacterBody2D
 		health = 3;
 		dead = false;
 
+
+		hasMoved = false;
+		attackCount = 0;
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
-    
+    public override void _PhysicsProcess(double delta)
+    {
+        GetInput();
+        MoveAndCollide(Velocity * (float)delta);
+        walkAnimation();
+    }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
 
-
-		// "Friction"
-		//heading = Vector2.Zero;
-		//// Recieve inputs
-		//if (Input.IsActionPressed("move_up"))
-		//{
-		//	heading += Vector2.Up;
-		//}
-		//if (Input.IsActionPressed("move_down"))
-		//{
-		//	heading += Vector2.Down;
-		//}
-		//if (Input.IsActionPressed("move_left"))
-		//{
-		//	heading += Vector2.Left;
-		//}
-		//if (Input.IsActionPressed("move_right"))
-		//{
-		//	heading += Vector2.Right;
-		//}
-		//
-		//// Noralize heading
-		//heading = heading.Normalized();
-		//velocity = heading * maxSpeed * (float)delta;
-		//GD.Print($"The Velocity is X{velocity.X}, Y{velocity.Y}");
-		//Translate(velocity);
-
-		GetInput();
-		MoveAndSlide();
-		//walkAnimation();
-
-		//GD.Print($"Facing {facing}");
 	}
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
 		heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		if(heading != Vector2.Zero)
+		{
+			hasMoved = true;
+		}
+		else
+		{
+			hasMoved = false;
+		}
 		Velocity = heading * speed;
 	}
 	private void updateFacing()
@@ -170,6 +158,14 @@ public partial class Player : CharacterBody2D
 					animatedSprite.Play("default");
 					break;
 				}
+		}
+	}
+	private void attack()
+	{
+		// Can't attack and move?
+		if(!hasMoved)
+		{
+			return;
 		}
 	}
 }
