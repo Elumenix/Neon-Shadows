@@ -16,13 +16,14 @@ public partial class BaseEnemyAI : Node2D
     public override void _Ready()
 	{
         currentHealth = MaxHealth;
-        player = GetNodeOrNull<Node2D>("");
+        player = (Node2D)(GetTree().GetFirstNodeInGroup("Player"));
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
         Movement(delta);
+        GD.Print(player);
     }
 
     public void TakeDamage(int damageAmount)
@@ -40,13 +41,6 @@ public partial class BaseEnemyAI : Node2D
     {
         GD.Print("Enemy died.");
         QueueFree();
-    }
-    private void OnCollisionEnter(Node body)
-    {
-        if (body is Player player)
-        {
-            //player take damage method
-        }
     }
 
     private void Movement(double delta)

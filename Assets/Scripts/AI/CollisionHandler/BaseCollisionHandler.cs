@@ -10,16 +10,13 @@ public partial class BaseCollisionHandler : Area2D
 		BodyEntered += OnCollisionEnter;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-
 	private void OnCollisionEnter(Node body)
 	{
+		GD.Print("hit!");
 		if (body is Player player)
 		{
 			//player take damage method
+
 		}
 	}
 }
