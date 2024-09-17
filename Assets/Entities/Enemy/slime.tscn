@@ -91,6 +91,7 @@ animations = [{
 }]
 
 [node name="Slime" type="Node2D"]
+position = Vector2(0, -10)
 script = ExtResource("1_7mvx3")
 
 [node name="Area2D" type="Area2D" parent="."]
