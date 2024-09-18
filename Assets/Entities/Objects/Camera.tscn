@@ -3,4 +3,10 @@
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Camera.cs" id="1_2f5eh"]
 
 [node name="Camera2D" type="Camera2D"]
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_top_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
 script = ExtResource("1_2f5eh")

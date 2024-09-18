@@ -3,6 +3,8 @@ using System;
 
 public partial class Camera : Camera2D
 {
+    public static Camera Instance { get; private set; }
+
     private Random _random = new Random();
     private Vector2 _originalPosition;
 
@@ -11,6 +13,14 @@ public partial class Camera : Camera2D
 
     public override void _Ready()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else { 
+            QueueFree();
+        }
+       
         _originalPosition = Position;
     }
 
