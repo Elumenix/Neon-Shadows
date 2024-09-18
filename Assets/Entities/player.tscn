@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]
-size = Vector2(9, 11)
+size = Vector2(9, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jorn"]
 atlas = ExtResource("2_h38l4")
@@ -282,7 +282,7 @@ animations = [{
 script = ExtResource("1_3yn2a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4.5)
+position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_1ytte")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

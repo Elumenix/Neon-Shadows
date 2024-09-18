@@ -11,20 +11,24 @@ public partial class BaseEnemyAI : CharacterBody2D
     // Speed of the enemy
     [Export] public float Speed;
 
-
     private Node2D player;
+
     public override void _Ready()
-	{
+    {
         currentHealth = MaxHealth;
-        player = (Node2D)(GetTree().GetFirstNodeInGroup("Player"));
+        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+
+        GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+    public override void _Process(double delta)
+    {
         Movement(delta);
     }
-    public override void _PhysicsProcess(double delta) {
+
+    public override void _PhysicsProcess(double delta)
+    {
+
     }
 
     public void TakeDamage(int damageAmount)
@@ -46,7 +50,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     private void Movement(double delta)
     {
-		// TODO: Player not found
         Vector2 targetPosition;
         if (player != null)
         {
@@ -56,8 +59,7 @@ public partial class BaseEnemyAI : CharacterBody2D
         {
             targetPosition = new Vector2(0, 0);
         }
-		// Testing
-		//targetPosition = GetViewport().GetMousePosition();
+
         MoveTowardsTarget(targetPosition, delta);
     }
 
@@ -67,7 +69,16 @@ public partial class BaseEnemyAI : CharacterBody2D
         Position += direction * (float)(Speed * delta);
     }
 
-    public void HandlePlayerCollison() {
-        
+    // This function will be called when a collision with the player happens
+    public void OnBodyEntered(Node2D body)
+    {
+        if (body.IsInGroup("Player"))
+        {
+            HandlePlayerCollison();
+        }
+    }
+    public void HandlePlayerCollison()
+    {
+        GD.Print("Enemy collided with the player!");
     }
 }

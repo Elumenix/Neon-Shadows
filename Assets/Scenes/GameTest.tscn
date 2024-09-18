@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="1_umt8v"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_jbgst"]
-[ext_resource type="PackedScene" uid="uid://bwtbjn6col3j8" path="res://Assets/Entities/player.tscn" id="3_pls7k"]
+[ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_pls7k"]
 
 [sub_resource type="MeshTexture" id="MeshTexture_q8m6h"]
 
