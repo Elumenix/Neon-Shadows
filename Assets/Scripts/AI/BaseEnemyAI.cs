@@ -13,13 +13,14 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     private Node2D player;
 
-    public override void _Ready()
+    public override async void _Ready()
     {
         currentHealth = MaxHealth;
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
-
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
     }
+
 
     public override void _Process(double delta)
     {
