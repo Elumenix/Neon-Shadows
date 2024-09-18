@@ -32,6 +32,10 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     }
 
+    /// <summary>
+    /// manage enemy's health when getting hit
+    /// </summary>
+    /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
@@ -43,12 +47,19 @@ public partial class BaseEnemyAI : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Handle enemy death
+    /// </summary>
     private void HandleDeath()
     {
         GD.Print("Enemy died.");
         QueueFree();
     }
 
+    /// <summary>
+    /// Movement of enemy
+    /// </summary>
+    /// <param name="delta">frame time</param>
     private void Movement(double delta)
     {
         Vector2 targetPosition;
@@ -78,6 +89,8 @@ public partial class BaseEnemyAI : CharacterBody2D
             HandlePlayerCollison();
         }
     }
+
+
     public void HandlePlayerCollison()
     {
         GD.Print("Enemy collided with the player!");
