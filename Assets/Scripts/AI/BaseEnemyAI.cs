@@ -78,7 +78,8 @@ public partial class BaseEnemyAI : CharacterBody2D
     private void MoveTowardsTarget(Vector2 targetPosition, double delta)
     {
         Vector2 direction = (targetPosition - Position).Normalized();
-        Position += direction * (float)(Speed * delta);
+        //Position += direction * (float)(Speed * delta);
+        MoveAndCollide(direction * (float)(Speed * delta));
     }
 
     // This function will be called when a collision with the player happens
