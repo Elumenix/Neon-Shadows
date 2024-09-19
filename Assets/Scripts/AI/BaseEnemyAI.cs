@@ -25,9 +25,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
         // Connect the Area2D signal for collision detection
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
-
-        // Set the initial movement target
-        CallDeferred("SetMovementTarget");
+        UpdateNavigationTarget();
     }
 
     public override void _PhysicsProcess(double delta)
