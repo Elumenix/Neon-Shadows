@@ -91,9 +91,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
 script = ExtResource("1_7mvx3")
-Speed = 20.0
+_speed = 10.0
+_navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -109,3 +110,6 @@ shape = SubResource("RectangleShape2D_ejd0x")
 position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true

@@ -33,6 +33,7 @@ public partial class Camera : Camera2D
     {
         _shakeDuration = duration;
         _shakeIntensity = intensity;
+        GD.Print(_shakeDuration);
     }
 
     public void ShakeCamera(double delta) {
