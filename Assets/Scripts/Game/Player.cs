@@ -90,12 +90,19 @@ public partial class Player : CharacterBody2D
 		if (heading.X > 0 && heading.Y == 0)
 		{
 			facing = FACING_DIRECTION.Right;
-			attackHitBox.Position = new Vector2(attackOffset, 0.0f);
+			if(attackHitBox.Position.X < 0)
+			{
+				attackHitBox.Position = attackHitBox.Position.Reflect(Vector2.Up);
+			}
 		}
 		else if (heading.X < 0 && heading.Y == 0)
 		{
 			facing = FACING_DIRECTION.Left;
-			attackHitBox.Position = new Vector2(attackOffset * -1.0f, 0.0f);
+			if(attackHitBox.Position.X > 0)
+			{
+                attackHitBox.Position = attackHitBox.Position.Reflect(Vector2.Up);
+            }
+			
 		}
 		else if (heading.X == 0 && heading.Y < 0)
 		{

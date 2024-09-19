@@ -293,9 +293,10 @@ shape = SubResource("RectangleShape2D_1ytte")
 sprite_frames = SubResource("SpriteFrames_0vbwd")
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(10, 0)
 
 [node name="AttackHitbox" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(10, 2)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_gxvek")
 
 [node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]
