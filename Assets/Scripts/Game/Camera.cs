@@ -33,6 +33,8 @@ public partial class Camera : Camera2D
     {
         _shakeDuration = duration;
         _shakeIntensity = intensity;
+        DragHorizontalEnabled = false;
+        DragVerticalEnabled = false;
         GD.Print(_shakeDuration);
     }
 
@@ -52,6 +54,9 @@ public partial class Camera : Camera2D
             if (_shakeDuration <= 0)
             {
                 Position = _originalPosition;
+
+                DragHorizontalEnabled = true;
+                DragVerticalEnabled = true;
             }
         }
     }
