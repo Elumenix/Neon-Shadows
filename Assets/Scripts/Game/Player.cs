@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Runtime.CompilerServices;
 
 enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
 
@@ -20,6 +21,7 @@ public partial class Player : CharacterBody2D
 	// attack realted fields
 	private bool hasMoved;
 	private int attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
+	private Area2D attackHitBox;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -33,6 +35,8 @@ public partial class Player : CharacterBody2D
 
 		hasMoved = false;
 		attackCount = 0;
+		attackHitBox = GetNode<Area2D>("Area2D");
+
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
@@ -46,19 +50,20 @@ public partial class Player : CharacterBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-
+		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Blue;
+		attack();
 	}
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
 		heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		if(heading != Vector2.Zero)
+		if(heading == Vector2.Zero)
 		{
-			hasMoved = true;
+			hasMoved = false;
 		}
 		else
 		{
-			hasMoved = false;
+			hasMoved = true;
 		}
 		Velocity = heading * speed;
 	}
@@ -167,5 +172,20 @@ public partial class Player : CharacterBody2D
 		{
 			return;
 		}
-	}
+		// If we have any overlapping bodies in the attack hit box
+        if (attackHitBox.GetOverlappingBodies().Count > 0)
+        {
+			Godot.Collections.Array<Node2D> overlapList = attackHitBox.GetOverlappingBodies();
+            for(int i = 0; i > overlapList.Count; i++)
+			{
+				// Check for enemies and Deal damage
+				if (overlapList[i].HasMethod("TakeDamage"))
+				{
+					BaseEnemyAI temp = (BaseEnemyAI)overlapList[i];
+					temp.TakeDamage(1);
+				}
+			}
+        }
+		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
+    }
 }
