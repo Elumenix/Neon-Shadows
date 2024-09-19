@@ -108,6 +108,6 @@ public partial class BaseEnemyAI : CharacterBody2D
     public void HandlePlayerCollision()
     {
         GD.Print("Enemy collided with the player!");
-        Camera.Instance.StartShakeCamera(0.1f, 50);
+        Camera.Instance.StartShakeCamera(0.1f, 25);
     }
 }
