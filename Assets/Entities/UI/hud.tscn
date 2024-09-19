@@ -3,7 +3,9 @@
 [ext_resource type="Script" path="res://Assets/Scripts/UI/HUDManager.cs" id="1_27bwa"]
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_y0tak"]
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("HealthIconList")]
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("HealthIconList")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,14 +15,14 @@ grow_vertical = 2
 script = ExtResource("1_27bwa")
 HealthIconList = []
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="HUD"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 48.78
 grow_horizontal = 2
 
-[node name="Player Health Label" type="Label" parent="Panel"]
+[node name="Player Health Label" type="Label" parent="HUD/Panel"]
 layout_mode = 1
 offset_left = 48.0
 offset_top = 13.0
@@ -28,7 +30,7 @@ offset_right = 157.0
 offset_bottom = 36.0
 text = "Player Health:"
 
-[node name="Player Icon" type="TextureRect" parent="Panel"]
+[node name="Player Icon" type="TextureRect" parent="HUD/Panel"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 4.0
@@ -37,9 +39,9 @@ offset_bottom = 44.0
 texture = ExtResource("2_y0tak")
 expand_mode = 1
 
-[node name="CanvasGroup" type="CanvasGroup" parent="Panel"]
+[node name="CanvasGroup" type="CanvasGroup" parent="HUD/Panel"]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/CanvasGroup"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Panel/CanvasGroup"]
 custom_minimum_size = Vector2(5.5, 0)
 offset_left = 172.0
 offset_top = 5.0
@@ -47,19 +49,19 @@ offset_right = 212.0
 offset_bottom = 45.0
 scale = Vector2(7, 0.985)
 
-[node name="TextureRect2" type="TextureRect" parent="Panel/CanvasGroup/HBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
 texture = ExtResource("2_y0tak")
 expand_mode = 1
 
-[node name="TextureRect3" type="TextureRect" parent="Panel/CanvasGroup/HBoxContainer"]
+[node name="TextureRect3" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
 texture = ExtResource("2_y0tak")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Panel/CanvasGroup/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
 texture = ExtResource("2_y0tak")
