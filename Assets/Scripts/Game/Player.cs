@@ -24,6 +24,7 @@ public partial class Player : CharacterBody2D
 	private Area2D attackHitBox;
 	private bool isAttacking;
 	private Timer attackTimer;
+	private float attackOffset;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -41,6 +42,7 @@ public partial class Player : CharacterBody2D
 		attackTimer = GetNode<Timer>("%Timer");
 		isAttacking = false;
 		attackTimer.OneShot = true;
+		attackOffset = attackHitBox.Position.X;
 
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
@@ -88,10 +90,12 @@ public partial class Player : CharacterBody2D
 		if (heading.X > 0 && heading.Y == 0)
 		{
 			facing = FACING_DIRECTION.Right;
+			attackHitBox.Position = new Vector2(attackOffset, 0.0f);
 		}
 		else if (heading.X < 0 && heading.Y == 0)
 		{
 			facing = FACING_DIRECTION.Left;
+			attackHitBox.Position = new Vector2(attackOffset * -1.0f, 0.0f);
 		}
 		else if (heading.X == 0 && heading.Y < 0)
 		{
@@ -118,7 +122,7 @@ public partial class Player : CharacterBody2D
 			facing = FACING_DIRECTION.DownLeft;
 		}
 	}
-	private void takeDamage(int damage)
+	public void takeDamage(int damage)
 	{
 		if (health > 0)
 		{
