@@ -8,25 +8,74 @@ public partial class BaseEnemyAI : CharacterBody2D
     private int currentHealth;
 
     [ExportCategory("Movement")]
-    // Speed of the enemy
-    [Export] public float Speed;
-
+    [Export] private float _speed;
+    [Export] private NavigationAgent2D _navigationAgent;
 
     private Node2D player;
-    public override void _Ready()
-	{
+
+    public override async void _Ready()
+    {
         currentHealth = MaxHealth;
-        player = (Node2D)(GetTree().GetFirstNodeInGroup("Player"));
+
+        // Small delay for initialization
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
+
+        // Get player node (assuming player is in the "Player" group)
+        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+
+        // Connect the Area2D signal for collision detection
+        GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
+
+        // Set the initial movement target
+        CallDeferred("SetMovementTarget");
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-        Movement(delta);
-    }
-    public override void _PhysicsProcess(double delta) {
+    public override void _PhysicsProcess(double delta)
+    {
+        UpdateNavigationTarget();
+
+        if (_navigationAgent.IsNavigationFinished())
+        {
+            return;
+        }
+
+        Vector2 nextPathPosition = _navigationAgent.GetNextPathPosition();
+
+        MoveTowardsTarget(nextPathPosition, delta);
     }
 
+    public override void _Process(double delta)
+    {
+        Vector2 targetPosition;
+        if (player != null)
+        {
+            targetPosition = player.Position;
+        }
+        else
+        {
+            targetPosition = new Vector2(0, 0);
+        }
+
+    }
+
+    private void UpdateNavigationTarget()
+    {
+        if (player != null)
+        {
+            _navigationAgent.TargetPosition = player.GlobalPosition; 
+        }
+    }
+
+    private void MoveTowardsTarget(Vector2 targetPosition, double delta)
+    {
+        Vector2 direction = (targetPosition - GlobalPosition).Normalized();
+        GlobalPosition += direction * (float)(_speed * delta);
+    }
+
+    /// <summary>
+    /// Manages enemy's health when taking damage
+    /// </summary>
+    /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
@@ -38,36 +87,27 @@ public partial class BaseEnemyAI : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Handle enemy death
+    /// </summary>
     private void HandleDeath()
     {
         GD.Print("Enemy died.");
         QueueFree();
     }
 
-    private void Movement(double delta)
+    // This function will be called when a collision with the player happens
+    public void OnBodyEntered(Node2D body)
     {
-		// TODO: Player not found
-        Vector2 targetPosition;
-        if (player != null)
+        if (body.IsInGroup("Player"))
         {
-            targetPosition = player.Position;
+            HandlePlayerCollision();
         }
-        else
-        {
-            targetPosition = new Vector2(0, 0);
-        }
-		// Testing
-		//targetPosition = GetViewport().GetMousePosition();
-        MoveTowardsTarget(targetPosition, delta);
     }
 
-    private void MoveTowardsTarget(Vector2 targetPosition, double delta)
+    public void HandlePlayerCollision()
     {
-        Vector2 direction = (targetPosition - Position).Normalized();
-        Position += direction * (float)(Speed * delta);
-    }
-
-    public void HandlePlayerCollison() {
-        
+        GD.Print("Enemy collided with the player!");
+        Camera.Instance.StartShakeCamera(0.1f, 50);
     }
 }

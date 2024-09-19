@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
+[ext_resource type="PackedScene" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]
-size = Vector2(9, 11)
+size = Vector2(9, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jorn"]
 atlas = ExtResource("2_h38l4")
@@ -285,7 +286,7 @@ size = Vector2(11, 16)
 script = ExtResource("1_3yn2a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4.5)
+position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_1ytte")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -296,3 +297,5 @@ sprite_frames = SubResource("SpriteFrames_0vbwd")
 [node name="AttackHitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(10, 2)
 shape = SubResource("RectangleShape2D_gxvek")
+
+[node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]

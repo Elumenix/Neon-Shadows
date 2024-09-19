@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
-size = Vector2(13, 11)
+size = Vector2(13, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk0lu"]
 atlas = ExtResource("2_xcxxb")
@@ -91,15 +91,25 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
 script = ExtResource("1_7mvx3")
-Speed = 10.0
+_speed = 10.0
+_navigationAgent = NodePath("NavigationAgent2D")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
