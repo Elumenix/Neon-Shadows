@@ -47,15 +47,15 @@ public partial class Player : CharacterBody2D
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        GetInput();
-        MoveAndCollide(Velocity * (float)delta);
-        walkAnimation();
-    }
+	public override void _PhysicsProcess(double delta)
+	{
+		GetInput();
+		MoveAndCollide(Velocity * (float)delta);
+		walkAnimation();
+	}
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
 	{
 		// Check if we're attacking
 		if (Input.IsActionJustPressed("attack") && !isAttacking)
@@ -201,10 +201,10 @@ public partial class Player : CharacterBody2D
 			return;
 		}*/
 		// If we have any overlapping bodies in the attack hit box
-        if (attackHitBox.GetOverlappingBodies().Count > 0 && isAttacking)
-        {
+		if (attackHitBox.GetOverlappingBodies().Count > 0 && isAttacking)
+		{
 			Godot.Collections.Array<Node2D> overlapList = attackHitBox.GetOverlappingBodies();
-            for(int i = 0; i > overlapList.Count; i++)
+			for(int i = 0; i > overlapList.Count; i++)
 			{
 				// Check for enemies and Deal damage
 				if (overlapList[i].HasMethod("TakeDamage"))
@@ -213,9 +213,9 @@ public partial class Player : CharacterBody2D
 					temp.TakeDamage(1);
 				}
 			}
-        }
+		}
 		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
-    }
+	}
 	public void on_area_2d_area_entered(Area2D collision)
 	{
 		if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
