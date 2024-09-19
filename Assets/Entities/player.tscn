@@ -1,8 +1,8 @@
-[gd_scene load_steps=38 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=39 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
-[ext_resource type="PackedScene" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
+[ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]
 size = Vector2(9, 16)
@@ -299,3 +299,9 @@ position = Vector2(10, 2)
 shape = SubResource("RectangleShape2D_gxvek")
 
 [node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

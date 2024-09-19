@@ -22,6 +22,8 @@ public partial class Player : CharacterBody2D
 	private bool hasMoved;
 	private int attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
 	private Area2D attackHitBox;
+	private bool isAttacking;
+	private Timer attackTimer;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -36,6 +38,9 @@ public partial class Player : CharacterBody2D
 		hasMoved = false;
 		attackCount = 0;
 		attackHitBox = GetNode<Area2D>("Area2D");
+		attackTimer = GetNode<Timer>("%Timer");
+		isAttacking = false;
+		attackTimer.OneShot = true;
 
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
@@ -50,8 +55,17 @@ public partial class Player : CharacterBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Blue;
-		attack();
+		// Check if we're attacking
+		if (Input.IsActionJustPressed("attack") && !isAttacking)
+		{
+			isAttacking = true;
+			attackTimer.Start(1.0f);
+			GD.Print("Attacked!");
+		}
+		if (attackTimer.TimeLeft == 0)
+		{
+			isAttacking = false;
+		}
 	}
 	public void GetInput()
 	{
@@ -66,6 +80,8 @@ public partial class Player : CharacterBody2D
 			hasMoved = true;
 		}
 		Velocity = heading * speed;
+
+		
 	}
 	private void updateFacing()
 	{
@@ -168,12 +184,13 @@ public partial class Player : CharacterBody2D
 	private void attack()
 	{
 		// Can't attack and move?
-		if(!hasMoved)
+		// Currently removed for testing
+		/*if(!hasMoved)
 		{
 			return;
-		}
+		}*/
 		// If we have any overlapping bodies in the attack hit box
-        if (attackHitBox.GetOverlappingBodies().Count > 0)
+        if (attackHitBox.GetOverlappingBodies().Count > 0 && isAttacking)
         {
 			Godot.Collections.Array<Node2D> overlapList = attackHitBox.GetOverlappingBodies();
             for(int i = 0; i > overlapList.Count; i++)
@@ -188,4 +205,12 @@ public partial class Player : CharacterBody2D
         }
 		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
     }
+	public void on_area_2d_area_entered(Area2D collision)
+	{
+		if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
+		{
+			BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
+			temp.TakeDamage(100);
+		}
+	}
 }
