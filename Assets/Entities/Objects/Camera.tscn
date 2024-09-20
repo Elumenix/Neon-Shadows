@@ -1,9 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dw3cl8rwuhk88"]
+[gd_scene load_steps=2 format=3 uid="uid://db8ytn0myb6v3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Camera.cs" id="1_2f5eh"]
 
 [node name="Camera2D" type="Camera2D"]
-zoom = Vector2(3, 3)
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 drag_left_margin = 0.1
