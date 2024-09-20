@@ -157,10 +157,6 @@ collision_enabled = false
 navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="HUD" parent="." instance=ExtResource("4_53yjj")]
-offset_left = -320.0
-offset_top = -190.0
-offset_right = -320.0
-offset_bottom = -190.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ye1nt")
