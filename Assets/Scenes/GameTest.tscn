@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_pls7k"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="4_53yjj"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0ilde"]
 scenes/1/scene = ExtResource("3_pls7k")
 scenes/2/scene = ExtResource("2_jbgst")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mfo4h"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y3nyb"]
 texture = ExtResource("1_umt8v")
 texture_region_size = Vector2i(32, 32)
 1:0/0 = 0
@@ -121,8 +121,8 @@ tile_layout = 5
 tile_offset_axis = 1
 tile_size = Vector2i(32, 16)
 physics_layer_0/collision_layer = 1
-sources/1 = SubResource("TileSetAtlasSource_mfo4h")
-sources/0 = SubResource("TileSetScenesCollectionSource_yeygk")
+sources/1 = SubResource("TileSetAtlasSource_y3nyb")
+sources/0 = SubResource("TileSetScenesCollectionSource_0ilde")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_iqsei"]
 vertices = PackedVector2Array(478.57, 202.961, 362.328, 260.656, 328.742, 241.367, 439.117, 183.227, 198.367, 64.3828, 376.398, 153.844, 267.078, 206.844, 159.289, 87.4375, -129.75, 6.04688, -101.93, -7.85938, -31.75, 22.3672, 64.2031, 69.2266, 34.7188, -49.4609, 53.1406, -40.25, -32.2266, 10.4531, 23.8828, -94.7891, 66.8984, -72.5938, -120.82, -23.7734, 94.0391, 53.2969)

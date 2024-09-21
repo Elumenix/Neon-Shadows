@@ -12,15 +12,19 @@ public partial class BaseEnemyAI : CharacterBody2D
     [Export] private NavigationAgent2D _navigationAgent;
 
     protected Node2D _player;
-    protected bool _usePathFinding = true;
-    protected bool _isPlayerInRange = true;
-    protected bool _shouldMove = true;
+    protected bool _usePathFinding;
+    protected bool _isPlayerInRange;
+    protected bool _shouldMove;
 
     [Export]
     public float playerDetectRange;
 
     public override async void _Ready()
     {
+        _usePathFinding = true;
+        _isPlayerInRange = true;
+        _shouldMove = true;
+
         currentHealth = _maxHealth;
 
         // Small delay for initialization
@@ -50,11 +54,19 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _Process(double delta)
     {
+        CheckIsPlayerInRange();
     }
 
 
     public void CheckIsPlayerInRange() {
-        float distanceToPlayer = new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition);
+        BetterMath math = new BetterMath();
+        float distanceToPlayer = math.DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition);
+        _isPlayerInRange = (distanceToPlayer <= playerDetectRange);
+
+
+        GD.Print(new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition));
+        GD.Print(new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition) <= playerDetectRange);
+        GD.Print(_isPlayerInRange);
     }
 
     private void UpdateNavigationTarget()
