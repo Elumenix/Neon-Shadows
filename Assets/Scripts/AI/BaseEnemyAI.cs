@@ -4,24 +4,30 @@ using System;
 public partial class BaseEnemyAI : CharacterBody2D
 {
     [ExportCategory("Health")]
-    [Export] public int MaxHealth = 100;
+    [Export] private int _maxHealth = 100;
     private int currentHealth;
 
     [ExportCategory("Movement")]
-    [Export] private float _speed;
+    [Export] protected float _speed;
     [Export] private NavigationAgent2D _navigationAgent;
 
-    private Node2D player;
+    protected Node2D _player;
+    protected bool _usePathFinding = true;
+    protected bool _isPlayerInRange = true;
+    protected bool _shouldMove = true;
+
+    [Export]
+    public float playerDetectRange;
 
     public override async void _Ready()
     {
-        currentHealth = MaxHealth;
+        currentHealth = _maxHealth;
 
         // Small delay for initialization
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 
         // Get player node (assuming player is in the "Player" group)
-        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+        _player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
 
         // Connect the Area2D signal for collision detection
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
@@ -44,30 +50,27 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        Vector2 targetPosition;
-        if (player != null)
-        {
-            targetPosition = player.Position;
-        }
-        else
-        {
-            targetPosition = new Vector2(0, 0);
-        }
+    }
 
+
+    public void CheckIsPlayerInRange() {
+        float distanceToPlayer = new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition);
     }
 
     private void UpdateNavigationTarget()
     {
-        if (player != null)
+        if (_player != null)
         {
-            _navigationAgent.TargetPosition = player.GlobalPosition; 
+            _navigationAgent.TargetPosition = _player.GlobalPosition; 
         }
     }
 
     private void MoveTowardsTarget(Vector2 targetPosition, double delta)
     {
-        Vector2 direction = (targetPosition - GlobalPosition).Normalized();
-        GlobalPosition += direction * (float)(_speed * delta);
+        if (_usePathFinding && _shouldMove) {
+            Vector2 direction = (targetPosition - GlobalPosition).Normalized();
+            GlobalPosition += direction * (float)(_speed * delta);
+        }
     }
 
     /// <summary>
@@ -104,7 +107,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public void HandlePlayerCollision()
     {
-        (player as Player).takeDamage(1);
+        (_player as Player).takeDamage(1);
         HUDManager.Instance.DecreasePlayerHp();
         Camera.Instance.StartShakeCamera(0.1f, 25);
     }

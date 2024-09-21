@@ -1,29 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bks420rnxyona"]
+[gd_scene load_steps=3 format=3 uid="uid://bks420rnxyona"]
 
-[ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="1_oxc1c"]
-[ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="2_vgprf"]
-[ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_2h53a"]
-[ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="5_pwo8f"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_6guyc"]
-vertices = PackedVector2Array(478.57, 202.961, 362.328, 260.656, 328.742, 241.367, 439.117, 183.227, 198.367, 64.3828, 376.398, 153.844, 267.078, 206.844, 159.289, 87.4375, -129.75, 6.04688, -101.93, -7.85938, -31.75, 22.3672, 64.2031, 69.2266, 34.7188, -49.4609, 53.1406, -40.25, -32.2266, 10.4531, 23.8828, -94.7891, 66.8984, -72.5938, -120.82, -23.7734, 94.0391, 53.2969)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(6, 8, 9, 10, 11), PackedInt32Array(12, 13, 14, 9), PackedInt32Array(15, 16, 12, 9, 17), PackedInt32Array(9, 14, 10), PackedInt32Array(7, 6, 11, 18)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(308, 241, 362, 272, 501, 203, 439, 172), PackedVector2Array(399, 154, 198, 53, 159, 76, 94, 42, 64, 58, -22, 16, 74, -41, 54, -51, 86, -74, 24, -106, -139, -26, -120, -10, -152, 6, 267, 218)])
+[ext_resource type="PackedScene" uid="uid://bwnb8b8hu21lk" path="res://Assets/Scenes/GameTest.tscn" id="1_1dcr0"]
+[ext_resource type="PackedScene" uid="uid://c35h3s6qde58e" path="res://Assets/Entities/Enemy/Drone.tscn" id="2_8ght0"]
 
 [node name="WeijieTestScene" type="Node2D"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="GameTest" parent="." instance=ExtResource("1_1dcr0")]
 
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_vgprf")]
-
-[node name="Player" parent="." instance=ExtResource("3_2h53a")]
-position = Vector2(108, 66)
-
-[node name="Camera2D2" parent="Player" instance=ExtResource("5_pwo8f")]
-
-[node name="Slime" parent="." instance=ExtResource("1_oxc1c")]
-_speed = 0.0
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-position = Vector2(-189, -102)
-navigation_polygon = SubResource("NavigationPolygon_6guyc")
+[node name="Drone" parent="." instance=ExtResource("2_8ght0")]
+position = Vector2(476, 333)
