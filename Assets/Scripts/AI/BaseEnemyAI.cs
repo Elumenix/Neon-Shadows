@@ -90,7 +90,6 @@ public partial class BaseEnemyAI : CharacterBody2D
     /// </summary>
     private void HandleDeath()
     {
-        GD.Print("Enemy died.");
         QueueFree();
     }
 
@@ -107,7 +106,6 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         (player as Player).takeDamage(1);
         HUDManager.Instance.DecreasePlayerHp();
-        GD.Print("Enemy collided with the player!" + (player as Player).GetPlayerHealth());
         Camera.Instance.StartShakeCamera(0.1f, 25);
     }
 }
