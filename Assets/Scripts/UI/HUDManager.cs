@@ -8,10 +8,20 @@ public partial class HUDManager : Control
 
     [Export]
     public Godot.Collections.Array<TextureRect> HealthIconList;
-
-    public override void _Ready()
+    private Node2D player;
+    public override async void _Ready()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            QueueFree();
+        }
+
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
+        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
     }
 
     public void IncreasePlayerHp() {
@@ -22,8 +32,8 @@ public partial class HUDManager : Control
             }
         }
     }
-    public void DescreasePlayerHp()
+    public void DecreasePlayerHp()
     {
-        HealthIconList[HealthIconList.Count - 1].Visible = false;
+        HealthIconList[(player as Player).GetPlayerHealth()].Visible = false;
     }
 }

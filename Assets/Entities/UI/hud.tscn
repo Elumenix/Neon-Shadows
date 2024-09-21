@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_27bwa")
-HealthIconList = []
+HealthIconList = [NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect2"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect3")]
 
 [node name="Panel" type="Panel" parent="HUD"]
 layout_mode = 1
@@ -49,6 +49,12 @@ offset_right = 212.0
 offset_bottom = 45.0
 scale = Vector2(7, 0.985)
 
+[node name="TextureRect" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
+custom_minimum_size = Vector2(5.5, 0)
+layout_mode = 2
+texture = ExtResource("2_y0tak")
+expand_mode = 1
+
 [node name="TextureRect2" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
@@ -56,12 +62,6 @@ texture = ExtResource("2_y0tak")
 expand_mode = 1
 
 [node name="TextureRect3" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
-custom_minimum_size = Vector2(5.5, 0)
-layout_mode = 2
-texture = ExtResource("2_y0tak")
-expand_mode = 1
-
-[node name="TextureRect" type="TextureRect" parent="HUD/Panel/CanvasGroup/HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
 texture = ExtResource("2_y0tak")

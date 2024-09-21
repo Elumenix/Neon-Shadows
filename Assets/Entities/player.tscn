@@ -304,5 +304,5 @@ shape = SubResource("RectangleShape2D_gxvek")
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
