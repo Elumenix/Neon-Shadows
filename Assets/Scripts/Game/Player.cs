@@ -24,7 +24,9 @@ public partial class Player : CharacterBody2D
 	private Area2D attackHitBox;
 	private bool isAttacking;
 	private Timer attackTimer;
-	private float attackOffset;
+	//private float attackOffset;  // Maybe Get ride of this?
+	[Export]
+	private Sprite2D cursor;
 
 
 	public int GetPlayerHealth() {
@@ -46,31 +48,43 @@ public partial class Player : CharacterBody2D
 		attackTimer = GetNode<Timer>("%Timer");
 		isAttacking = false;
 		attackTimer.OneShot = true;
-		attackOffset = attackHitBox.Position.X;
+		
 
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
     public override void _PhysicsProcess(double delta)
     {
-        GetInput();
-        MoveAndCollide(Velocity * (float)delta);
-        walkAnimation();
+		if (!dead)
+		{
+            GetInput();
+            MoveAndCollide(Velocity * (float)delta);
+            walkAnimation();
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
 		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack") && !isAttacking)
+		if (Input.IsActionJustPressed("attack")) //&& !isAttacking)
 		{
 			isAttacking = true;
+			// Rotate the hitbox to face the mouse
+			Vector2 playerToMouse = this.Position.DirectionTo(this.GetLocalMousePosition());
+			float radians = playerToMouse.AngleTo(heading);
+			attackHitBox.Rotate(radians);
+
+			attackHitBox.Monitoring = true;
 			attackTimer.Start(1.0f);
 			GD.Print("Attacked!");
+			GD.Print($"Player Position: {this.Position}");
+			GD.Print($"MousePosition: {this.GetLocalMousePosition}");
 		}
 		if (attackTimer.TimeLeft == 0)
 		{
 			isAttacking = false;
+			attackHitBox.Monitoring = false;
 		}
 	}
 	public void GetInput()
@@ -138,10 +152,10 @@ public partial class Player : CharacterBody2D
 		if (health > 0)
 		{
 			health -= damage;
-			if (health < 0)
+			if (health <= 0)
 			{
 				health = 0;
-				dead = true;
+				on_Death();
 			}
 		}
 
@@ -222,10 +236,25 @@ public partial class Player : CharacterBody2D
     }
 	public void on_area_2d_area_entered(Area2D collision)
 	{
-		if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
+		// Vector math to check if the mouse is facing towards 
+		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
+		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
+		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
+        GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
+		attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
+        if (playerToEnemy.Dot(playerToMouse) >= 0.0f)
 		{
-			BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-			temp.TakeDamage(100);
-		}
+            if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
+            {
+                BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
+                temp.TakeDamage(100);
+            }
+        }
+		
+	}
+	public void on_Death()
+	{
+		dead = true;
+		animatedSprite.Visible = false;
 	}
 }
