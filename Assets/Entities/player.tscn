@@ -303,7 +303,6 @@ visible = false
 polygon = PackedVector2Array(0, 0, 8, -16, 18, -2)
 
 [node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]
-visible = false
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

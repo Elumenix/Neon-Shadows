@@ -104,8 +104,15 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public void HandlePlayerCollision()
     {
-        (player as Player).takeDamage(1);
+        Player temp = (Player)player;
+        // Moving the screen shake before damage means the screen shakes on the last damage
+        // But not if the slimes collide after the player has 0 health
+        if (!temp.isDead)
+        {
+            Camera.Instance.StartShakeCamera(0.1f, 25);
+        }
+        temp.takeDamage(1);
         HUDManager.Instance.DecreasePlayerHp();
-        Camera.Instance.StartShakeCamera(0.1f, 25);
+        
     }
 }
