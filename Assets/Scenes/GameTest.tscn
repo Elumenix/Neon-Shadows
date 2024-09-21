@@ -125,9 +125,9 @@ sources/1 = SubResource("TileSetAtlasSource_mfo4h")
 sources/0 = SubResource("TileSetScenesCollectionSource_yeygk")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_iqsei"]
-vertices = PackedVector2Array(478.57, 202.961, 362.328, 260.656, 328.742, 241.367, 439.117, 183.227, 198.367, 64.3828, 376.398, 153.844, 267.078, 206.844, 159.289, 87.4375, -129.75, 6.04688, -101.93, -7.85938, -31.75, 22.3672, 64.2031, 69.2266, 34.7188, -49.4609, 53.1406, -40.25, -32.2266, 10.4531, 23.8828, -94.7891, 66.8984, -72.5938, -120.82, -23.7734, 94.0391, 53.2969)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(6, 8, 9, 10, 11), PackedInt32Array(12, 13, 14, 9), PackedInt32Array(15, 16, 12, 9, 17), PackedInt32Array(9, 14, 10), PackedInt32Array(7, 6, 11, 18)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(308, 241, 362, 272, 501, 203, 439, 172), PackedVector2Array(399, 154, 198, 53, 159, 76, 94, 42, 64, 58, -22, 16, 74, -41, 54, -51, 86, -74, 24, -106, -139, -26, -120, -10, -152, 6, 267, 218)])
+vertices = PackedVector2Array(478.82, 203.078, 360.133, 263.688, 322.398, 243.227, 439.063, 183.203, 24.0781, -94.8672, 66.2109, -74.7813, 43.0781, -63.2188, -111.023, -14.9688, -123.297, -21.6172, 203.859, 68.0938, 376.906, 154.172, 261.922, 213.773, 158.781, 89.1406, -139.5, 12.5781, -110.977, -3.10156, -45.7109, 21.3828, 66.5391, 76.3984, 42.9219, -51.0391, 47.8984, -48.3828, -46.2734, 9.57813, 97.4219, 57.4688)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12), PackedInt32Array(11, 13, 14, 15, 16), PackedInt32Array(7, 17, 18, 19, 14), PackedInt32Array(7, 6, 17), PackedInt32Array(14, 19, 15), PackedInt32Array(12, 11, 16, 20)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(301, 243, 360, 275, 501, 203, 439, 172), PackedVector2Array(399, 154, 204, 57, 159, 78, 97, 46, 66, 65, -36, 15, 68, -49, 53, -57, 89, -75, 24, -106, -145, -22, -121, -9, -161, 13, 262, 225)])
 
 [sub_resource type="Environment" id="Environment_ye1nt"]
 
@@ -153,7 +153,8 @@ tile_map_data = PackedByteArray("AAABAP//AQAAAAYAAAAAAP//AQAAAAYAAAD/////AQAAAAY
 tile_set = SubResource("TileSet_ttviy")
 collision_enabled = false
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavMesh" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="HUD" parent="." instance=ExtResource("4_53yjj")]
