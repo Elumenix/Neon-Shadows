@@ -280,10 +280,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l6hpr"]
+radius = 29.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cursor") groups=["Player"]]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_3yn2a")
-cursor = NodePath("")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 2)
@@ -295,7 +295,7 @@ sprite_frames = SubResource("SpriteFrames_0vbwd")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="AttackHitbox" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(12, 2)
+position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_l6hpr")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]

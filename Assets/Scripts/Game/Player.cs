@@ -25,8 +25,6 @@ public partial class Player : CharacterBody2D
 	private bool isAttacking;
 	private Timer attackTimer;
 	//private float attackOffset;  // Maybe Get ride of this?
-	[Export]
-	private Sprite2D cursor;
 
 
 	public int GetPlayerHealth() {
@@ -71,15 +69,16 @@ public partial class Player : CharacterBody2D
 		{
 			isAttacking = true;
 			// Rotate the hitbox to face the mouse
-			Vector2 playerToMouse = this.Position.DirectionTo(this.GetLocalMousePosition());
-			float radians = playerToMouse.AngleTo(heading);
-			attackHitBox.Rotate(radians);
+			//Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
+			//float radians = playerToMouse.AngleTo(heading);
+			//attackHitBox.Rotate(radians);
+			Vector2 mousePOSinPlayer = this.GetLocalMousePosition() * this.Transform;
 
 			attackHitBox.Monitoring = true;
 			attackTimer.Start(1.0f);
 			GD.Print("Attacked!");
 			GD.Print($"Player Position: {this.Position}");
-			GD.Print($"MousePosition: {this.GetLocalMousePosition}");
+			GD.Print($"MousePosition: {mousePOSinPlayer}");
 		}
 		if (attackTimer.TimeLeft == 0)
 		{
@@ -239,10 +238,10 @@ public partial class Player : CharacterBody2D
 		// Vector math to check if the mouse is facing towards 
 		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
 		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
-		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
+		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition() * this.Transform);
         GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
-		attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
-        if (playerToEnemy.Dot(playerToMouse) >= 0.0f)
+		//attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
+        if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
 		{
             if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
             {
