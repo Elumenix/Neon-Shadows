@@ -17,4 +17,9 @@ public partial class PlayButton : Button
 	{
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/GameTest.tscn");
 	}
+	
+	public void _on_leave()
+	{
+		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+	}
 }

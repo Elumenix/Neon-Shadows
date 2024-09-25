@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://bwnb8b8hu21lk"]
+[gd_scene load_steps=11 format=4 uid="uid://bwnb8b8hu21lk"]
 
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="1_umt8v"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_jbgst"]
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_pls7k"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="4_53yjj"]
+[ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="5_op0dv"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("3_pls7k")
@@ -159,5 +160,15 @@ navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="HUD" parent="." instance=ExtResource("4_53yjj")]
 
+[node name="TempButton" type="Button" parent="HUD"]
+custom_minimum_size = Vector2(70.245, 20.33)
+offset_left = 1029.0
+offset_top = 17.0
+offset_right = 1099.24
+offset_bottom = 37.33
+script = ExtResource("5_op0dv")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ye1nt")
+
+[connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
