@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://bks420rnxyona"]
 
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="1_oxc1c"]
-[ext_resource type="PackedScene" uid="uid://c35h3s6qde58e" path="res://Assets/Entities/Enemy/Drone.tscn" id="2_8ght0"]
+[ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="2_8ght0"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="2_vgprf"]
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_2h53a"]
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="4_hm0rd"]
@@ -134,9 +134,6 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(308, 241, 362, 272, 501
 
 [node name="WeijieTestScene" type="Node2D"]
 
-[node name="Drone" parent="." instance=ExtResource("2_8ght0")]
-position = Vector2(476, 333)
-
 [node name="TileMap" type="Node2D" parent="."]
 
 [node name="Floor" type="TileMapLayer" parent="TileMap"]
@@ -162,3 +159,8 @@ navigation_polygon = SubResource("NavigationPolygon_sleq5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c8qu7")
+
+[node name="Drone" parent="." instance=ExtResource("2_8ght0")]
+position = Vector2(290, 189)
+_speed = 25.0
+playerDetectRange = 150.0

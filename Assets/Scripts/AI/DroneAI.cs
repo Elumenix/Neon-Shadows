@@ -3,6 +3,15 @@ using System;
 
 public partial class DroneAI : BaseEnemyAI
 {
+    public enum DroneFSM {
+        TrackPlayer,
+        Attacking
+    }
+
+    [Export]
+    private float _moveStopRange;
+
+    private DroneFSM _droneState;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -15,15 +24,42 @@ public partial class DroneAI : BaseEnemyAI
         DroneMovement(delta);
     }
 
+    public override void _PhysicsProcess(double delta)
+    {
+		base._PhysicsProcess(delta);
+	}
+
     public void DroneMovement(double delta) {
-        if (_isPlayerInRange && _shouldMove) {
+        if (_droneState == DroneFSM.Attacking) { 
+            //new movement logic
+        }
+        else if (_droneState == DroneFSM.TrackPlayer) {
             Vector2 direction = (_player.GlobalPosition - GlobalPosition).Normalized();
             GlobalPosition += direction * (float)(_speed * delta);
         }
     }
 
-    public override void _PhysicsProcess(double delta)
+    private void DetermineDrongState()
     {
-		base._PhysicsProcess(delta);
-	}
+        if (IsPlayerTooClose())
+        {
+            _droneState = DroneFSM.Attacking;
+        }
+        else if (_isPlayerInRange && _shouldMove)
+        {
+            _droneState = DroneFSM.TrackPlayer;
+        }
+    }
+
+    private bool IsPlayerTooClose() {
+        return new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition) < _moveStopRange;
+    }
+
+    private void Attack() {
+        Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
+
+        float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
+
+        //shoot bullet
+    }
 }

@@ -62,11 +62,6 @@ public partial class BaseEnemyAI : CharacterBody2D
         BetterMath math = new BetterMath();
         float distanceToPlayer = math.DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition);
         _isPlayerInRange = (distanceToPlayer <= playerDetectRange);
-
-
-        GD.Print(new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition));
-        GD.Print(new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition) <= playerDetectRange);
-        GD.Print(_isPlayerInRange);
     }
 
     private void UpdateNavigationTarget()
