@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://bwnb8b8hu21lk"]
+[gd_scene load_steps=13 format=4 uid="uid://bwnb8b8hu21lk"]
 
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="1_umt8v"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_jbgst"]
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_pls7k"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="4_53yjj"]
+[ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="4_s2iaa"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="5_op0dv"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
@@ -116,6 +117,42 @@ texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -8)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vrtiw"]
+texture = ExtResource("4_s2iaa")
+texture_region_size = Vector2i(32, 16)
+2:0/size_in_atlas = Vector2i(1, 3)
+2:0/0 = 0
+3:0/size_in_atlas = Vector2i(1, 3)
+3:0/0 = 0
+0:0/size_in_atlas = Vector2i(2, 2)
+0:0/0 = 0
+4:0/size_in_atlas = Vector2i(2, 2)
+4:0/0 = 0
+0:4/size_in_atlas = Vector2i(1, 2)
+0:4/0 = 0
+1:4/size_in_atlas = Vector2i(1, 2)
+1:4/0 = 0
+2:4/size_in_atlas = Vector2i(1, 2)
+2:4/0 = 0
+3:4/size_in_atlas = Vector2i(1, 2)
+3:4/0 = 0
+4:4/size_in_atlas = Vector2i(1, 2)
+4:4/0 = 0
+5:4/size_in_atlas = Vector2i(1, 2)
+5:4/0 = 0
+6:3/size_in_atlas = Vector2i(1, 3)
+6:3/0 = 0
+7:3/size_in_atlas = Vector2i(1, 3)
+7:3/0 = 0
+0:6/size_in_atlas = Vector2i(2, 4)
+0:6/0 = 0
+2:6/size_in_atlas = Vector2i(2, 4)
+2:6/0 = 0
+4:6/size_in_atlas = Vector2i(2, 4)
+4:6/0 = 0
+6:6/size_in_atlas = Vector2i(2, 4)
+6:6/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_ttviy"]
 tile_shape = 1
 tile_layout = 5
@@ -124,6 +161,7 @@ tile_size = Vector2i(32, 16)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_mfo4h")
 sources/0 = SubResource("TileSetScenesCollectionSource_yeygk")
+sources/2 = SubResource("TileSetAtlasSource_vrtiw")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_iqsei"]
 vertices = PackedVector2Array(478.82, 203.078, 360.133, 263.688, 322.398, 243.227, 439.063, 183.203, 24.0781, -94.8672, 66.2109, -74.7813, 43.0781, -63.2188, -111.023, -14.9688, -123.297, -21.6172, 203.859, 68.0938, 376.906, 154.172, 261.922, 213.773, 158.781, 89.1406, -139.5, 12.5781, -110.977, -3.10156, -45.7109, 21.3828, 66.5391, 76.3984, 42.9219, -51.0391, 47.8984, -48.3828, -46.2734, 9.57813, 97.4219, 57.4688)
