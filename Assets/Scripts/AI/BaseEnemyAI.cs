@@ -6,6 +6,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     [ExportCategory("Health")]
     [Export] public int MaxHealth = 100;
     private int currentHealth;
+    [Export] private float flashTime = 0.1f;
 
     [ExportCategory("Movement")]
     [Export] private float _speed;
@@ -76,6 +77,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
+        FlashOnDamge();
         currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
@@ -114,5 +116,10 @@ public partial class BaseEnemyAI : CharacterBody2D
         temp.takeDamage(1);
         HUDManager.Instance.DecreasePlayerHp();
         
+    }
+
+
+    public void FlashOnDamge() {
+        GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
     }
 }
