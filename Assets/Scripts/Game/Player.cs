@@ -64,7 +64,7 @@ public partial class Player : CharacterBody2D
 		{
 			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
-				_dash.StartDash(_DashDuration);
+				_dash.StartDash(_heading, _DashDuration);
 			}
             GetInput();
             MoveAndCollide(Velocity * (float)delta);

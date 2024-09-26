@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://6ghgdvi7hahk"]
+[gd_scene load_steps=3 format=3 uid="uid://cl787d7405uq2"]
 
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_2iddk"]
 [ext_resource type="Script" path="res://Assets/Scripts/Game/DashGhost.cs" id="2_7c4wh"]
