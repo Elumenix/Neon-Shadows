@@ -26,8 +26,13 @@ public partial class Player : CharacterBody2D
 	private Timer _attackTimer;
 	//private float attackOffset;  // Maybe Get ride of this?
 
+	// Dash Stuff
+	private Dash _dash;
+    private float _dashSpeed = 250.0f;
+	private const float _DashDuration = 0.2f;
 
-	public int GetPlayerHealth() {
+
+    public int GetPlayerHealth() {
 		return _health;
 	}
 
@@ -49,12 +54,18 @@ public partial class Player : CharacterBody2D
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+		_dash = GetNode<Dash>("Dash");
 	}
 
     public override void _PhysicsProcess(double delta)
     {
 		if (!_dead)
 		{
+			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
+			{
+				_dash.StartDash(_DashDuration);
+			}
             GetInput();
             MoveAndCollide(Velocity * (float)delta);
             walkAnimation();
@@ -98,7 +109,8 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		Velocity = _heading * _speed;
+		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+		else { Velocity = _heading * _speed; }
 
 		
 	}
