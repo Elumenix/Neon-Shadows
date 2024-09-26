@@ -151,7 +151,10 @@ public partial class Player : CharacterBody2D
 	}
 	public void takeDamage(int damage)
 	{
-		if (_health > 0)
+		FlashOnDamge();
+
+
+        if (_health > 0)
 		{
 			_health -= damage;
 			if (_health <= 0)
@@ -259,4 +262,10 @@ public partial class Player : CharacterBody2D
 		_dead = true;
 		_animatedSprite.Visible = false;
 	}
+
+
+    public void FlashOnDamge()
+    {
+        GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
+    }
 }
