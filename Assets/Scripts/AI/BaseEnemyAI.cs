@@ -60,7 +60,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public void CheckIsPlayerInRange() {
         BetterMath math = new BetterMath();
-        float distanceToPlayer = math.DistanceBetweenTwoVector(_player.GlobalPosition, this.GlobalPosition);
+        float distanceToPlayer = math.DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition);
         _isPlayerInRange = (distanceToPlayer <= playerDetectRange);
     }
 

@@ -22,6 +22,7 @@ public partial class DroneAI : BaseEnemyAI
     {
         base._Process(delta);
         DroneMovement(delta);
+        GD.Print(_droneState.ToString());
     }
 
     public override void _PhysicsProcess(double delta)
@@ -30,8 +31,9 @@ public partial class DroneAI : BaseEnemyAI
 	}
 
     public void DroneMovement(double delta) {
-        if (_droneState == DroneFSM.Attacking) { 
+        if (_droneState == DroneFSM.Attacking) {
             //new movement logic
+            Attack();
         }
         else if (_droneState == DroneFSM.TrackPlayer) {
             Vector2 direction = (_player.GlobalPosition - GlobalPosition).Normalized();
@@ -59,7 +61,8 @@ public partial class DroneAI : BaseEnemyAI
         Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
 
         float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
-
+        GD.Print(shootAngle);
         //shoot bullet
     }
+
 }
