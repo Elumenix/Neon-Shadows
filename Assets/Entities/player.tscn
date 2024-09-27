@@ -362,5 +362,7 @@ polygon = PackedVector2Array(0, 0, 8, -16, 18, -2)
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 
+[node name="Marker2D" type="Marker2D" parent="."]
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]

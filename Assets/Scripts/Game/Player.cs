@@ -31,6 +31,12 @@ public partial class Player : CharacterBody2D
     private float _dashSpeed = 250.0f;
 	private const float _DashDuration = 0.2f;
 
+	// Ranged Stuff
+	//private int _ammo;
+	//private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
+	//private Marker2D _marker;
+
+
 
     public int GetPlayerHealth() {
 		return _health;
@@ -57,6 +63,7 @@ public partial class Player : CharacterBody2D
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		_dash = GetNode<Dash>("Dash");
+		//_marker = GetNode<Marker2D>("Marker2D");
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -84,13 +91,17 @@ public partial class Player : CharacterBody2D
 			//Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
 			//float radians = playerToMouse.AngleTo(heading);
 			//attackHitBox.Rotate(radians);
-			Vector2 mousePOSinPlayer = this.GetLocalMousePosition() * this.Transform;
+			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 
 			_attackHitBox.Monitoring = true;
 			_attackTimer.Start(1.0f);
 			GD.Print("Attacked!");
 			//GD.Print($"Player Position: {this.Position}");
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
+
+			// Create a Ranged Attack
+			//_marker.LookAt(mousePOSinPlayer);
+			//CreateProjectile();
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
@@ -274,4 +285,16 @@ public partial class Player : CharacterBody2D
     {
         GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
     }
+
+	/*
+	private void CreateProjectile()
+	{
+		var projectile = (Projectile)_projectile.Instantiate();
+		//projectile.GlobalPosition = this.GlobalPosition;
+		projectile.Position = this.Position;
+		projectile.Rotation = _marker.Rotation;
+
+		//this.AddChild(projectile);
+
+	}*/
 }
