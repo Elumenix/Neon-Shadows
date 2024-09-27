@@ -35,6 +35,7 @@ public partial class Player : CharacterBody2D
     public int GetPlayerHealth() {
 		return _health;
 	}
+	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -88,8 +89,8 @@ public partial class Player : CharacterBody2D
 			_attackHitBox.Monitoring = true;
 			_attackTimer.Start(1.0f);
 			GD.Print("Attacked!");
-			GD.Print($"Player Position: {this.Position}");
-			GD.Print($"MousePosition: {mousePOSinPlayer}");
+			//GD.Print($"Player Position: {this.Position}");
+			//GD.Print($"MousePosition: {mousePOSinPlayer}");
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
@@ -245,14 +246,14 @@ public partial class Player : CharacterBody2D
 		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
 		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
 		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition() * this.Transform);
-        GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
+        //GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
 		//attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
         if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
 		{
             if (collision.Owner.HasMethod("TakeDamage") && _isAttacking)
             {
                 BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-                temp.TakeDamage(100);
+                temp.TakeDamage(50);
             }
         }
 		
@@ -263,6 +264,11 @@ public partial class Player : CharacterBody2D
 		_animatedSprite.Visible = false;
 	}
 
+	public void ChangeEnemyCollision(bool hit)
+	{
+		SetCollisionLayerValue(1, hit);
+		SetCollisionMaskValue(1, hit);
+	}
 
     public void FlashOnDamge()
     {

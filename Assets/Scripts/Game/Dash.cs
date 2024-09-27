@@ -14,6 +14,9 @@ public partial class Dash : Node2D
 	private Sprite2D _sprite;
 	private Vector2 _facing;
 
+	[Export]
+	private Player _player;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
@@ -32,12 +35,18 @@ public partial class Dash : Node2D
 		_ghostTimer.Start();
 		InstanceGhost();
 
+		if (_player.GetEnemyCollisionMask)
+		{
+			_player.ChangeEnemyCollision(false);
+		}
+
 	}
 
 	private void InstanceGhost()
 	{
 		var ghost = (Sprite2D)_ghostScene.Instantiate();
-		ghost.GlobalPosition = GlobalPosition;
+		Player temp = GetParent<Player>();
+		ghost.Position = temp.Position;
         //GD.Print($"GlobalPosition {GlobalPosition}");
         //GD.Print($"Ghost GlobalPosition {ghost.GlobalPosition}");
 		ghost.Texture = _sprite.Texture;
@@ -69,6 +78,7 @@ public partial class Dash : Node2D
 		_canDash = false;
 		await ToSignal(GetTree().CreateTimer(_DashDelay), "timeout");
 		_canDash = true;
+		_player.ChangeEnemyCollision(true);
 
 	}
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
-[ext_resource type="PackedScene" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
+[ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="Shader" path="res://Assets/Damaged.gdshader" id="3_gvs22"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 
@@ -327,9 +327,11 @@ animations = [{
 radius = 29.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 3
 script = ExtResource("1_3yn2a")
 
-[node name="Dash" parent="." instance=ExtResource("2_oi25e")]
+[node name="Dash" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("2_oi25e")]
+_player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 2)
@@ -360,5 +362,5 @@ polygon = PackedVector2Array(0, 0, 8, -16, 18, -2)
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 
-[connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]

@@ -120,6 +120,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 
     public void FlashOnDamge() {
-        GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
+        GetNode<AnimationPlayer>("EnemySprite/FlashAnimation").Play("Flash");
     }
 }
