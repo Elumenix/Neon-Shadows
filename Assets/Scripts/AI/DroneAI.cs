@@ -12,10 +12,11 @@ public partial class DroneAI : BaseEnemyAI
     private float _moveStopRange;
 
     private DroneFSM _droneState;
-	public override void _Ready()
+    private bool _isPlayerInRange;
+    public override void _Ready()
 	{
 		base._Ready();
-        n_usePathFinding = false;
+        _usePathFinding = false;
 	}
 
     public override void _Process(double delta)
