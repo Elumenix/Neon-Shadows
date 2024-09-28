@@ -7,141 +7,172 @@ enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRi
 public partial class Player : CharacterBody2D
 {
 	// Fields
-	private Vector2 heading;
-	private float maxSpeed = 50.0f;
-	private float speed = 50.0f;
-	private AnimatedSprite2D animatedSprite;
-	private FACING_DIRECTION facing;
+	private Vector2 _heading;
+	private float _maxSpeed = 50.0f;
+	private float _speed = 50.0f;
+	private AnimatedSprite2D _animatedSprite;
+	private FACING_DIRECTION _facing;
 
 	// Health related fields
-	private int health;
-	private bool dead;
-	public bool isDead { get { return dead; } }
+	private int _health;
+	private bool _dead;
+	public bool IsDead { get { return _dead; } }
 
 	// attack realted fields
-	private bool hasMoved;
-	private int attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
-	private Area2D attackHitBox;
-	private bool isAttacking;
-	private Timer attackTimer;
-	private float attackOffset;
+	private bool _hasMoved;
+	private int _attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
+	private Area2D _attackHitBox;
+	private bool _isAttacking;
+	private Timer _attackTimer;
+	//private float attackOffset;  // Maybe Get ride of this?
+
+	// Dash Stuff
+	private Dash _dash;
+    private float _dashSpeed = 250.0f;
+	private const float _DashDuration = 0.2f;
+
+	// Ranged Stuff
+	//private int _ammo;
+	//private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
+	//private Marker2D _marker;
 
 
-	public int GetPlayerHealth() {
-		return health;
+
+    public int GetPlayerHealth() {
+		return _health;
 	}
+	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		heading = new Vector2();
-		facing = FACING_DIRECTION.Right;
-		health = 3;
-		dead = false;
+		_heading = new Vector2();
+		_facing = FACING_DIRECTION.Right;
+		_health = 3;
+		_dead = false;
 
 
-		hasMoved = false;
-		attackCount = 0;
-		attackHitBox = GetNode<Area2D>("Area2D");
-		attackTimer = GetNode<Timer>("%Timer");
-		isAttacking = false;
-		attackTimer.OneShot = true;
-		attackOffset = attackHitBox.Position.X;
+		_hasMoved = false;
+		_attackCount = 0;
+		_attackHitBox = GetNode<Area2D>("Area2D");
+		_attackTimer = GetNode<Timer>("%Timer");
+		_isAttacking = false;
+		_attackTimer.OneShot = true;
+		
 
-		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+		_dash = GetNode<Dash>("Dash");
+		//_marker = GetNode<Marker2D>("Marker2D");
 	}
 
     public override void _PhysicsProcess(double delta)
     {
-        GetInput();
-        MoveAndCollide(Velocity * (float)delta);
-        walkAnimation();
+		if (!_dead)
+		{
+			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
+			{
+				_dash.StartDash(_heading, _DashDuration);
+			}
+            GetInput();
+            MoveAndCollide(Velocity * (float)delta);
+            walkAnimation();
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
 		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack") && !isAttacking)
+		if (Input.IsActionJustPressed("attack")) //&& !isAttacking)
 		{
-			isAttacking = true;
-			attackTimer.Start(1.0f);
+			_isAttacking = true;
+			// Rotate the hitbox to face the mouse
+			//Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
+			//float radians = playerToMouse.AngleTo(heading);
+			//attackHitBox.Rotate(radians);
+			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+
+			_attackHitBox.Monitoring = true;
+			_attackTimer.Start(1.0f);
 			GD.Print("Attacked!");
+			//GD.Print($"Player Position: {this.Position}");
+			//GD.Print($"MousePosition: {mousePOSinPlayer}");
+
+			// Create a Ranged Attack
+			//_marker.LookAt(mousePOSinPlayer);
+			//CreateProjectile();
 		}
-		if (attackTimer.TimeLeft == 0)
+		if (_attackTimer.TimeLeft == 0)
 		{
-			isAttacking = false;
+			_isAttacking = false;
+			_attackHitBox.Monitoring = false;
 		}
 	}
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		if(heading == Vector2.Zero)
+		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		if(_heading == Vector2.Zero)
 		{
-			hasMoved = false;
+			_hasMoved = false;
 		}
 		else
 		{
-			hasMoved = true;
+			_hasMoved = true;
 		}
-		Velocity = heading * speed;
+		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+		else { Velocity = _heading * _speed; }
 
 		
 	}
 	private void updateFacing()
 	{
-		if (heading.X > 0 && heading.Y == 0)
+		if (_heading.X > 0 && _heading.Y == 0)
 		{
-			facing = FACING_DIRECTION.Right;
-			if(attackHitBox.Position.X < 0)
-			{
-				attackHitBox.Position = attackHitBox.Position.Reflect(Vector2.Up);
-			}
+			_facing = FACING_DIRECTION.Right;
 		}
-		else if (heading.X < 0 && heading.Y == 0)
+		else if (_heading.X < 0 && _heading.Y == 0)
 		{
-			facing = FACING_DIRECTION.Left;
-			if(attackHitBox.Position.X > 0)
-			{
-                attackHitBox.Position = attackHitBox.Position.Reflect(Vector2.Up);
-            }
-			
+			_facing = FACING_DIRECTION.Left;
 		}
-		else if (heading.X == 0 && heading.Y < 0)
+		else if (_heading.X == 0 && _heading.Y < 0)
 		{
-			facing = FACING_DIRECTION.Up;
+			_facing = FACING_DIRECTION.Up;
 		}
-		else if (heading.X == 0 && heading.Y > 0)
+		else if (_heading.X == 0 && _heading.Y > 0)
 		{
-			facing = FACING_DIRECTION.Down;
+			_facing = FACING_DIRECTION.Down;
 		}
-		else if(heading.X > 0 && heading.Y < 0)
+		else if(_heading.X > 0 && _heading.Y < 0)
 		{
-			facing = FACING_DIRECTION.UpRight;
+			_facing = FACING_DIRECTION.UpRight;
 		}
-		else if(heading.X > 0 && heading.Y > 0)
+		else if(_heading.X > 0 && _heading.Y > 0)
 		{
-			facing = FACING_DIRECTION.DownRight;
+			_facing = FACING_DIRECTION.DownRight;
 		}
-		else if(heading.X < 0 && heading.Y < 0)
+		else if(_heading.X < 0 && _heading.Y < 0)
 		{
-			facing = FACING_DIRECTION.UpLeft;
+			_facing = FACING_DIRECTION.UpLeft;
 		}
-		else if(heading.X < 0 && heading.Y > 0)
+		else if(_heading.X < 0 && _heading.Y > 0)
 		{
-			facing = FACING_DIRECTION.DownLeft;
+			_facing = FACING_DIRECTION.DownLeft;
 		}
 	}
 	public void takeDamage(int damage)
 	{
-		if (health > 0)
+		FlashOnDamge();
+
+
+        if (_health > 0)
 		{
-			health -= damage;
-			if (health < 0)
+			_health -= damage;
+			if (_health <= 0)
 			{
-				health = 0;
-				dead = true;
+				_health = 0;
+				on_Death();
 			}
 		}
 
@@ -149,49 +180,49 @@ public partial class Player : CharacterBody2D
 	private void walkAnimation()
 	{
 		updateFacing();
-		switch (facing)
+		switch (_facing)
 		{
 			case (FACING_DIRECTION.Up): { 
-					animatedSprite.Play("walk_up");
+					_animatedSprite.Play("walk_up");
 					break;
 				}
 			case (FACING_DIRECTION.Left):
 				{
-					animatedSprite.Play("walk_left");
+					_animatedSprite.Play("walk_left");
 					break;
 				}
 			case (FACING_DIRECTION.Right):
 				{
-					animatedSprite.Play("walk_right");
+					_animatedSprite.Play("walk_right");
 					break;
 				}
 			case (FACING_DIRECTION.Down):
 				{
-					animatedSprite.Play("walk_down");
+					_animatedSprite.Play("walk_down");
 					break;
 				}
 			case (FACING_DIRECTION.UpLeft):
 				{
-					animatedSprite.Play("walk_upleft");
+					_animatedSprite.Play("walk_upleft");
 					break;
 				}
 			case (FACING_DIRECTION.DownLeft):
 				{
-					animatedSprite.Play("walk_downleft");
+					_animatedSprite.Play("walk_downleft");
 					break;
 				}
 			case (FACING_DIRECTION.UpRight):
 				{
-					animatedSprite.Play("walk_upright");
+					_animatedSprite.Play("walk_upright");
 					break;
 				}
 			case (FACING_DIRECTION.DownRight):
 				{
-					animatedSprite.Play("walk_downright");
+					_animatedSprite.Play("walk_downright");
 					break;
 				}
 			default: { 
-					animatedSprite.Play("default");
+					_animatedSprite.Play("default");
 					break;
 				}
 		}
@@ -205,9 +236,9 @@ public partial class Player : CharacterBody2D
 			return;
 		}*/
 		// If we have any overlapping bodies in the attack hit box
-        if (attackHitBox.GetOverlappingBodies().Count > 0 && isAttacking)
+        if (_attackHitBox.GetOverlappingBodies().Count > 0 && _isAttacking)
         {
-			Godot.Collections.Array<Node2D> overlapList = attackHitBox.GetOverlappingBodies();
+			Godot.Collections.Array<Node2D> overlapList = _attackHitBox.GetOverlappingBodies();
             for(int i = 0; i > overlapList.Count; i++)
 			{
 				// Check for enemies and Deal damage
@@ -218,14 +249,52 @@ public partial class Player : CharacterBody2D
 				}
 			}
         }
-		attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
+		_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
     }
 	public void on_area_2d_area_entered(Area2D collision)
 	{
-		if (collision.Owner.HasMethod("TakeDamage") && isAttacking)
+		// Vector math to check if the mouse is facing towards 
+		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
+		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
+		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition() * this.Transform);
+        //GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
+		//attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
+        if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
 		{
-			BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-			temp.TakeDamage(100);
-		}
+            if (collision.Owner.HasMethod("TakeDamage") && _isAttacking)
+            {
+                BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
+                temp.TakeDamage(50);
+            }
+        }
+		
 	}
+	public void on_Death()
+	{
+		_dead = true;
+		_animatedSprite.Visible = false;
+	}
+
+	public void ChangeEnemyCollision(bool hit)
+	{
+		SetCollisionLayerValue(1, hit);
+		SetCollisionMaskValue(1, hit);
+	}
+
+    public void FlashOnDamge()
+    {
+        GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
+    }
+
+	/*
+	private void CreateProjectile()
+	{
+		var projectile = (Projectile)_projectile.Instantiate();
+		//projectile.GlobalPosition = this.GlobalPosition;
+		projectile.Position = this.Position;
+		projectile.Rotation = _marker.Rotation;
+
+		//this.AddChild(projectile);
+
+	}*/
 }

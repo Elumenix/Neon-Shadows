@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5um6b05njapt"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Game/Dash.cs" id="1_b0xwq"]
+[ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_xnyff"]
+
+[node name="Dash" type="Node2D"]
+script = ExtResource("1_b0xwq")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_xnyff")
+hframes = 8
+vframes = 12
+
+[node name="GhostTimer" type="Timer" parent="."]
+wait_time = 0.03
+
+[connection signal="timeout" from="Timer" to="." method="EndDash"]
+[connection signal="timeout" from="GhostTimer" to="." method="GhostTimerOut"]

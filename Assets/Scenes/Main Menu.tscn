@@ -1,14 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://ugg82gq53ovg"]
+[gd_scene load_steps=3 format=3 uid="uid://ugg82gq53ovg"]
 
 [ext_resource type="Texture2D" uid="uid://blka11sss30wb" path="res://Assets/Sprites/Menu/TempMenuBackground.jpg" id="1_6d3ub"]
+[ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="2_pph0l"]
 
 [node name="MainMenu" type="Node2D"]
 
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 23.0
+offset_bottom = 22.0
+scale = Vector2(28.8, 16.2)
+texture = ExtResource("1_6d3ub")
+expand_mode = 2
+
 [node name="Title Label" type="RichTextLabel" parent="."]
-offset_left = 432.0
-offset_top = 155.0
-offset_right = 624.99
-offset_bottom = 305.0
+offset_left = 215.0
+offset_top = 91.0
+offset_right = 407.99
+offset_bottom = 241.0
 theme_override_font_sizes/normal_font_size = 36
 text = "Neon
 Shadows"
@@ -17,17 +26,12 @@ threaded = true
 
 [node name="Button" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 60)
-offset_left = 453.0
-offset_top = 375.0
-offset_right = 553.0
-offset_bottom = 440.0
+offset_left = 257.0
+offset_top = 218.0
+offset_right = 357.0
+offset_bottom = 283.0
 theme_override_font_sizes/font_size = 41
 text = "Play"
+script = ExtResource("2_pph0l")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-z_index = -1
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(28.8, 16.2)
-texture = ExtResource("1_6d3ub")
-expand_mode = 2
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

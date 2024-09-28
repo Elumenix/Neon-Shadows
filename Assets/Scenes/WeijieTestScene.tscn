@@ -163,4 +163,3 @@ environment = SubResource("Environment_c8qu7")
 [node name="Drone" parent="." instance=ExtResource("2_8ght0")]
 position = Vector2(290, 189)
 _speed = 25.0
-playerDetectRange = 150.0

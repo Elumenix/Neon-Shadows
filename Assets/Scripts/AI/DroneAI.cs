@@ -15,7 +15,7 @@ public partial class DroneAI : BaseEnemyAI
 	public override void _Ready()
 	{
 		base._Ready();
-        _usePathFinding = false;
+        n_usePathFinding = false;
 	}
 
     public override void _Process(double delta)

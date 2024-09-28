@@ -4,34 +4,25 @@ using System;
 public partial class BaseEnemyAI : CharacterBody2D
 {
     [ExportCategory("Health")]
-    [Export] private int _maxHealth = 100;
+    [Export] public int MaxHealth = 100;
     private int currentHealth;
+    [Export] private float flashTime = 0.1f;
 
     [ExportCategory("Movement")]
-    [Export] protected float _speed;
+    [Export] private float _speed;
     [Export] private NavigationAgent2D _navigationAgent;
 
-    protected Node2D _player;
-    protected bool _usePathFinding;
-    protected bool _isPlayerInRange;
-    protected bool _shouldMove;
-
-    [Export]
-    public float playerDetectRange;
+    private Node2D player;
 
     public override async void _Ready()
     {
-        _usePathFinding = true;
-        _isPlayerInRange = true;
-        _shouldMove = true;
-
-        currentHealth = _maxHealth;
+        currentHealth = MaxHealth;
 
         // Small delay for initialization
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 
         // Get player node (assuming player is in the "Player" group)
-        _player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
 
         // Connect the Area2D signal for collision detection
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
@@ -54,30 +45,30 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        CheckIsPlayerInRange();
-    }
+        Vector2 targetPosition;
+        if (player != null)
+        {
+            targetPosition = player.Position;
+        }
+        else
+        {
+            targetPosition = new Vector2(0, 0);
+        }
 
-
-    public void CheckIsPlayerInRange() {
-        BetterMath math = new BetterMath();
-        float distanceToPlayer = math.DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition);
-        _isPlayerInRange = (distanceToPlayer <= playerDetectRange);
     }
 
     private void UpdateNavigationTarget()
     {
-        if (_player != null)
+        if (player != null)
         {
-            _navigationAgent.TargetPosition = _player.GlobalPosition; 
+            _navigationAgent.TargetPosition = player.GlobalPosition; 
         }
     }
 
     private void MoveTowardsTarget(Vector2 targetPosition, double delta)
     {
-        if (_usePathFinding && _shouldMove) {
-            Vector2 direction = (targetPosition - GlobalPosition).Normalized();
-            GlobalPosition += direction * (float)(_speed * delta);
-        }
+        Vector2 direction = (targetPosition - GlobalPosition).Normalized();
+        GlobalPosition += direction * (float)(_speed * delta);
     }
 
     /// <summary>
@@ -86,6 +77,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
+        FlashOnDamge();
         currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
@@ -114,8 +106,20 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public void HandlePlayerCollision()
     {
-        (_player as Player).takeDamage(1);
+        Player temp = (Player)player;
+        // Moving the screen shake before damage means the screen shakes on the last damage
+        // But not if the slimes collide after the player has 0 health
+        if (!temp.IsDead)
+        {
+            Camera.Instance.StartShakeCamera(0.1f, 25);
+        }
+        temp.takeDamage(1);
         HUDManager.Instance.DecreasePlayerHp();
-        Camera.Instance.StartShakeCamera(0.1f, 25);
+        
+    }
+
+
+    public void FlashOnDamge() {
+        GetNode<AnimationPlayer>("EnemySprite/FlashAnimation").Play("Flash");
     }
 }
