@@ -9,10 +9,12 @@ public partial class BaseEnemyAI : CharacterBody2D
     [Export] private float flashTime = 0.1f;
 
     [ExportCategory("Movement")]
-    [Export] private float _speed;
+    [Export] protected float _speed;
     [Export] private NavigationAgent2D _navigationAgent;
+    protected bool _usePathFinding;
+    protected bool _shouldMove;
 
-    private Node2D player;
+    protected Node2D _player;
 
     public override async void _Ready()
     {
@@ -22,7 +24,7 @@ public partial class BaseEnemyAI : CharacterBody2D
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 
         // Get player node (assuming player is in the "Player" group)
-        player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+        _player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
 
         // Connect the Area2D signal for collision detection
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
@@ -53,9 +55,9 @@ public partial class BaseEnemyAI : CharacterBody2D
     public override void _Process(double delta)
     {
         Vector2 targetPosition;
-        if (player != null)
+        if (_player != null)
         {
-            targetPosition = player.Position;
+            targetPosition = _player.Position;
         }
         else
         {
@@ -66,9 +68,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     private void UpdateNavigationTarget()
     {
-        if (player != null)
+        if (_player != null)
         {
-            _navigationAgent.TargetPosition = player.GlobalPosition; 
+            _navigationAgent.TargetPosition = _player.GlobalPosition; 
         }
     }
 
@@ -113,7 +115,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public void HandlePlayerCollision()
     {
-        Player temp = (Player)player;
+        Player temp = (Player)_player;
         // Moving the screen shake before damage means the screen shakes on the last damage
         // But not if the slimes collide after the player has 0 health
         if (!temp.IsDead)

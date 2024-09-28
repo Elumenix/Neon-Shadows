@@ -11,14 +11,7 @@ public partial class HUDManager : Control
     private Node2D player;
     public override async void _Ready()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            QueueFree();
-        }
+         Instance = this;
 
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
