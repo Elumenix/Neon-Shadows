@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ugg82gq53ovg"]
+[gd_scene load_steps=3 format=3 uid="uid://c56j57dopopcp"]
 
 [ext_resource type="Texture2D" uid="uid://blka11sss30wb" path="res://Assets/Sprites/Menu/TempMenuBackground.jpg" id="1_6d3ub"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="2_pph0l"]
