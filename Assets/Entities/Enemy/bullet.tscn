@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://duccuv8w8t463"]
+
+[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="1_pjov8"]
+
+[node name="Bullet" type="Sprite2D"]
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(-0.005, 0.1)
+texture = ExtResource("1_pjov8")

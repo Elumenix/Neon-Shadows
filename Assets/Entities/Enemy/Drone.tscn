@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=6 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="Texture2D" uid="uid://byaimhocpic7n" path="res://Assets/Sprites/Enemy/Temp/tempdrone.png" id="2_32kxf"]
+[ext_resource type="PackedScene" uid="uid://duccuv8w8t463" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(32, 12.145)
@@ -20,7 +21,9 @@ animations = [{
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
 motion_mode = 1
 script = ExtResource("1_tmfyi")
-_moveStopRange = 50.0
+_moveStopRange = 100.0
+_playerDetectRange = 200.0
+_bullet = ExtResource("2_wqjde")
 _speed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
