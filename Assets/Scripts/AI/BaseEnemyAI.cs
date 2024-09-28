@@ -27,6 +27,13 @@ public partial class BaseEnemyAI : CharacterBody2D
         // Connect the Area2D signal for collision detection
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
         UpdateNavigationTarget();
+        AnimatedSprite2D sprite = GetNode<AnimatedSprite2D>("EnemySprite");
+        if (sprite.Material != null && sprite.Material is ShaderMaterial)
+        {
+            // Duplicate the material so each enemy has its own instance
+            ShaderMaterial shaderMaterial = (ShaderMaterial)sprite.Material.Duplicate();
+            sprite.Material = shaderMaterial;
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -77,7 +84,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
-        FlashOnDamge();
+        FlashOnDamage();
         currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
@@ -119,7 +126,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     }
 
 
-    public void FlashOnDamge() {
+    public void FlashOnDamage() {
         GetNode<AnimationPlayer>("EnemySprite/FlashAnimation").Play("Flash");
     }
 }

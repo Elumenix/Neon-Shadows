@@ -20,6 +20,7 @@ animations = [{
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
 motion_mode = 1
 script = ExtResource("1_tmfyi")
+_moveStopRange = null
 _maxHealth = null
 _speed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
