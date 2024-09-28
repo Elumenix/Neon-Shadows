@@ -21,9 +21,7 @@ animations = [{
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 50.0
-_maxHealth = null
 _speed = 10.0
-playerDetectRange = 150.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]

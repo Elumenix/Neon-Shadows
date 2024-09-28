@@ -13,13 +13,7 @@ public partial class Camera : Camera2D
 
     public override void _Ready()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else { 
-            QueueFree();
-        }
+        Instance = this;
        
         _originalPosition = Position;
     }
