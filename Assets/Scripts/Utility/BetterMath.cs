@@ -9,7 +9,11 @@ public partial class BetterMath
 	}
 
 	public float VectorToAngle(Vector2 direction) { 
-		return Mathf.Atan2(direction.X,direction.Y);
+		return Mathf.Atan2(direction.Y,direction.X);
+	}
+
+	public Vector2 AngleToVector(float angle) {
+		return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 	}
 	
 }

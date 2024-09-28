@@ -17,12 +17,16 @@ public partial class DroneAI : BaseEnemyAI
     private DroneFSM _droneState;
     private bool _isPlayerInRange = false;
 
+    public double shootCooldown = 1;
+    public double currentShootCooldown;
+
     [Export]
     private PackedScene _bullet;
     public override void _Ready()
 	{
 		base._Ready();
         _usePathFinding = false;
+        currentShootCooldown = shootCooldown;
 	}
 
     public override void _Process(double delta)
@@ -30,6 +34,7 @@ public partial class DroneAI : BaseEnemyAI
         base._Process(delta);
         DetermineDrongState();
         DroneMovement(delta);
+        currentShootCooldown -= delta;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -73,19 +78,22 @@ public partial class DroneAI : BaseEnemyAI
     }
 
     private void Attack() {
-        //calculate angle
-        Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
+        if (currentShootCooldown <= 0) {
+            //calculate angle
+            Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
 
-        float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
-        //shootAngle = Mathf.RadToDeg(shootAngle);
+            float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
+            //shootAngle = Mathf.RadToDeg(shootAngle);
 
-        GD.Print(shootAngle);
-        //shoot bullet
+            //shoot bullet
 
-        Node node = _bullet.Instantiate();
-        (node as Node2D).GlobalPosition = GlobalPosition;
-        (node as Node2D).Rotation = shootAngle;
-        GetParent().AddChild(node);
+            Node node = _bullet.Instantiate();
+            (node as Node2D).GlobalPosition = GlobalPosition;
+            (node as Node2D).Rotation = shootAngle;
+            GetParent().AddChild(node);
+
+            currentShootCooldown += shootCooldown;
+        }
     }
 
 }
