@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]
-size = Vector2(9, 16)
+size = Vector2(9, 10)
 
 [sub_resource type="Animation" id="Animation_rthyb"]
 resource_name = "Flash"
@@ -334,7 +334,7 @@ script = ExtResource("1_3yn2a")
 _player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 2)
+position = Vector2(-0.5, 5)
 shape = SubResource("RectangleShape2D_1ytte")
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="."]
