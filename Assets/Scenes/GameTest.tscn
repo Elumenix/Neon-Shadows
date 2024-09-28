@@ -201,9 +201,9 @@ navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="TempButton" type="Button" parent="HUD"]
 custom_minimum_size = Vector2(70.245, 20.33)
-offset_left = 1029.0
+offset_left = 513.0
 offset_top = 17.0
-offset_right = 1099.24
+offset_right = 583.245
 offset_bottom = 37.33
 script = ExtResource("5_op0dv")
 
