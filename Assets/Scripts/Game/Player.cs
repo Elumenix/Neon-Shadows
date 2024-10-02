@@ -84,7 +84,7 @@ public partial class Player : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack")) //&& !isAttacking)
+		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
 		{
 			_isAttacking = true;
 			// Rotate the hitbox to face the mouse
@@ -101,13 +101,17 @@ public partial class Player : CharacterBody2D
 
 			// Create a Ranged Attack
 			_marker.LookAt(mousePOSinPlayer);
-			CreateProjectile();
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
 			_isAttacking = false;
 			_attackHitBox.Monitoring = false;
 		}
+
+		if (Input.IsActionJustPressed("attack_ranged"))
+		{
+			CreateProjectile();
+		} 
 	}
 	public void GetInput()
 	{
