@@ -9,7 +9,7 @@ public partial class HUDManager : Control
 	[Export]
 	public Godot.Collections.Array<TextureRect> HealthIconList;
 	private Node2D player;
-	public override async void _Ready()
+	public override void _Ready()
 	{
 		 Instance = this;
 
