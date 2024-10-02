@@ -33,7 +33,7 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
-	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
+	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
 
 

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Projectile : Area2D
+public partial class Projectile : RigidBody2D
 {
 	private int _damage;
 	private float _speed;
@@ -17,7 +17,21 @@ public partial class Projectile : Area2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Position += (Vector2.Right * _speed).Rotated(this.Rotation) * (float)delta;
+		//ApplyForce((Vector2.Right * _speed).Rotated(this.Rotation));
+        //Position += (Vector2.Right * _speed).Rotated(this.Rotation) * (float)delta;
+		var collision = MoveAndCollide((Vector2.Right* _speed).Rotated(this.Rotation) * (float)delta);
+		if(collision != null)
+		{
+			if (collision.GetCollider() is BaseEnemyAI)
+			{
+				BaseEnemyAI temp = (BaseEnemyAI)collision.GetCollider();
+				temp.TakeDamage(_damage);
+            }
+			if (!(collision.GetCollider() is Player))
+			{
+                QueueFree();
+            }
+		}
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,9 +39,9 @@ public partial class Projectile : Area2D
 	{
 	}
 
-	public void _on_body_entered(Area2D collision)
+	public void _on_body_entered(Node collision)
 	{
-		if (collision.Owner is BaseEnemyAI)
+		if (collision is BaseEnemyAI)
 		{
 			BaseEnemyAI temp = collision.Owner as BaseEnemyAI;
 			temp.TakeDamage(_damage);
