@@ -51,8 +51,8 @@ public partial class DroneAI : BaseEnemyAI
             Attack();
         }
         else if (_droneState == DroneFSM.TrackPlayer) {
-            Vector2 direction = (_player.GlobalPosition - GlobalPosition).Normalized();
-            GlobalPosition += direction * (float)(_speed * delta);
+            Vector2 direction = (_player.Position -Position).Normalized();
+            Position += direction * (float)(_speed * delta);
         }
     }
 
@@ -73,17 +73,17 @@ public partial class DroneAI : BaseEnemyAI
     }
 
     private bool IsPlayerTooClose() {
-        return new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition) < _moveStopRange;
+        return new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _moveStopRange;
     }
 
     private void DetectPlayer() {
-        _isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.GlobalPosition, GlobalPosition) < _playerDetectRange;
+        _isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
     }
 
     private void Attack() {
         if (currentShootCooldown <= 0) {
             //calculate angle
-            Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
+            Vector2 bulletDirection = _player.Position - Position;
 
             float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
 
@@ -93,7 +93,7 @@ public partial class DroneAI : BaseEnemyAI
             //shoot bullet
 
             Node node = _bullet.Instantiate();
-            (node as Node2D).GlobalPosition = GlobalPosition;
+            (node as Node2D).Position = Position;
             (node as Node2D).Rotation = shootAngle;
             GetParent().AddChild(node);
 
