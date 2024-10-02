@@ -42,7 +42,7 @@ public partial class DroneAI : BaseEnemyAI
 
     public override void _PhysicsProcess(double delta)
     {
-		base._PhysicsProcess(delta);
+		//base._PhysicsProcess(delta);
 	}
 
     public void DroneMovement(double delta) {
