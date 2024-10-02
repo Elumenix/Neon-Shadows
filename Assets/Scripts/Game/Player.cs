@@ -28,17 +28,17 @@ public partial class Player : CharacterBody2D
 
 	// Dash Stuff
 	private Dash _dash;
-    private float _dashSpeed = 250.0f;
+	private float _dashSpeed = 250.0f;
 	private const float _DashDuration = 0.2f;
 
 	// Ranged Stuff
-	//private int _ammo;
-	//private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
-	//private Marker2D _marker;
+	private int _ammo;
+	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
+	private Marker2D _marker;
 
 
 
-    public int GetPlayerHealth() {
+	public int GetPlayerHealth() {
 		return _health;
 	}
 	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
@@ -63,25 +63,25 @@ public partial class Player : CharacterBody2D
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		_dash = GetNode<Dash>("Dash");
-		//_marker = GetNode<Marker2D>("Marker2D");
+		_marker = GetNode<Marker2D>("Marker2D");
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
+	public override void _PhysicsProcess(double delta)
+	{
 		if (!_dead)
 		{
 			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				_dash.StartDash(_heading, _DashDuration);
 			}
-            GetInput();
-            MoveAndCollide(Velocity * (float)delta);
-            walkAnimation();
-        }
-    }
+			GetInput();
+			MoveAndCollide(Velocity * (float)delta);
+			walkAnimation();
+		}
+	}
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
 	{
 		// Check if we're attacking
 		if (Input.IsActionJustPressed("attack")) //&& !isAttacking)
@@ -100,8 +100,8 @@ public partial class Player : CharacterBody2D
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
 
 			// Create a Ranged Attack
-			//_marker.LookAt(mousePOSinPlayer);
-			//CreateProjectile();
+			_marker.LookAt(mousePOSinPlayer);
+			CreateProjectile();
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
@@ -166,7 +166,7 @@ public partial class Player : CharacterBody2D
 		FlashOnDamge();
 
 
-        if (_health > 0)
+		if (_health > 0)
 		{
 			_health -= damage;
 			if (_health <= 0)
@@ -236,10 +236,10 @@ public partial class Player : CharacterBody2D
 			return;
 		}*/
 		// If we have any overlapping bodies in the attack hit box
-        if (_attackHitBox.GetOverlappingBodies().Count > 0 && _isAttacking)
-        {
+		if (_attackHitBox.GetOverlappingBodies().Count > 0 && _isAttacking)
+		{
 			Godot.Collections.Array<Node2D> overlapList = _attackHitBox.GetOverlappingBodies();
-            for(int i = 0; i > overlapList.Count; i++)
+			for(int i = 0; i > overlapList.Count; i++)
 			{
 				// Check for enemies and Deal damage
 				if (overlapList[i].HasMethod("TakeDamage"))
@@ -248,25 +248,25 @@ public partial class Player : CharacterBody2D
 					temp.TakeDamage(1);
 				}
 			}
-        }
+		}
 		_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
-    }
+	}
 	public void on_area_2d_area_entered(Area2D collision)
 	{
 		// Vector math to check if the mouse is facing towards 
 		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
 		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
 		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition() * this.Transform);
-        //GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
+		//GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
 		//attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
-        if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
+		if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
 		{
-            if (collision.Owner.HasMethod("TakeDamage") && _isAttacking)
-            {
-                BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-                temp.TakeDamage(50);
-            }
-        }
+			if (collision.Owner.HasMethod("TakeDamage") && _isAttacking)
+			{
+				BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
+				temp.TakeDamage(50);
+			}
+		}
 		
 	}
 	public void on_Death()
@@ -281,12 +281,12 @@ public partial class Player : CharacterBody2D
 		SetCollisionMaskValue(1, hit);
 	}
 
-    public void FlashOnDamge()
-    {
-        GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
-    }
+	public void FlashOnDamge()
+	{
+		GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
+	}
 
-	/*
+	
 	private void CreateProjectile()
 	{
 		var projectile = (Projectile)_projectile.Instantiate();
@@ -294,7 +294,7 @@ public partial class Player : CharacterBody2D
 		projectile.Position = this.Position;
 		projectile.Rotation = _marker.Rotation;
 
-		//this.AddChild(projectile);
+		GetParent().AddChild(projectile);
 
-	}*/
+	}
 }

@@ -10,8 +10,8 @@ public partial class Projectile : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_damage = 34;
-		_speed = 25.0f;
+		_damage = 100;
+		_speed = 85.0f;
 		Heading = Vector2.Zero; 
 	}
 
@@ -27,12 +27,17 @@ public partial class Projectile : Area2D
 
 	public void _on_body_entered(Area2D collision)
 	{
-		if (collision.Owner.HasMethod("TakeDamage"))
+		if (collision.Owner is BaseEnemyAI)
 		{
 			BaseEnemyAI temp = collision.Owner as BaseEnemyAI;
 			temp.TakeDamage(_damage);
-		}
-		//QueueFree();
+            QueueFree();
+        }
+        else
+        {
+			GD.Print("Non-Enemy Collision");
+        }
+		
 	}
 
 	public void _on_visible_on_screen_enabler_2d_screen_exited()
