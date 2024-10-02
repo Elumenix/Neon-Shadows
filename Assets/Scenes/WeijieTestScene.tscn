@@ -166,5 +166,7 @@ environment = SubResource("Environment_c8qu7")
 [node name="Drone" parent="." instance=ExtResource("2_8ght0")]
 position = Vector2(290, 189)
 _moveStopRange = 75.0
-_playerDetectRange = 175.0
+_playerDetectRange = 0.0
+_shootOffset = 0.0
+_bullet = null
 _speed = 25.0
