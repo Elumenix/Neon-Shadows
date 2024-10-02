@@ -99,8 +99,7 @@ public partial class Player : CharacterBody2D
 			//GD.Print($"Player Position: {this.Position}");
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
 
-			// Create a Ranged Attack
-			_marker.LookAt(mousePOSinPlayer);
+			
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
@@ -110,7 +109,10 @@ public partial class Player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("attack_ranged"))
 		{
-			CreateProjectile();
+            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+            // Create a Ranged Attack
+            _marker.LookAt(mousePOSinPlayer);
+            CreateProjectile();
 		} 
 	}
 	public void GetInput()
