@@ -33,7 +33,7 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
-	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/Projectile.tscn");
+	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
 
 
@@ -84,7 +84,7 @@ public partial class Player : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack")) //&& !isAttacking)
+		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
 		{
 			_isAttacking = true;
 			// Rotate the hitbox to face the mouse
@@ -99,15 +99,21 @@ public partial class Player : CharacterBody2D
 			//GD.Print($"Player Position: {this.Position}");
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
 
-			// Create a Ranged Attack
-			_marker.LookAt(mousePOSinPlayer);
-			CreateProjectile();
+			
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
 			_isAttacking = false;
 			_attackHitBox.Monitoring = false;
 		}
+
+		if (Input.IsActionJustPressed("attack_ranged"))
+		{
+            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+            // Create a Ranged Attack
+            _marker.LookAt(mousePOSinPlayer);
+            CreateProjectile();
+		} 
 	}
 	public void GetInput()
 	{

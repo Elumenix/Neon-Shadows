@@ -134,7 +134,7 @@ _data = {
 "RESET": SubResource("Animation_x6so7")
 }
 
-[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
 collision_layer = 5
 script = ExtResource("1_7mvx3")
 _speed = 10.0

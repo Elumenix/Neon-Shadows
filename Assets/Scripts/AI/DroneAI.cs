@@ -42,7 +42,7 @@ public partial class DroneAI : BaseEnemyAI
 
     public override void _PhysicsProcess(double delta)
     {
-		base._PhysicsProcess(delta);
+		//base._PhysicsProcess(delta);
 	}
 
     public void DroneMovement(double delta) {
@@ -77,6 +77,9 @@ public partial class DroneAI : BaseEnemyAI
     }
 
     private void DetectPlayer() {
+        if (_player == null) {
+            _isPlayerInRange = false;
+        }
         _isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
     }
 
@@ -95,6 +98,7 @@ public partial class DroneAI : BaseEnemyAI
             Node node = _bullet.Instantiate();
             (node as Node2D).Position = Position;
             (node as Node2D).Rotation = shootAngle;
+            (node as Bullet).player = _player;
             GetParent().AddChild(node);
 
             currentShootCooldown = shootCooldown;
