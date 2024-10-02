@@ -110,7 +110,6 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         Player temp = (Player)_player;
         // Moving the screen shake before damage means the screen shakes on the last damage
-        // But not if the slimes collide after the player has 0 health
         if (!temp.IsDead)
         {
             Camera.Instance.StartShakeCamera(0.1f, 25);
