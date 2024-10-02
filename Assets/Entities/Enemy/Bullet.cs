@@ -13,10 +13,16 @@ public partial class Bullet : Sprite2D
 	private double _lifeTime = 3;
 
 	public Node2D player;
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+
+
+    public override void _Ready()
+    {
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+	{
         _direction = new BetterMath().AngleToVector(Rotation);
         GlobalTranslate(_direction * _speed * (float)delta);
 
