@@ -11,8 +11,8 @@ public partial class BaseEnemyAI : CharacterBody2D
     [ExportCategory("Movement")]
     [Export] protected float _speed;
     [Export] private NavigationAgent2D _navigationAgent;
-    protected bool _usePathFinding;
-    protected bool _shouldMove;
+    protected bool _usePathFinding = true;
+    protected bool _shouldMove = true;
 
     protected Node2D _player;
 
@@ -54,15 +54,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        Vector2 targetPosition;
-        if (_player != null)
-        {
-            targetPosition = _player.Position;
-        }
-        else
-        {
-            targetPosition = new Vector2(0, 0);
-        }
 
     }
 
@@ -76,8 +67,10 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     private void MoveTowardsTarget(Vector2 targetPosition, double delta)
     {
-        Vector2 direction = (targetPosition - GlobalPosition).Normalized();
-        GlobalPosition += direction * (float)(_speed * delta);
+        if (_usePathFinding && _shouldMove) { 
+            Vector2 direction = (targetPosition - GlobalPosition).Normalized();
+            GlobalPosition += direction * (float)(_speed * delta);
+        }
     }
 
     /// <summary>
@@ -117,7 +110,6 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         Player temp = (Player)_player;
         // Moving the screen shake before damage means the screen shakes on the last damage
-        // But not if the slimes collide after the player has 0 health
         if (!temp.IsDead)
         {
             Camera.Instance.StartShakeCamera(0.1f, 25);

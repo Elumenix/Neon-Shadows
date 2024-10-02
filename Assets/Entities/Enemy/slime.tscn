@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
-size = Vector2(13, 10)
+size = Vector2(13.5, 11)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yfphp"]
 shader = ExtResource("2_p1078")
@@ -134,7 +134,7 @@ _data = {
 "RESET": SubResource("Animation_x6so7")
 }
 
-[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
 collision_layer = 5
 script = ExtResource("1_7mvx3")
 _speed = 10.0
@@ -143,7 +143,7 @@ _navigationAgent = NodePath("NavigationAgent2D")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -6)
+position = Vector2(-0.25, -6.5)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
