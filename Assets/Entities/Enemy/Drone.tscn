@@ -60,6 +60,7 @@ motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 100.0
 _playerDetectRange = 200.0
+_shootOffset = 0.25
 _bullet = ExtResource("2_wqjde")
 _speed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
@@ -74,13 +75,13 @@ shape = SubResource("RectangleShape2D_ejd0x")
 position = Vector2(0, -6.9275)
 shape = SubResource("RectangleShape2D_ejd0x")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 scale = Vector2(0.025, 0.025)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
 
-[node name="FlashAnimation" type="AnimationPlayer" parent="AnimatedSprite2D"]
+[node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
 "": SubResource("AnimationLibrary_cfmod")
 }

@@ -19,6 +19,8 @@ public partial class DroneAI : BaseEnemyAI
 
     public double shootCooldown = 1;
     public double currentShootCooldown;
+    [Export]
+    private float _shootOffset;
 
     [Export]
     private PackedScene _bullet;
@@ -34,6 +36,7 @@ public partial class DroneAI : BaseEnemyAI
         base._Process(delta);
         DetermineDrongState();
         DroneMovement(delta);
+
         currentShootCooldown -= delta;
     }
 
@@ -83,6 +86,8 @@ public partial class DroneAI : BaseEnemyAI
             Vector2 bulletDirection = _player.GlobalPosition - GlobalPosition;
 
             float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
+
+            shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
             //shootAngle = Mathf.RadToDeg(shootAngle);
 
             //shoot bullet
@@ -92,7 +97,7 @@ public partial class DroneAI : BaseEnemyAI
             (node as Node2D).Rotation = shootAngle;
             GetParent().AddChild(node);
 
-            currentShootCooldown += shootCooldown;
+            currentShootCooldown = shootCooldown;
         }
     }
 

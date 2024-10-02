@@ -16,7 +16,6 @@ public partial class Bullet : Sprite2D
 	{
 		_direction = new BetterMath().AngleToVector(Rotation);
         GlobalTranslate(_direction * _speed * (float)delta);
-		GD.Print(_direction * _speed * (float)delta);
 
 		_lifeTime -= delta;
 
