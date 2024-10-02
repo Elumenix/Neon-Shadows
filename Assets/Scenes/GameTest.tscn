@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bwnb8b8hu21lk"]
+[gd_scene load_steps=14 format=4 uid="uid://bwnb8b8hu21lk"]
 
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="1_umt8v"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_jbgst"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="4_53yjj"]
 [ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="4_s2iaa"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="5_op0dv"]
+[ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="7_m0kbh"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("3_pls7k")
@@ -230,5 +231,8 @@ script = ExtResource("5_op0dv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ye1nt")
+
+[node name="Drone" parent="." instance=ExtResource("7_m0kbh")]
+position = Vector2(76, 85)
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
