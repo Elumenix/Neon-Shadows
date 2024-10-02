@@ -16,6 +16,7 @@ public partial class Player : CharacterBody2D
 	// Health related fields
 	private int _health;
 	private bool _dead;
+	private float _damageFrames;
 	public bool IsDead { get { return _dead; } }
 
 	// attack realted fields
@@ -50,6 +51,7 @@ public partial class Player : CharacterBody2D
 		_facing = FACING_DIRECTION.Right;
 		_health = 3;
 		_dead = false;
+		_damageFrames = 0.0f;
 
 
 		_hasMoved = false;
@@ -83,6 +85,13 @@ public partial class Player : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// reduce damage frames
+		if(_damageFrames > 0.0f)
+		{
+			_damageFrames -= (float)delta;
+			if(_damageFrames < 0.0f) { _damageFrames = 0.0f; }
+		}
+
 		// Check if we're attacking
 		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
 		{
@@ -94,7 +103,11 @@ public partial class Player : CharacterBody2D
 			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 
 			_attackHitBox.Monitoring = true;
-			_attackTimer.Start(1.0f);
+			_attackTimer.Start(0.25f);
+
+			// Change the hitbox color while attacking
+			Color attackColor = new Color(Colors.Red, 0.4f);
+			_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
 			GD.Print("Attacked!");
 			//GD.Print($"Player Position: {this.Position}");
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
@@ -103,6 +116,8 @@ public partial class Player : CharacterBody2D
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
+			Color attackColor = new Color(Colors.Blue, 0.4f);
+			_attackHitBox.GetChild< CollisionShape2D>(0).DebugColor= attackColor;
 			_isAttacking = false;
 			_attackHitBox.Monitoring = false;
 		}
@@ -169,12 +184,17 @@ public partial class Player : CharacterBody2D
 	}
 	public void takeDamage(int damage)
 	{
+		if(_damageFrames > 0.0f)
+		{
+			return;
+		}
 		FlashOnDamge();
 
 
 		if (_health > 0)
 		{
 			_health -= damage;
+			_damageFrames = 0.25f;
 			if (_health <= 0)
 			{
 				_health = 0;
