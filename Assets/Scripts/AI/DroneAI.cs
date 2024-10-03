@@ -79,6 +79,7 @@ public partial class DroneAI : BaseEnemyAI
     private void DetectPlayer() {
         if (_player == null) {
             _isPlayerInRange = false;
+            return;
         }
         _isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
     }

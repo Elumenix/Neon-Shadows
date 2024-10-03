@@ -69,7 +69,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         if (_usePathFinding && _shouldMove) { 
             Vector2 direction = (targetPosition - GlobalPosition).Normalized();
-            GlobalPosition += direction * (float)(_speed * delta);
+            Position += direction * (float)(_speed * delta);
         }
     }
 
