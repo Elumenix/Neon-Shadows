@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://siw5ejixwlcs"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Object/PlayerSlash.cs" id="1_r8rnt"]
+[ext_resource type="Texture2D" uid="uid://5ltv11m3sos" path="res://Assets/Sprites/Object/Wind_Slash.png" id="1_wumu2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1a8p"]
+size = Vector2(36, 49)
+
+[node name="Slash" type="Area2D"]
+script = ExtResource("1_r8rnt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_wumu2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, -0.5)
+shape = SubResource("RectangleShape2D_t1a8p")

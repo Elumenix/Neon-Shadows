@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
@@ -26,6 +27,7 @@ public partial class Player : CharacterBody2D
 	private bool _isAttacking;
 	private Timer _attackTimer;
 	//private float attackOffset;  // Maybe Get ride of this?
+	private Sprite2D _attackSprite;
 
 	// Dash Stuff
 	private Dash _dash;
@@ -60,6 +62,8 @@ public partial class Player : CharacterBody2D
 		_attackTimer = GetNode<Timer>("%Timer");
 		_isAttacking = false;
 		_attackTimer.OneShot = true;
+		_attackSprite = GetNode<Sprite2D>("%AttackSprite");
+		_attackSprite.Visible = false;
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -96,19 +100,22 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
 		{
 			_isAttacking = true;
-			// Rotate the hitbox to face the mouse
-			//Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition());
-			//float radians = playerToMouse.AngleTo(heading);
-			//attackHitBox.Rotate(radians);
+			
+			// Rotate Marker to follow the mouse
 			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+			_marker.LookAt(mousePOSinPlayer);
 
+			// Rotate our sprite to follow the marker and make it visible
+			_attackSprite.Rotation = _marker.Rotation;
+			_attackSprite.Visible = true;
+
+			// Finally turn collisions back on for the attack hitbox
 			_attackHitBox.Monitoring = true;
 			_attackTimer.Start(0.25f);
 
 			// Change the hitbox color while attacking
 			Color attackColor = new Color(Colors.Red, 0.4f);
 			_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
-			GD.Print("Attacked!");
 			//GD.Print($"Player Position: {this.Position}");
 			//GD.Print($"MousePosition: {mousePOSinPlayer}");
 
@@ -116,10 +123,18 @@ public partial class Player : CharacterBody2D
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
+			// Once the attack is done, change the debug color back
 			Color attackColor = new Color(Colors.Blue, 0.4f);
 			_attackHitBox.GetChild< CollisionShape2D>(0).DebugColor= attackColor;
+
+			// Stop attacking
 			_isAttacking = false;
+
+			// Turn collision detection off
 			_attackHitBox.Monitoring = false;
+
+			// hide the slash sprite
+			_attackSprite.Visible= false;
 		}
 
 		if (Input.IsActionJustPressed("attack_ranged"))
@@ -317,7 +332,12 @@ public partial class Player : CharacterBody2D
 	{
 		var projectile = (Projectile)_projectile.Instantiate();
 		//projectile.GlobalPosition = this.GlobalPosition;
-		projectile.Position = this.Position;
+		//projectile.Position = this.Position;
+		projectile.Position = new Vector2(this.Position.X + 0.5f, this.Position.Y + 0.5f);
+		//Vector2 futurePosition = this.Position;
+		//Vector2 rotation = new Vector2((float)Math.Sin(_marker.RotationDegrees), (float)Math.Cos(_marker.RotationDegrees));
+		//projectile.Position = futurePosition + (rotation * 2.0f);
+		
 		projectile.Rotation = _marker.Rotation;
 
 		GetParent().AddChild(projectile);

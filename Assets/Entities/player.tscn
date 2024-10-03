@@ -1,6 +1,7 @@
-[gd_scene load_steps=45 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=46 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
+[ext_resource type="Texture2D" uid="uid://5ltv11m3sos" path="res://Assets/Sprites/Object/Wind_Slash.png" id="2_4kspe"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="Shader" path="res://Assets/Damaged.gdshader" id="3_gvs22"]
@@ -350,7 +351,7 @@ sprite_frames = SubResource("SpriteFrames_0vbwd")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="AttackHitbox" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 2)
+position = Vector2(1, 2)
 shape = SubResource("CircleShape2D_l6hpr")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
@@ -363,6 +364,12 @@ polygon = PackedVector2Array(0, 0, 8, -16, 18, -2)
 unique_name_in_owner = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="AttackSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_4kspe")
+offset = Vector2(120, 10)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]
