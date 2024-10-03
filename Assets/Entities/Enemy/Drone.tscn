@@ -58,7 +58,7 @@ _data = {
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
 motion_mode = 1
 script = ExtResource("1_tmfyi")
-_moveStopRange = 50.0
+_moveStopRange = 75.0
 _playerDetectRange = 200.0
 _shootOffset = 0.2
 _bullet = ExtResource("2_wqjde")
