@@ -23,11 +23,9 @@ public partial class HUDManager : Control
     public override void _Process(double delta)
     {
 		_fpsUpdateTimer -= delta;
-
-		if (_fpsUpdateTimer < 0) {
-            int fps = (int)(1 / delta);
-            _fpsLabel.Text = "FPS: " + fps.ToString();
-			_fpsUpdateTimer = 1;
+        if (_fpsUpdateTimer < 0) {
+            _fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond();
+			_fpsUpdateTimer = 0.75;
         }
     }
 
