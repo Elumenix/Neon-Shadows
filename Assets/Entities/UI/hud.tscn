@@ -5,7 +5,7 @@
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("HealthIconList")]
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("HealthIconList", "_fpsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_27bwa")
 HealthIconList = [NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect2"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect3")]
+_fpsLabel = NodePath("Panel/FPSCounter")
 
 [node name="Panel" type="Panel" parent="HUD"]
 layout_mode = 1
@@ -66,3 +67,11 @@ custom_minimum_size = Vector2(5.5, 0)
 layout_mode = 2
 texture = ExtResource("2_y0tak")
 expand_mode = 1
+
+[node name="FPSCounter" type="Label" parent="HUD/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 49.0
+offset_right = 43.0
+offset_bottom = 72.0
+text = "FPS: 100"

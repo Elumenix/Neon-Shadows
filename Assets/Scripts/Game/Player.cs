@@ -10,7 +10,7 @@ public partial class Player : CharacterBody2D
 	// Fields
 	private Vector2 _heading;
 	private float _maxSpeed = 50.0f;
-	private float _speed = 50.0f;
+	private float _speed = 130.0f;
 	private AnimatedSprite2D _animatedSprite;
 	private FACING_DIRECTION _facing;
 
@@ -31,11 +31,12 @@ public partial class Player : CharacterBody2D
 
 	// Dash Stuff
 	private Dash _dash;
-	private float _dashSpeed = 250.0f;
+	private float _dashSpeed = 550.0f;
 	private const float _DashDuration = 0.2f;
 
 	// Ranged Stuff
 	private int _ammo;
+	private const int _MaxAmmo = 3;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
 
@@ -306,6 +307,11 @@ public partial class Player : CharacterBody2D
 			{
 				BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
 				temp.TakeDamage(50);
+
+				if(_ammo < _MaxAmmo)
+				{
+					_ammo++;
+				}
 			}
 		}
 		

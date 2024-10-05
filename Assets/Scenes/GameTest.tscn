@@ -254,6 +254,8 @@ environment = SubResource("Environment_ye1nt")
 
 [node name="Drone2" parent="." instance=ExtResource("7_m0kbh")]
 position = Vector2(-56, 12)
-_shootOffset = 0.15
+_playerDetectRange = 0.0
+_shootOffset = 0.0
+_bullet = null
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
