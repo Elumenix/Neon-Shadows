@@ -347,6 +347,5 @@ public partial class Player : CharacterBody2D
 		projectile.Rotation = _marker.Rotation;
 
 		GetParent().AddChild(projectile);
-
 	}
 }
