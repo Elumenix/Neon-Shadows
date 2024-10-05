@@ -32,6 +32,9 @@ public partial class DroneAI : BaseEnemyAI
 
 	[Export]
 	private PackedScene _bullet;
+	[Export]
+	private CpuParticles2D _particles;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -77,7 +80,7 @@ public partial class DroneAI : BaseEnemyAI
         }
 	}
 
-	private async void DroneMovement(double delta) {
+	private void DroneMovement(double delta) {
         if (!_movementCompleted)
         {
             Vector2 direction = (_targetPosition - Position).Normalized();
@@ -86,11 +89,8 @@ public partial class DroneAI : BaseEnemyAI
             if (new BetterMath().DistanceBetweenTwoVector(_targetPosition,Position) < 1)
             {
                 _movementCompleted = true;
-				GD.Print("stop");
 				_droneState = DroneFSM.AttackCharging;
-                await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
                 Attack();
-                GD.Print("shoot");
             }
         }
         else
@@ -136,10 +136,13 @@ public partial class DroneAI : BaseEnemyAI
 		_isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
 	}
 
-	private void Attack() {
-		//if (currentShootCooldown <= 0) {
-			//calculate angle
-			Vector2 bulletDirection = _player.Position - Position;
+	private async void Attack() {
+		_particles.Show();
+        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+        _particles.Hide();
+        //if (currentShootCooldown <= 0) {
+        //calculate angle
+        Vector2 bulletDirection = _player.Position - Position;
 
 			float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
 
@@ -157,8 +160,11 @@ public partial class DroneAI : BaseEnemyAI
 			currentShootCooldown = shootCooldown;
 			_positiveDirection = !_positiveDirection;
 
-		//}
-		_droneState = DroneFSM.Stop;
+        //}
+
+        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+        _droneState = DroneFSM.Stop;
+
 	}
 
 }

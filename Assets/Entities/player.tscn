@@ -328,6 +328,7 @@ animations = [{
 radius = 29.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+position = Vector2(0, -2)
 collision_mask = 3
 script = ExtResource("1_3yn2a")
 
@@ -364,6 +365,7 @@ polygon = PackedVector2Array(0, 0, 8, -16, 18, -2)
 unique_name_in_owner = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 2)
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -371,5 +373,5 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_4kspe")
 offset = Vector2(120, 10)
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
