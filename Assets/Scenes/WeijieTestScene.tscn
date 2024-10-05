@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=4 uid="uid://bks420rnxyona"]
+[gd_scene load_steps=12 format=4 uid="uid://bks420rnxyona"]
 
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="1_oxc1c"]
 [ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="2_8ght0"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="2_vgprf"]
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="3_2h53a"]
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="4_hm0rd"]
+[ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="5_3csbf"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_a28r2"]
 scenes/1/scene = ExtResource("3_2h53a")
@@ -159,6 +160,8 @@ collision_enabled = false
 navigation_polygon = SubResource("NavigationPolygon_sleq5")
 
 [node name="HUD" parent="." instance=ExtResource("2_vgprf")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("5_3csbf")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c8qu7")

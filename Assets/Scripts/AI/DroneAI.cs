@@ -19,10 +19,14 @@ public partial class DroneAI : BaseEnemyAI
 
 	public double shootCooldown = 1;
 	public double currentShootCooldown;
+
+	private bool _movementCompleted = false;
 	[Export]
 	private float _shootOffset;
 
 	private bool _positiveDirection;
+	private Vector2 _targetPosition;
+	[Export]public Vector2 targetMaxOffset;
 
 	[Export]
 	private PackedScene _bullet;
@@ -61,15 +65,37 @@ public partial class DroneAI : BaseEnemyAI
 			else {
                 Position += newDirection * (float)(-_speed * delta);
             }
-
+			DroneMovement(delta);
 
 
         }
 		else if (_droneState == DroneFSM.TrackPlayer) {
-			Vector2 direction = (_player.Position -Position).Normalized();
-			Position += direction * (float)(_speed * delta);
-		}
+			DroneMovement(delta);
+
+        }
 	}
+
+	private void DroneMovement(double delta) {
+        if (!_movementCompleted)
+        {
+            Vector2 direction = (_targetPosition - Position).Normalized();
+            Position += direction * (float)(_speed * delta);
+
+            if (new BetterMath().DistanceBetweenTwoVector(_targetPosition,Position) < 1)
+            {
+                _movementCompleted = true;
+				GD.Print(1);
+            }
+        }
+        else
+        {
+            _targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
+                (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
+            _movementCompleted = false;
+
+            GD.Print(_targetPosition + ":" + _player.Position);
+        }
+    }
 
 	private void DetermineDrongState()
 	{
@@ -77,13 +103,14 @@ public partial class DroneAI : BaseEnemyAI
 		if (IsPlayerTooClose())
 		{
 			_droneState = DroneFSM.Attacking;
-		}
+        }
 		else if (_isPlayerInRange && _shouldMove)
 		{
 			_droneState = DroneFSM.TrackPlayer;
 		}
 		else {
 			_droneState = DroneFSM.Stop;
+			_movementCompleted = true;
 		}
 	}
 
