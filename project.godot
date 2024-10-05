@@ -72,6 +72,13 @@ attack_ranged={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Enemy To Player"
+2d_physics/layer_2="Walls"
+2d_physics/layer_3="PlayerAttacks"
+2d_physics/layer_4="EnemyAttacks"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

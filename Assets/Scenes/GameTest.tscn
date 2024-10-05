@@ -229,33 +229,11 @@ text = "To Menu
 "
 script = ExtResource("5_op0dv")
 
-[node name="ColorRect" type="ColorRect" parent="HUD"]
-modulate = Color(1, 1, 1, 0.501961)
-offset_left = 1.0
-offset_top = 232.0
-offset_right = 154.0
-offset_bottom = 358.0
-color = Color(0, 0, 0, 1)
-
-[node name="Label" type="Label" parent="HUD/ColorRect"]
-layout_mode = 0
-offset_left = 3.0
-offset_top = -2.0
-offset_right = 150.0
-offset_bottom = 125.0
-text = "Controls:
-WASD: Move
-Space: Dash
-Left Click: Melee
-Right Click: Ranged"
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ye1nt")
 
 [node name="Drone2" parent="." instance=ExtResource("7_m0kbh")]
 position = Vector2(-56, 12)
-_playerDetectRange = 0.0
-_shootOffset = 0.0
-_bullet = null
+_shootOffset = 0.15
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]

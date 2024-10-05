@@ -26,8 +26,8 @@ public partial class Player : CharacterBody2D
 	private Area2D _attackHitBox;
 	private bool _isAttacking;
 	private Timer _attackTimer;
-	//private float attackOffset;  // Maybe Get ride of this?
 	private Sprite2D _attackSprite;
+	private PackedScene _slashScene = GD.Load<PackedScene>("res://Assets/Entities/Objects/Slash.tscn");
 
 	// Dash Stuff
 	private Dash _dash;
@@ -106,21 +106,28 @@ public partial class Player : CharacterBody2D
 			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 			_marker.LookAt(mousePOSinPlayer);
 
-			// Rotate our sprite to follow the marker and make it visible
-			_attackSprite.Rotation = _marker.Rotation;
-			_attackSprite.Visible = true;
+			//// Rotate our sprite to follow the marker and make it visible
+			//_attackSprite.Rotation = _marker.Rotation;
+			//_attackSprite.Visible = true;
 
-			// Finally turn collisions back on for the attack hitbox
-			_attackHitBox.Monitoring = true;
+			//// Finally turn collisions back on for the attack hitbox
+			//_attackHitBox.Monitoring = true;
 			_attackTimer.Start(0.25f);
 
-			// Change the hitbox color while attacking
-			Color attackColor = new Color(Colors.Red, 0.4f);
-			_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
-			//GD.Print($"Player Position: {this.Position}");
-			//GD.Print($"MousePosition: {mousePOSinPlayer}");
+			//// Change the hitbox color while attacking
+			//Color attackColor = new Color(Colors.Red, 0.4f);
+			//_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
+			////GD.Print($"Player Position: {this.Position}");
+			////GD.Print($"MousePosition: {mousePOSinPlayer}");
 
-			
+			PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
+			slash.Position = this.Position;
+			//slash.GlobalPosition = this.GlobalPosition;
+			slash.Rotation = _marker.Rotation;
+			slash.AttackTime = 0.25f;
+			GetParent().AddChild(slash);
+
+			//GD.Print("Attack!");
 		}
 		if (_attackTimer.TimeLeft == 0)
 		{
