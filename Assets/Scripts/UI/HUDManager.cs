@@ -12,7 +12,7 @@ public partial class HUDManager : Control
 
 	
 	private double _fpsUpdateTimer = 1;
-    [Export] private Label _fpsLabel;
+	[Export] private Label _fpsLabel;
 	public override void _Ready()
 	{
 		 Instance = this;
@@ -20,16 +20,16 @@ public partial class HUDManager : Control
 		 player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
 	}
 
-    public override void _Process(double delta)
-    {
+	public override void _Process(double delta)
+	{
 		_fpsUpdateTimer -= delta;
-        if (_fpsUpdateTimer < 0) {
-            _fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond();
+		if (_fpsUpdateTimer < 0) {
+			_fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond();
 			_fpsUpdateTimer = 0.75;
-        }
-    }
+		}
+	}
 
-    public void IncreasePlayerHp() {
+	public void IncreasePlayerHp() {
 		foreach (TextureRect image in HealthIconList) {
 			if (!image.Visible) { 
 				image.Visible = true;

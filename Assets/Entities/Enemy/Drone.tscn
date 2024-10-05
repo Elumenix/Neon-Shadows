@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=10 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="Texture2D" uid="uid://byaimhocpic7n" path="res://Assets/Sprites/Enemy/Temp/tempdrone.png" id="2_32kxf"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
+[ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ChargingAttack.tscn" id="4_h4gms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(32, 12.145)
@@ -55,14 +56,16 @@ _data = {
 "RESET": SubResource("Animation_x6so7")
 }
 
-[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
+[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 75.0
 _playerDetectRange = 200.0
 _shootOffset = 0.2
+targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
-_speed = 10.0
+_particles = NodePath("CPUParticles2D")
+_speed = 25.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -87,3 +90,6 @@ libraries = {
 }
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
+position = Vector2(0, -3)
