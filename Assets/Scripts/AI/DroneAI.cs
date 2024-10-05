@@ -22,6 +22,8 @@ public partial class DroneAI : BaseEnemyAI
 	[Export]
 	private float _shootOffset;
 
+	private bool _positiveDirection;
+
 	[Export]
 	private PackedScene _bullet;
 	public override void _Ready()
@@ -35,7 +37,7 @@ public partial class DroneAI : BaseEnemyAI
 	{
 		base._Process(delta);
 		DetermineDrongState();
-		DroneMovement(delta);
+        DroneLogic(delta);
 
 		currentShootCooldown -= delta;
 	}
@@ -45,11 +47,24 @@ public partial class DroneAI : BaseEnemyAI
 		//base._PhysicsProcess(delta);
 	}
 
-	public void DroneMovement(double delta) {
+	public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
 			//new movement logic
 			Attack();
-		}
+
+            Vector2 direction = (_player.Position - Position).Normalized();
+            Vector2 newDirection = new Vector2(-direction.Y, direction.X);
+			if (_positiveDirection)
+			{
+                Position += newDirection * (float)(_speed * delta);
+            }
+			else {
+                Position += newDirection * (float)(-_speed * delta);
+            }
+
+
+
+        }
 		else if (_droneState == DroneFSM.TrackPlayer) {
 			Vector2 direction = (_player.Position -Position).Normalized();
 			Position += direction * (float)(_speed * delta);
@@ -106,7 +121,9 @@ public partial class DroneAI : BaseEnemyAI
 			GetParent().AddChild(node);
 
 			currentShootCooldown = shootCooldown;
-		}
+			_positiveDirection = !_positiveDirection;
+
+        }
 	}
 
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://jqek1thhuhfn"]
 
 [ext_resource type="Texture2D" uid="uid://c5cmleixgg5cy" path="res://Assets/Sprites/Enemy/Temp/bullet-black-silhouette.png" id="1_3jh1p"]
-[ext_resource type="Script" path="res://Assets/Entities/Enemy/Bullet.cs" id="2_csu5s"]
+[ext_resource type="Script" path="res://Assets/Scripts/Object/Bullet.cs" id="2_csu5s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e65c8"]
 size = Vector2(500, 200)

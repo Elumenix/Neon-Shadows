@@ -9,6 +9,10 @@ public partial class HUDManager : Control
 	[Export]
 	public Godot.Collections.Array<TextureRect> HealthIconList;
 	private Node2D player;
+
+	
+	private double _fpsUpdateTimer = 1;
+    [Export] private Label _fpsLabel;
 	public override void _Ready()
 	{
 		 Instance = this;
@@ -16,7 +20,16 @@ public partial class HUDManager : Control
 		 player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
 	}
 
-	public void IncreasePlayerHp() {
+    public override void _Process(double delta)
+    {
+		_fpsUpdateTimer -= delta;
+        if (_fpsUpdateTimer < 0) {
+            _fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond();
+			_fpsUpdateTimer = 0.75;
+        }
+    }
+
+    public void IncreasePlayerHp() {
 		foreach (TextureRect image in HealthIconList) {
 			if (!image.Visible) { 
 				image.Visible = true;
