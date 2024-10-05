@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://bwnb8b8hu21lk"]
+[gd_scene load_steps=15 format=4 uid="uid://bwnb8b8hu21lk"]
 
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="1_umt8v"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_jbgst"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="4_53yjj"]
 [ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="4_s2iaa"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="5_op0dv"]
+[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="6_epe8g"]
 [ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="7_m0kbh"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
@@ -221,10 +222,12 @@ navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="TempButton" type="Button" parent="HUD"]
 custom_minimum_size = Vector2(70.245, 20.33)
-offset_left = 507.0
-offset_top = 11.0
-offset_right = 586.0
-offset_bottom = 42.0
+offset_left = 525.0
+offset_top = 9.0
+offset_right = 609.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("6_epe8g")
+theme_override_font_sizes/font_size = 10
 text = "To Menu
 "
 script = ExtResource("5_op0dv")

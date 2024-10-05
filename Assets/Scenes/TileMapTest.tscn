@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dwkt1vaemwg87"]
+[gd_scene load_steps=16 format=4 uid="uid://dwkt1vaemwg87"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="4_w85dn"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="5_pvo04"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="6_l1mao"]
+[ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="8_eppbb"]
+[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="8_ymn75"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -231,6 +233,8 @@ offset_left = 507.0
 offset_top = 11.0
 offset_right = 586.0
 offset_bottom = 42.0
+theme_override_fonts/font = ExtResource("8_ymn75")
+theme_override_font_sizes/font_size = 10
 text = "To Menu
 "
 script = ExtResource("6_l1mao")
@@ -238,17 +242,19 @@ script = ExtResource("6_l1mao")
 [node name="ColorRect" type="ColorRect" parent="HUD"]
 modulate = Color(1, 1, 1, 0.501961)
 offset_left = 1.0
-offset_top = 232.0
+offset_top = 288.0
 offset_right = 154.0
 offset_bottom = 358.0
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="HUD/ColorRect"]
 layout_mode = 0
-offset_left = 3.0
-offset_top = -2.0
-offset_right = 150.0
-offset_bottom = 125.0
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 154.0
+offset_bottom = 135.0
+theme_override_fonts/font = ExtResource("8_eppbb")
+theme_override_font_sizes/font_size = 8
 text = "Controls:
 WASD: Move
 Space: Dash
