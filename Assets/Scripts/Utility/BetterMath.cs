@@ -5,7 +5,7 @@ using System.Threading;
 public partial class BetterMath
 {
 	public float DistanceBetweenTwoVector(Vector2 v1, Vector2 v2) {
-		return Mathf.Sqrt(Mathf.Pow(v2.X-v1.X,2) + Mathf.Pow(v2.Y - v1.Y, 2));
+		return Mathf.Abs(Mathf.Sqrt(Mathf.Pow(v2.X-v1.X,2) + Mathf.Pow(v2.Y - v1.Y, 2)));
 	}
 
 	public float VectorToAngle(Vector2 direction) { 
@@ -15,5 +15,8 @@ public partial class BetterMath
 	public Vector2 AngleToVector(float angle) {
 		return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 	}
-	
+
+	public double GetRandomWithNegative(double offset) {
+		return (new Random().NextDouble() * (offset * 2) - offset);
+    }
 }
