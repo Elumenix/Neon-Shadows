@@ -139,10 +139,10 @@ public partial class Player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("attack_ranged"))
 		{
-            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-            // Create a Ranged Attack
-            _marker.LookAt(mousePOSinPlayer);
-            CreateProjectile();
+			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+			// Create a Ranged Attack
+			_marker.LookAt(mousePOSinPlayer);
+			CreateProjectile();
 		} 
 	}
 	public void GetInput()
