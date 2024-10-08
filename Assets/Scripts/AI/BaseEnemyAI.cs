@@ -87,7 +87,10 @@ public partial class BaseEnemyAI : CharacterBody2D
                 {
                     // take damage from the slash
                     PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-                    this.TakeDamage(temp.Damage);
+                    if(_iFrames <= 0)
+                    {
+                        this.TakeDamage(temp.DealDamage((Player)_player));
+                    }
                 }
                 else if(collision.GetCollider() is Player)
                 {
