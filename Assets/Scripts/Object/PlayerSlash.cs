@@ -27,12 +27,12 @@ public partial class PlayerSlash : StaticBody2D
         this.QueueFree();
     }
 
-    //public void _on_area_entered(Area2D collision)
-    //{
-    //	if(collision.Owner is BaseEnemyAI)
-    //	{
-    //		BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-    //		temp.TakeDamage(50);
-    //	}
-    //}
+    public int DealDamage(Player player)
+    {
+        // Let the player know we've dealt damage
+        player.Reload();
+        // return damage value so enemy can take damage
+        if(_damage < 0) { return 0; }
+        return _damage;
+    }
 }

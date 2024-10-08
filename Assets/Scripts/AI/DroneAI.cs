@@ -93,6 +93,18 @@ public partial class DroneAI : BaseEnemyAI
             if (currentDistance < 1)
 			{
 				_movementCompleted = true;
+            Vector2 direction = (_targetPosition - Position).Normalized();
+            //Position += direction * (float)(_speed * delta);
+			var collision = MoveAndCollide(direction * (float)(_speed * delta));
+			if (collision != null)
+			{
+				if(collision.GetCollider() is PlayerSlash)
+				{
+					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+					this.TakeDamage(temp.Damage);
+				}
+			}
+
 				_droneState = DroneFSM.AttackCharging;
 				Attack();
 			}

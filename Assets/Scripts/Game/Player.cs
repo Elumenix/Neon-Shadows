@@ -36,10 +36,11 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
-	private const int _MaxAmmo = 3;
+	private const int _MaxAmmo = 5;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
-
+	private Timer _rangedTimer;
+	private bool _isShooting;
 
 
 	public int GetPlayerHealth() {
@@ -71,6 +72,11 @@ public partial class Player : CharacterBody2D
 
 		_dash = GetNode<Dash>("Dash");
 		_marker = GetNode<Marker2D>("Marker2D");
+
+		// Ranged Stuff
+		_ammo = _MaxAmmo;
+		_isShooting = false;
+		_rangedTimer = GetNode<Timer>("ShootTimer");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -98,7 +104,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
+		if (Input.IsActionJustPressed("attack_melee") && !_isAttacking)
 		{
 			_isAttacking = true;
 			
@@ -146,13 +152,23 @@ public partial class Player : CharacterBody2D
 			_attackSprite.Visible= false;
 		}
 
-		if (Input.IsActionJustPressed("attack_ranged"))
+		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
 		{
 			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 			// Create a Ranged Attack
 			_marker.LookAt(mousePOSinPlayer);
-			CreateProjectile();
-		} 
+			if (_ammo > 0)
+			{
+				_rangedTimer.WaitTime = 0.25f;
+				_isShooting = false;
+                CreateProjectile();
+            }
+			
+		}
+		if(_rangedTimer.TimeLeft == 0)
+		{
+			_isShooting = false;
+		}
 	}
 	public void GetInput()
 	{
@@ -341,7 +357,9 @@ public partial class Player : CharacterBody2D
 		GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
 	}
 
-	
+	/// <summary>
+	/// Instantiates a projectile object in the world, and decreases the player's ammo
+	/// </summary>
 	private void CreateProjectile()
 	{
 		var projectile = (Projectile)_projectile.Instantiate();
@@ -355,5 +373,14 @@ public partial class Player : CharacterBody2D
 		projectile.Rotation = _marker.Rotation;
 
 		GetParent().AddChild(projectile);
+		_ammo--;
+	}
+
+	public void Reload()
+	{
+		if(_ammo < _MaxAmmo)
+		{
+			_ammo++;
+		}
 	}
 }
