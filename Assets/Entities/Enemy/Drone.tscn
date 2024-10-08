@@ -92,4 +92,5 @@ libraries = {
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
+visible = false
 position = Vector2(0, -3)

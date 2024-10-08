@@ -83,15 +83,22 @@ public partial class DroneAI : BaseEnemyAI
 	private void DroneMovement(double delta) {
         if (!_movementCompleted)
         {
-            Vector2 direction = (_targetPosition - Position).Normalized();
-            Position += direction * (float)(_speed * delta);
+			double distance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
+			double speed = _speed;
 
-            if (new BetterMath().DistanceBetweenTwoVector(_targetPosition,Position) < 1)
-            {
-                _movementCompleted = true;
+			if (distance < 1)
+			{
+				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
-                Attack();
-            }
+				Attack();
+			}
+			else if (distance < 15) {
+				speed = _speed / 2;
+			}
+
+            Vector2 direction = (_targetPosition - Position).Normalized();
+            Position += direction * (float)(speed * delta);
+            GD.Print(distance);
         }
         else
         {
