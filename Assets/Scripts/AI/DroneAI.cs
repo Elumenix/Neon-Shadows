@@ -85,10 +85,24 @@ public partial class DroneAI : BaseEnemyAI
 	private void DroneMovement(double delta) {
         if (!_movementCompleted)
         {
+
 			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
 			double process = (_totalDistance - currentDistance) / _totalDistance;
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
-			GD.Print(process);
+
+
+            Vector2 direction = (_targetPosition - Position).Normalized();
+            //Position += direction * (float)(_speed * delta);
+			var collision = MoveAndCollide(direction * (float)(_speed * delta));
+			if (collision != null)
+			{
+				if(collision.GetCollider() is PlayerSlash)
+				{
+					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+					this.TakeDamage(temp.Damage);
+				}
+			}
+
 
             if (currentDistance < 1)
 			{
