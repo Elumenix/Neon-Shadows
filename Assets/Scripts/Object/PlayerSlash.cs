@@ -27,12 +27,5 @@ public partial class PlayerSlash : StaticBody2D
         this.QueueFree();
     }
 
-    //public void _on_area_entered(Area2D collision)
-    //{
-    //	if(collision.Owner is BaseEnemyAI)
-    //	{
-    //		BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-    //		temp.TakeDamage(50);
-    //	}
-    //}
+    
 }

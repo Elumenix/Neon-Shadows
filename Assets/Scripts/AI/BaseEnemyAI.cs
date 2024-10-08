@@ -14,6 +14,8 @@ public partial class BaseEnemyAI : CharacterBody2D
     protected bool _usePathFinding = true;
     protected bool _shouldMove = true;
 
+    private float _iFrames = 0.3f;
+
     protected Node2D _player;
 
     public override async void _Ready()
@@ -54,7 +56,14 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _Process(double delta)
     {
-
+        if(_iFrames > 0)
+        {
+            _iFrames -= (float)delta;
+            if(_iFrames < 0)
+            {
+                _iFrames = 0;
+            }
+        }
     }
 
     private void UpdateNavigationTarget()
@@ -96,8 +105,13 @@ public partial class BaseEnemyAI : CharacterBody2D
     /// <param name="damageAmount"></param>
     public void TakeDamage(int damageAmount)
     {
-        FlashOnDamage();
-        currentHealth -= damageAmount;
+        if (_iFrames <=0)
+        {
+            FlashOnDamage();
+            currentHealth -= damageAmount;
+            _iFrames = 0.3f;
+        }
+        
 
         if (currentHealth <= 0)
         {
