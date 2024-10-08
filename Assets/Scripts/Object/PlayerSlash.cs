@@ -27,5 +27,12 @@ public partial class PlayerSlash : StaticBody2D
         this.QueueFree();
     }
 
-    
+    public int DealDamage(Player player)
+    {
+        // Let the player know we've dealt damage
+        player.Reload();
+        // return damage value so enemy can take damage
+        if(_damage < 0) { return 0; }
+        return _damage;
+    }
 }
