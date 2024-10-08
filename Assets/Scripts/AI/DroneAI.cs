@@ -26,8 +26,10 @@ public partial class DroneAI : BaseEnemyAI
 	[Export]
 	private float _shootOffset;
 
+	private double _totalDistance;
 	private bool _positiveDirection;
 	private Vector2 _targetPosition;
+	private Vector2 _originalPosition;
 	[Export]public Vector2 targetMaxOffset;
 
 	[Export]
@@ -83,27 +85,30 @@ public partial class DroneAI : BaseEnemyAI
 	private void DroneMovement(double delta) {
         if (!_movementCompleted)
         {
-			double distance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
-			double speed = _speed;
+			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
+			double process = (_totalDistance - currentDistance) / _totalDistance;
+			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
+			GD.Print(process);
 
-			if (distance < 1)
+            if (currentDistance < 1)
 			{
 				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
 				Attack();
 			}
-			else if (distance < 15) {
-				speed = _speed / 2;
+			if(process < 0.1) {
+				speed += 10;	
 			}
 
             Vector2 direction = (_targetPosition - Position).Normalized();
             Position += direction * (float)(speed * delta);
-            GD.Print(distance);
         }
         else
         {
+            
             _targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
                 (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
+            _totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
             _movementCompleted = false;
         }
     }
