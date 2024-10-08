@@ -114,7 +114,6 @@ public partial class DroneAI : BaseEnemyAI
 				speed += 10;	
 			}
 
-            Vector2 direction = (_targetPosition - Position).Normalized();
             Position += direction * (float)(speed * delta);
         }
         else
