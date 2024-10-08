@@ -26,7 +26,6 @@ public partial class Player : CharacterBody2D
 	private Area2D _attackHitBox;
 	private bool _isAttacking;
 	private Timer _attackTimer;
-	private Sprite2D _attackSprite;
 	private PackedScene _slashScene = GD.Load<PackedScene>("res://Assets/Entities/Objects/Slash.tscn");
 
 	// Dash Stuff
@@ -60,12 +59,9 @@ public partial class Player : CharacterBody2D
 
 		_hasMoved = false;
 		_attackCount = 0;
-		_attackHitBox = GetNode<Area2D>("Area2D");
 		_attackTimer = GetNode<Timer>("%Timer");
 		_isAttacking = false;
 		_attackTimer.OneShot = true;
-		_attackSprite = GetNode<Sprite2D>("%AttackSprite");
-		_attackSprite.Visible = false;
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -103,53 +99,12 @@ public partial class Player : CharacterBody2D
 			if(_damageFrames < 0.0f) { _damageFrames = 0.0f; }
 		}
 
-		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack_melee") && !_isAttacking)
-		{
-			_isAttacking = true;
-			
-			// Rotate Marker to follow the mouse
-			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-			_marker.LookAt(mousePOSinPlayer);
-
-			//// Rotate our sprite to follow the marker and make it visible
-			//_attackSprite.Rotation = _marker.Rotation;
-			//_attackSprite.Visible = true;
-
-			//// Finally turn collisions back on for the attack hitbox
-			//_attackHitBox.Monitoring = true;
-			_attackTimer.Start(0.25f);
-
-			//// Change the hitbox color while attacking
-			//Color attackColor = new Color(Colors.Red, 0.4f);
-			//_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
-			////GD.Print($"Player Position: {this.Position}");
-			////GD.Print($"MousePosition: {mousePOSinPlayer}");
-
-			PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
-			slash.Position = this.Position;
-			//slash.GlobalPosition = this.GlobalPosition;
-			slash.Rotation = _marker.Rotation;
-			slash.AttackTime = 0.25f;
-			slash.Damage = 50;
-			GetParent().AddChild(slash);
-
-			//GD.Print("Attack!");
-		}
+		
 		if (_attackTimer.TimeLeft == 0)
 		{
-			// Once the attack is done, change the debug color back
-			Color attackColor = new Color(Colors.Blue, 0.4f);
-			_attackHitBox.GetChild< CollisionShape2D>(0).DebugColor= attackColor;
 
 			// Stop attacking
 			_isAttacking = false;
-
-			// Turn collision detection off
-			_attackHitBox.Monitoring = false;
-
-			// hide the slash sprite
-			_attackSprite.Visible= false;
 		}
 
 		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
@@ -170,6 +125,9 @@ public partial class Player : CharacterBody2D
 			_isShooting = false;
 		}
 	}
+	/// <summary>
+	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
+	/// </summary>
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
@@ -185,8 +143,14 @@ public partial class Player : CharacterBody2D
 		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
 		else { Velocity = _heading * _speed; }
 
-		
-	}
+        // Attacking Stuff
+        // Check if we're attacking
+        if (Input.IsActionJustPressed("attack_melee") && !_isAttacking)
+        {
+			_meleeAttack();
+        }
+
+    }
 	private void updateFacing()
 	{
 		if (_heading.X > 0 && _heading.Y == 0)
@@ -293,30 +257,28 @@ public partial class Player : CharacterBody2D
 				}
 		}
 	}
-	private void attack()
+	/// <summary>
+	/// Update attack variables and instantiate a Slash object
+	/// </summary>
+	private void _meleeAttack()
 	{
-		// Can't attack and move?
-		// Currently removed for testing
-		/*if(!hasMoved)
-		{
-			return;
-		}*/
-		// If we have any overlapping bodies in the attack hit box
-		if (_attackHitBox.GetOverlappingBodies().Count > 0 && _isAttacking)
-		{
-			Godot.Collections.Array<Node2D> overlapList = _attackHitBox.GetOverlappingBodies();
-			for(int i = 0; i > overlapList.Count; i++)
-			{
-				// Check for enemies and Deal damage
-				if (overlapList[i].HasMethod("TakeDamage"))
-				{
-					BaseEnemyAI temp = (BaseEnemyAI)overlapList[i];
-					temp.TakeDamage(1);
-				}
-			}
-		}
-		_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
-	}
+        _isAttacking = true;
+
+        // Rotate Marker to follow the mouse
+        Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+        _marker.LookAt(mousePOSinPlayer);
+		// Start attackTimer
+        _attackTimer.Start(0.25f);
+
+		// Instantiate a player slash
+        PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
+        slash.Position = this.Position;
+        //slash.GlobalPosition = this.GlobalPosition;
+        slash.Rotation = _marker.Rotation;
+        slash.AttackTime = 0.25f;
+        slash.Damage = 50;
+        GetParent().AddChild(slash);
+    }
 	public void on_area_2d_area_entered(Area2D collision)
 	{
 		// Vector math to check if the mouse is facing towards 
