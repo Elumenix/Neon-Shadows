@@ -5,6 +5,9 @@ public partial class PlayerSlash : StaticBody2D
 {
     private Timer _timer;
     public float AttackTime;
+
+    private int _damage;
+    public int Damage { get { return _damage; } set { _damage = value; } }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

@@ -70,7 +70,23 @@ public partial class BaseEnemyAI : CharacterBody2D
         if (_usePathFinding && _shouldMove) { 
             Vector2 direction = (targetPosition - GlobalPosition).Normalized();
             //Position += direction * (float)(_speed * delta);
-            MoveAndCollide(direction * (float)(_speed * delta));
+            var collision = MoveAndCollide(direction * (float)(_speed * delta));
+            if(collision != null)
+            {
+                // Enemy collided with a slash
+                if (collision.GetCollider() is PlayerSlash)
+                {
+                    // take damage from the slash
+                    PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+                    this.TakeDamage(temp.Damage);
+                }
+                else if(collision.GetCollider() is Player)
+                {
+                    // Collided with the player
+                    HandlePlayerCollision();
+                }
+            }
+            
         }
     }
 

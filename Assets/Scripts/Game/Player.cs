@@ -125,6 +125,7 @@ public partial class Player : CharacterBody2D
 			//slash.GlobalPosition = this.GlobalPosition;
 			slash.Rotation = _marker.Rotation;
 			slash.AttackTime = 0.25f;
+			slash.Damage = 50;
 			GetParent().AddChild(slash);
 
 			//GD.Print("Attack!");
