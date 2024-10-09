@@ -26,8 +26,10 @@ public partial class DroneAI : BaseEnemyAI
 	[Export]
 	private float _shootOffset;
 
+	private double _totalDistance;
 	private bool _positiveDirection;
 	private Vector2 _targetPosition;
+	private Vector2 _originalPosition;
 	[Export]public Vector2 targetMaxOffset;
 
 	[Export]
@@ -83,29 +85,40 @@ public partial class DroneAI : BaseEnemyAI
 	private void DroneMovement(double delta) {
         if (!_movementCompleted)
         {
+			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
+			double process = (_totalDistance - currentDistance) / _totalDistance;
+			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
+
             Vector2 direction = (_targetPosition - Position).Normalized();
-            //Position += direction * (float)(_speed * delta);
-			var collision = MoveAndCollide(direction * (float)(_speed * delta));
-			if (collision != null)
+            if (currentDistance < 1)
 			{
-				if(collision.GetCollider() is PlayerSlash)
+				_movementCompleted = true;
+				//Position += direction * (float)(_speed * delta);
+				var collision = MoveAndCollide(direction * (float)(_speed * delta));
+				if (collision != null)
 				{
-					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-					this.TakeDamage(temp.Damage);
+					if(collision.GetCollider() is PlayerSlash)
+					{
+						PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+						this.TakeDamage(temp.Damage);
+					}
 				}
+
+				_droneState = DroneFSM.AttackCharging;
+				Attack();
+			}
+			if(process < 0.1) {
+				speed += 10;	
 			}
 
-            if (new BetterMath().DistanceBetweenTwoVector(_targetPosition,Position) < 1)
-            {
-                _movementCompleted = true;
-				_droneState = DroneFSM.AttackCharging;
-                Attack();
-            }
+            Position += direction * (float)(speed * delta);
         }
         else
         {
+            
             _targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
                 (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
+            _totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
             _movementCompleted = false;
         }
     }
