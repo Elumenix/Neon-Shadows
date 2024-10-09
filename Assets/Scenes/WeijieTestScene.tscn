@@ -170,4 +170,5 @@ environment = SubResource("Environment_c8qu7")
 position = Vector2(290, 189)
 _playerDetectRange = 0.0
 _shootOffset = 0.0
+targetMaxOffset = Vector2(0, 0)
 _bullet = null
