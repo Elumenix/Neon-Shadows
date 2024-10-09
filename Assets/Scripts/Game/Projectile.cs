@@ -11,22 +11,25 @@ public partial class Projectile : RigidBody2D
 	public override void _Ready()
 	{
 		_damage = 50;
-		_speed = 85.0f;
+		_speed = 165.0f;
 		Heading = Vector2.Zero; 
 	}
 
     public override void _PhysicsProcess(double delta)
     {
-		//ApplyForce((Vector2.Right * _speed).Rotated(this.Rotation));
-        //Position += (Vector2.Right * _speed).Rotated(this.Rotation) * (float)delta;
+		// Moves the projectile to the "Right" but rotated so it will actually move where the player aimed.
 		var collision = MoveAndCollide((Vector2.Right* _speed).Rotated(this.Rotation) * (float)delta);
+		// Checks for collisions and handles them
 		if(collision != null)
 		{
+			// Deals damage if the collision is with an enemy
 			if (collision.GetCollider() is BaseEnemyAI)
 			{
 				BaseEnemyAI temp = (BaseEnemyAI)collision.GetCollider();
 				temp.TakeDamage(_damage);
             }
+			// If it collides with anything other than the player delete itself
+			// Line could be changed since it no longer has a collision layer in common with player
 			if (!(collision.GetCollider() is Player))
 			{
                 QueueFree();
@@ -38,22 +41,10 @@ public partial class Projectile : RigidBody2D
     public override void _Process(double delta)
 	{
 	}
-
-	public void _on_body_entered(Node collision)
-	{
-		if (collision is BaseEnemyAI)
-		{
-			BaseEnemyAI temp = collision.Owner as BaseEnemyAI;
-			temp.TakeDamage(_damage);
-            QueueFree();
-        }
-        else
-        {
-			GD.Print("Non-Enemy Collision");
-        }
-		
-	}
-
+	
+	/// <summary>
+	/// Simple method that's called when the projectile leaves the screen to delete itself
+	/// </summary>
 	public void _on_visible_on_screen_enabler_2d_screen_exited()
 	{
 		QueueFree();
