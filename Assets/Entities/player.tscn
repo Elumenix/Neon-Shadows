@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
-[ext_resource type="Shader" path="res://Assets/Damaged.gdshader" id="3_gvs22"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_gvs22"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]

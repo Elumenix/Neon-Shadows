@@ -80,6 +80,9 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (GameManager.Instance.gamePaused)
+			return;
+
 		// Do stuff as long as the player isn't dead
 		if (!_dead)
 		{
@@ -125,6 +128,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	public void GetInput()
 	{
+
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
 		//_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 

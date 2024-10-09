@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://dwkt1vaemwg87"]
+[gd_scene load_steps=17 format=4 uid="uid://dwkt1vaemwg87"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="6_l1mao"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="8_eppbb"]
 [ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="8_ymn75"]
+[ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="10_4g51h"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -284,5 +285,8 @@ Right Click: Ranged"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ye1nt")
+
+[node name="PauseMenu" parent="." instance=ExtResource("10_4g51h")]
+visible = false
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
