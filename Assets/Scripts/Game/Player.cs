@@ -124,10 +124,17 @@ public partial class Player : CharacterBody2D
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		//_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+
+		// Isometric movement (I think)
+		_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+		_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+		_heading = _heading.Normalized();
+
 		if(_heading == Vector2.Zero)
 		{
 			_hasMoved = false;
+			GD.Print("Hasn't moved");
 		}
 		else
 		{
@@ -213,7 +220,7 @@ public partial class Player : CharacterBody2D
 		if (_health > 0)
 		{
 			_health -= damage;
-			_damageFrames = 0.25f;
+			_damageFrames = 1.0f;
 			if (_health <= 0)
 			{
 				_health = 0;
