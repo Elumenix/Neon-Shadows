@@ -23,6 +23,7 @@ public partial class Player : CharacterBody2D
 
 	// attack realted fields
 	private bool _hasMoved;
+	private bool _lastMoved; // if you moved in the previous frame
 	private int _attackCount; // Where the player is in the combo attacks. 0 means no attacks yet.
 	private Area2D _attackHitBox;
 	private bool _isAttacking;
@@ -59,6 +60,7 @@ public partial class Player : CharacterBody2D
 
 
 		_hasMoved = false;
+		_lastMoved = false;
 		_attackCount = 0;
 		_attackTimer = GetNode<Timer>("%Timer");
 		_isAttacking = false;
@@ -131,10 +133,14 @@ public partial class Player : CharacterBody2D
 		_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 		_heading = _heading.Normalized();
 
+		// Set last move to what it was in the previous frame
+		_lastMoved = _hasMoved;
+
+		// Update _hasMoved
 		if(_heading == Vector2.Zero)
 		{
 			_hasMoved = false;
-			GD.Print("Hasn't moved");
+			//GD.Print("Hasn't moved");
 		}
 		else
 		{
@@ -280,6 +286,11 @@ public partial class Player : CharacterBody2D
 					_animatedSprite.Play("default");
 					break;
 				}
+		}
+		if (!_hasMoved)// && !_lastMoved)
+		{
+			_animatedSprite.Stop();
+			_animatedSprite.Frame = 1;
 		}
 	}
 	/// <summary>
