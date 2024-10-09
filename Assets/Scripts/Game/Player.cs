@@ -26,7 +26,6 @@ public partial class Player : CharacterBody2D
 	private Area2D _attackHitBox;
 	private bool _isAttacking;
 	private Timer _attackTimer;
-	private Sprite2D _attackSprite;
 	private PackedScene _slashScene = GD.Load<PackedScene>("res://Assets/Entities/Objects/Slash.tscn");
 
 	// Dash Stuff
@@ -36,10 +35,11 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
-	private const int _MaxAmmo = 3;
+	private const int _MaxAmmo = 5;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
-
+	private Timer _rangedTimer;
+	private bool _isShooting;
 
 
 	public int GetPlayerHealth() {
@@ -59,29 +59,34 @@ public partial class Player : CharacterBody2D
 
 		_hasMoved = false;
 		_attackCount = 0;
-		_attackHitBox = GetNode<Area2D>("Area2D");
 		_attackTimer = GetNode<Timer>("%Timer");
 		_isAttacking = false;
 		_attackTimer.OneShot = true;
-		_attackSprite = GetNode<Sprite2D>("%AttackSprite");
-		_attackSprite.Visible = false;
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		_dash = GetNode<Dash>("Dash");
 		_marker = GetNode<Marker2D>("Marker2D");
+
+		// Ranged Stuff
+		_ammo = _MaxAmmo;
+		_isShooting = false;
+		_rangedTimer = GetNode<Timer>("ShootTimer");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		// Do stuff as long as the player isn't dead
 		if (!_dead)
 		{
 			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
+				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
 			GetInput();
+			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
 			MoveAndCollide(Velocity * (float)delta);
 			walkAnimation();
 		}
@@ -90,70 +95,31 @@ public partial class Player : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// reduce damage frames
+		// Used mostly to check for timer like objects.
+		// Most player logic should be handled by _PhysicsProcess
+		
 		if(_damageFrames > 0.0f)
 		{
-			_damageFrames -= (float)delta;
+            // reduce damage frames
+            _damageFrames -= (float)delta;
 			if(_damageFrames < 0.0f) { _damageFrames = 0.0f; }
 		}
-
-		// Check if we're attacking
-		if (Input.IsActionJustPressed("attack_melee")) //&& !isAttacking)
-		{
-			_isAttacking = true;
-			
-			// Rotate Marker to follow the mouse
-			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-			_marker.LookAt(mousePOSinPlayer);
-
-			//// Rotate our sprite to follow the marker and make it visible
-			//_attackSprite.Rotation = _marker.Rotation;
-			//_attackSprite.Visible = true;
-
-			//// Finally turn collisions back on for the attack hitbox
-			//_attackHitBox.Monitoring = true;
-			_attackTimer.Start(0.25f);
-
-			//// Change the hitbox color while attacking
-			//Color attackColor = new Color(Colors.Red, 0.4f);
-			//_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = attackColor;
-			////GD.Print($"Player Position: {this.Position}");
-			////GD.Print($"MousePosition: {mousePOSinPlayer}");
-
-			PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
-			slash.Position = this.Position;
-			//slash.GlobalPosition = this.GlobalPosition;
-			slash.Rotation = _marker.Rotation;
-			slash.AttackTime = 0.25f;
-			slash.Damage = 50;
-			GetParent().AddChild(slash);
-
-			//GD.Print("Attack!");
-		}
+		// Attack timer stuff
 		if (_attackTimer.TimeLeft == 0)
 		{
-			// Once the attack is done, change the debug color back
-			Color attackColor = new Color(Colors.Blue, 0.4f);
-			_attackHitBox.GetChild< CollisionShape2D>(0).DebugColor= attackColor;
-
 			// Stop attacking
 			_isAttacking = false;
-
-			// Turn collision detection off
-			_attackHitBox.Monitoring = false;
-
-			// hide the slash sprite
-			_attackSprite.Visible= false;
+			_attackCount = 0;
 		}
-
-		if (Input.IsActionJustPressed("attack_ranged"))
+		if(_rangedTimer.TimeLeft == 0)
 		{
-			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-			// Create a Ranged Attack
-			_marker.LookAt(mousePOSinPlayer);
-			CreateProjectile();
-		} 
+			// Stop shooting
+			_isShooting = false;
+		}
 	}
+	/// <summary>
+	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
+	/// </summary>
 	public void GetInput()
 	{
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
@@ -169,8 +135,32 @@ public partial class Player : CharacterBody2D
 		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
 		else { Velocity = _heading * _speed; }
 
-		
-	}
+		// Attacking Stuff
+		// Check if we're attacking with melee
+		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
+        {
+			_meleeAttack();
+        }
+
+		// Check if we are attacking with ranged
+        if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
+        {
+            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+            // Create a Ranged Attack
+            _marker.LookAt(mousePOSinPlayer);
+            if (_ammo > 0)
+            {
+                _rangedTimer.WaitTime = 0.25f;
+                _isShooting = false;
+                CreateProjectile();
+            }
+
+        }
+
+    }
+	/// <summary>
+	/// Updates the FACING_DIRECTION Enum which is used for animation stuff
+	/// </summary>
 	private void updateFacing()
 	{
 		if (_heading.X > 0 && _heading.Y == 0)
@@ -206,6 +196,10 @@ public partial class Player : CharacterBody2D
 			_facing = FACING_DIRECTION.DownLeft;
 		}
 	}
+	/// <summary>
+	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
+	/// </summary>
+	/// <param name="damage">The amount of damage the player will take (usually only 1 damage)</param>
 	public void takeDamage(int damage)
 	{
 		if(_damageFrames > 0.0f)
@@ -227,6 +221,9 @@ public partial class Player : CharacterBody2D
 		}
 
 	}
+	/// <summary>
+	/// Changes the walk animations of the player after calling updateFacing
+	/// </summary>
 	private void walkAnimation()
 	{
 		updateFacing();
@@ -277,30 +274,34 @@ public partial class Player : CharacterBody2D
 				}
 		}
 	}
-	private void attack()
+	/// <summary>
+	/// Update attack variables and instantiate a Slash object check PlayerSlash for more info
+	/// </summary>
+	private void _meleeAttack()
 	{
-		// Can't attack and move?
-		// Currently removed for testing
-		/*if(!hasMoved)
-		{
-			return;
-		}*/
-		// If we have any overlapping bodies in the attack hit box
-		if (_attackHitBox.GetOverlappingBodies().Count > 0 && _isAttacking)
-		{
-			Godot.Collections.Array<Node2D> overlapList = _attackHitBox.GetOverlappingBodies();
-			for(int i = 0; i > overlapList.Count; i++)
-			{
-				// Check for enemies and Deal damage
-				if (overlapList[i].HasMethod("TakeDamage"))
-				{
-					BaseEnemyAI temp = (BaseEnemyAI)overlapList[i];
-					temp.TakeDamage(1);
-				}
-			}
-		}
-		_attackHitBox.GetChild<CollisionShape2D>(0).DebugColor = Colors.Red;
-	}
+        _isAttacking = true;
+
+        // Rotate Marker to follow the mouse
+        Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+        _marker.LookAt(mousePOSinPlayer);
+		// Start attackTimer
+        _attackTimer.Start(0.25f);
+
+		// Instantiate a player slash
+        PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
+        slash.Position = this.Position * this.Transform;
+        slash.Rotation = _marker.Rotation;
+        slash.AttackTime = 0.25f;
+        slash.Damage = 50;
+		if(_attackCount == 0) { slash.Modulate = Colors.White; }
+		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
+		else if (_attackCount == 2) { slash.Modulate = Colors.Red; }
+        AddChild(slash);
+
+		// increase attack combo
+		if(_attackCount < 3) { _attackCount++;}
+    }
+	/* Old way we handled attacks, kept for code references
 	public void on_area_2d_area_entered(Area2D collision)
 	{
 		// Vector math to check if the mouse is facing towards 
@@ -323,25 +324,36 @@ public partial class Player : CharacterBody2D
 			}
 		}
 		
-	}
+	}*/
+	/// <summary>
+	/// Resolves the player death, currently (10/08) only changes the dead bool and hides the Player Sprite
+	/// </summary>
 	public void on_Death()
 	{
 		_dead = true;
 		_animatedSprite.Visible = false;
 	}
 
+	/// <summary>
+	/// Enables/Disables the Player's Collision with enemies, used exclusively for dash as of (10/08)
+	/// </summary>
+	/// <param name="hit">Whether the player collides with enemies or not, TRUE = can get hit by enemy FALSE = can't get hit by enemy</param>
 	public void ChangeEnemyCollision(bool hit)
 	{
 		SetCollisionLayerValue(1, hit);
 		SetCollisionMaskValue(1, hit);
 	}
-
+	/// <summary>
+	/// Plays a flash animation on the player's sprite. Only called when the player takes damage
+	/// </summary>
 	public void FlashOnDamge()
 	{
 		GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
 	}
 
-	
+	/// <summary>
+	/// Instantiates a projectile object in the world, and decreases the player's ammo, check Projectile script for more information
+	/// </summary>
 	private void CreateProjectile()
 	{
 		var projectile = (Projectile)_projectile.Instantiate();
@@ -355,5 +367,17 @@ public partial class Player : CharacterBody2D
 		projectile.Rotation = _marker.Rotation;
 
 		GetParent().AddChild(projectile);
+		_ammo--;
+	}
+	/// <summary>
+	/// "Reloads" the player's ammo
+	/// Increases the player's ammo if they aren't at max. Only called by the PlayerSlash (as of 10/08)
+	/// </summary>
+	public void Reload()
+	{
+		if(_ammo < _MaxAmmo)
+		{
+			_ammo++;
+		}
 	}
 }

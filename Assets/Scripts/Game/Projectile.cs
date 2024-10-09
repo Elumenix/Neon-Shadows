@@ -10,7 +10,7 @@ public partial class Projectile : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_damage = 100;
+		_damage = 50;
 		_speed = 85.0f;
 		Heading = Vector2.Zero; 
 	}
