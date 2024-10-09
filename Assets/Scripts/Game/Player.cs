@@ -18,6 +18,7 @@ public partial class Player : CharacterBody2D
 	private int _health;
 	private bool _dead;
 	private float _damageFrames;
+	public bool IsInvulenerable { get { return _damageFrames > 0; } }
 	public bool IsDead { get { return _dead; } }
 
 	// attack realted fields

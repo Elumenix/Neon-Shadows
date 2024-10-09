@@ -136,7 +136,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         if (body.IsInGroup("Player"))
         {
-            HandlePlayerCollision();
+            //HandlePlayerCollision();
         }
     }
 
@@ -144,7 +144,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     {
         Player temp = (Player)_player;
         // Moving the screen shake before damage means the screen shakes on the last damage
-        if (!temp.IsDead)
+        if (!temp.IsDead && !temp.IsInvulenerable)
         {
             Camera.Instance.StartShakeCamera(0.1f, 25);
         }
