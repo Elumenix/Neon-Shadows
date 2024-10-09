@@ -296,7 +296,10 @@ public partial class Player : CharacterBody2D
         slash.Damage = 50;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
-		else if (_attackCount == 2) { slash.Modulate = Colors.Red; }
+		else if (_attackCount == 2) { 
+			// End of combo should deal more knockback then normal
+			slash.Modulate = Colors.Red;
+		}
         AddChild(slash);
 
 		// increase attack combo
