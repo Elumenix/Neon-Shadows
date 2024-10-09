@@ -19,4 +19,9 @@ public partial class BetterMath
 	public double GetRandomWithNegative(double offset) {
 		return (new Random().NextDouble() * (offset * 2) - offset);
     }
+
+    public double EasingCalculation(double x) {
+		return Mathf.Sin(Mathf.Pi * x);
+    }
 }
+

@@ -67,7 +67,7 @@ _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 _particles = NodePath("CPUParticles2D")
-_speed = 25.0
+_speed = 300.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -94,4 +94,5 @@ libraries = {
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
+visible = false
 position = Vector2(0, -3)
