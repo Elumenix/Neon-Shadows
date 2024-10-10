@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://dx50r3tdnt0wo"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/BaseEnemyAI.cs" id="1_7mvx3"]
-[ext_resource type="Shader" path="res://Assets/Damaged.gdshader" id="2_p1078"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_p1078"]
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
@@ -136,7 +136,7 @@ _data = {
 
 [node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
 position = Vector2(0, 6)
-collision_layer = 5
+collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_7mvx3")
 _speed = 10.0
