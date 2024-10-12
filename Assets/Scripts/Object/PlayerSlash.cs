@@ -10,6 +10,9 @@ public partial class PlayerSlash : StaticBody2D
 
     private int _damage;
     public int Damage { get { return _damage; } set { _damage = value; } }
+
+    private Player _player = null;
+    public Player Player { set { _player = value; } }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -37,10 +40,10 @@ public partial class PlayerSlash : StaticBody2D
     /// </summary>
     /// <param name="player">Reference to the Player so they can reload</param>
     /// <returns>The amount of damage this attack deals</returns>
-    public int DealDamage(Player player)
+    public int DealDamage()
     {
         // Let the player know we've dealt damage
-        player.Reload();
+        _player.Reload();
         // return damage value so enemy can take damage
         if(_damage < 0) { return 0; }
         return _damage;

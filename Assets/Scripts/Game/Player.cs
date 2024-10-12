@@ -37,6 +37,7 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
+	public int Ammo { get { return _ammo; } }
 	private const int _MaxAmmo = 5;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
@@ -337,6 +338,7 @@ public partial class Player : CharacterBody2D
         slash.Rotation = _marker.Rotation;
         slash.AttackTime = 0.25f;
         slash.Damage = 50;
+		slash.Player = this;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
 		else if (_attackCount == 2) { 
