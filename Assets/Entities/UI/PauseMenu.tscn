@@ -56,6 +56,8 @@ layout_mode = 2
 text = "Option"
 
 [node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
+visible = false
+layout_mode = 0
 offset_left = 116.216
 offset_top = -60.9459
 offset_right = 305.216
@@ -66,6 +68,8 @@ layout_mode = 2
 text = "Restart"
 
 [node name="Confirm Restart" type="Panel" parent="Panel/VBoxContainer/Restart"]
+visible = false
+layout_mode = 0
 offset_left = 116.216
 offset_top = -96.486
 offset_right = 305.216
@@ -106,6 +110,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
+visible = false
 layout_mode = 0
 offset_left = 116.216
 offset_top = -130.946
