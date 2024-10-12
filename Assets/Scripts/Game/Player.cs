@@ -109,7 +109,7 @@ public partial class Player : CharacterBody2D
 			}
 			GetInput();
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			MoveAndCollide(Velocity * (float)delta);
+			MoveAndCollide(_cartesianToIsometric(Velocity * (float)delta));
 			walkAnimation();
 
 		}
@@ -152,12 +152,12 @@ public partial class Player : CharacterBody2D
 	{
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		//_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 
-		// Isometric movement (I think)
-		_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-		_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-		_heading = _heading.Normalized();
+		//// Isometric movement (I think)
+		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+		//_heading = _heading.Normalized();
 
 		// Set last move to what it was in the previous frame
 		_lastMoved = _hasMoved;
@@ -476,4 +476,16 @@ public partial class Player : CharacterBody2D
             _isFalling = false;
         }
     }
+	/// <summary>
+	/// Converts coordinates from a cartesian system to the isometric system
+	/// </summary>
+	/// <param name="cartesian">The Vector in the cartesian system being modified</param>
+	/// <returns>The new vector in the isometric system</returns>
+	private Vector2 _cartesianToIsometric(Vector2 cartesian)
+	{
+		Vector2 isometric = new Vector2();
+		isometric.X = cartesian.X - cartesian.Y;
+		isometric.Y = (cartesian.X + cartesian.Y) / 2.0f;
+		return isometric;
+	}
 }
