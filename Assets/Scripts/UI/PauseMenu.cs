@@ -19,7 +19,9 @@ public partial class PauseMenu : CanvasLayer
         GameManager.Instance.PauseGame();
     }
 
-
+    /// <summary>
+    /// open the restart confirm panel
+    /// </summary>
 	public void OnRestartPressed() {
 		GD.Print("Restart Pressed");
         _restartConfirmPanel.Show();
@@ -27,6 +29,9 @@ public partial class PauseMenu : CanvasLayer
         _quitConfirmPanel.Hide();
     }
 
+    /// <summary>
+    /// open the options panel
+    /// </summary>
 	public void OnOptionPressed() {
         GD.Print("Option Pressed");
         _OptionsPanel.Show();
@@ -34,6 +39,9 @@ public partial class PauseMenu : CanvasLayer
         _restartConfirmPanel.Hide();
     }
 
+    /// <summary>
+    /// open the quit panel
+    /// </summary>
     public void OnQuitPressed()
     {
         GD.Print("Quit Pressed");
@@ -42,23 +50,35 @@ public partial class PauseMenu : CanvasLayer
         _restartConfirmPanel.Hide();
     }
 
+    /// <summary>
+    /// resume to the game
+    /// </summary>
     public void OnResumePressed()
     {
         GD.Print("Resume Pressed");
         GameManager.Instance.PauseGame();
     }
 
+    /// <summary>
+    /// quit to the main menu 
+    /// </summary>
 	public void OnQuitYesPressed() {
 
 		GD.Print("quit yes pressed");
         GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
     }
 
+    /// <summary>
+    /// close the quit panel
+    /// </summary>
 	public void OnQuitNoPressed() {
 		GD.Print("on quit no pressed");
         _quitConfirmPanel.Hide();
     }
 
+    /// <summary>
+    /// restart the current level
+    /// </summary>
     public void OnRestartYesPressed()
     {
         GD.Print("restart yes pressed");
@@ -66,6 +86,9 @@ public partial class PauseMenu : CanvasLayer
 
     }
 
+    /// <summary>
+    /// close the restart panel
+    /// </summary>
     public void OnRestartNoPressed()
     {
         GD.Print("on restart no pressed");
