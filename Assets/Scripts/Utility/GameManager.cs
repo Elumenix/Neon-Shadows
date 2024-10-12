@@ -35,8 +35,12 @@ public partial class GameManager : Node
 		}
 	}
 
+    /// <summary>
+    /// pause the game and open the pause menu
+    /// </summary>
     public void PauseGame() {
 
+        //get player and pause menu panel
         _pauseMenu = GetTree().GetNodesInGroup("PauseMenu")[0] as CanvasLayer;
         _player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
         
@@ -45,6 +49,7 @@ public partial class GameManager : Node
         _pauseMenu.Visible = !_pauseMenu.Visible;
         gamePaused = _pauseMenu.Visible;
 
+        //pause or active the game
         if (_pauseMenu.Visible)
         {
             Engine.TimeScale = 0;

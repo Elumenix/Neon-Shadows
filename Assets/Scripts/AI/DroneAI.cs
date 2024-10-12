@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Threading.Tasks;
+using static Godot.TextServer;
 
 public partial class DroneAI : BaseEnemyAI
 {
@@ -55,8 +56,29 @@ public partial class DroneAI : BaseEnemyAI
 
 	public override void _PhysicsProcess(double delta)
 	{
-		//base._PhysicsProcess(delta);
-	}
+        //base._PhysicsProcess(delta);
+
+		//check collision with player short range attack
+        var collision = MoveAndCollide(new Vector2(0,0));
+        if (collision != null)
+        {
+            // Enemy collided with a slash
+            if (collision.GetCollider() is PlayerSlash)
+            {
+                // take damage from the slash
+                PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+                if (_iFrames <= 0)
+                {
+                    this.TakeDamage(temp.DealDamage((Player)_player));
+                }
+            }
+            else if (collision.GetCollider() is Player)
+            {
+                // Collided with the player
+                HandlePlayerCollision();
+            }
+        }
+    }
 
 	public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
@@ -82,21 +104,30 @@ public partial class DroneAI : BaseEnemyAI
         }
 	}
 
+
+	/// <summary>
+	/// Move the drone towards the target position near the player
+	/// </summary>
+	/// <param name="delta"></param>
 	private void DroneMovement(double delta) {
+		//move the drone towards the target position if the current target position is not reached
         if (!_movementCompleted)
         {
+			//init the variable needed for movement
 			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
 			double process = (_totalDistance - currentDistance) / _totalDistance;
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
-
             Vector2 direction = (_targetPosition - Position).Normalized();
+
+			//mark current movement as complete when it's close enough to the target position
             if (currentDistance < 1)
 			{
 				_movementCompleted = true;
-				//Position += direction * (float)(_speed * delta);
 				_droneState = DroneFSM.AttackCharging;
 				Attack();
 			}
+
+			//increase the speed to make sure drone will always move
 			if(process < 0.1) {
 				speed += 10;	
 			}
@@ -114,7 +145,7 @@ public partial class DroneAI : BaseEnemyAI
         }
         else
         {
-            
+            //create a new target position if the previouse movement is completed
             _targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
                 (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
             _totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
@@ -133,6 +164,9 @@ public partial class DroneAI : BaseEnemyAI
         }
     }
 
+	/// <summary>
+	/// determine which state the drone will currently be
+	/// </summary>
 	private void DetermineDrongState()
 	{
 		DetectPlayer();
@@ -153,13 +187,20 @@ public partial class DroneAI : BaseEnemyAI
         }
 	}
 
-	private bool IsPlayerTooClose() {
+    /// <summary>
+    /// return whether or not drone is too close to the player
+    /// </summary>
+    /// <returns></returns>
+    private bool IsPlayerTooClose() {
 		if (_player == null) {
 			return false;
 		}
 		return new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _moveStopRange;
 	}
 
+	/// <summary>
+	/// detect if player is in range of the drone's detection range
+	/// </summary>
 	private void DetectPlayer() {
 		if (_player == null) {
 			_isPlayerInRange = false;
@@ -168,32 +209,31 @@ public partial class DroneAI : BaseEnemyAI
 		_isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
 	}
 
+	/// <summary>
+	/// Shoot bullet toward a position near the player
+	/// </summary>
 	private async void Attack() {
+		//show the charging attack particle effect before shoot the bullet
 		_particles.Show();
         await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
         _particles.Hide();
-        //if (currentShootCooldown <= 0) {
+
         //calculate angle
         Vector2 bulletDirection = _player.Position - Position;
+		float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
+		shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
 
-			float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
+		//shoot bullet
+		Node node = _bullet.Instantiate();
+		(node as Node2D).Position = Position;
+		(node as Node2D).Rotation = shootAngle;
+		(node as Bullet).player = _player;
+		GetParent().AddChild(node);
 
-			shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
-			//shootAngle = Mathf.RadToDeg(shootAngle);
+		currentShootCooldown = shootCooldown;
+		_positiveDirection = !_positiveDirection;
 
-			//shoot bullet
-
-			Node node = _bullet.Instantiate();
-			(node as Node2D).Position = Position;
-			(node as Node2D).Rotation = shootAngle;
-			(node as Bullet).player = _player;
-			GetParent().AddChild(node);
-
-			currentShootCooldown = shootCooldown;
-			_positiveDirection = !_positiveDirection;
-
-        //}
-
+		//stop for a period of time before next state
         await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
         _droneState = DroneFSM.Stop;
 
