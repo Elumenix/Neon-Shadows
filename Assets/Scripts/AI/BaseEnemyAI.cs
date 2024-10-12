@@ -32,9 +32,11 @@ public partial class BaseEnemyAI : CharacterBody2D
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
         UpdateNavigationTarget();
         AnimatedSprite2D sprite = GetNode<AnimatedSprite2D>("EnemySprite");
+
+        //create the shader for enemy if there are none
         if (sprite.Material != null && sprite.Material is ShaderMaterial)
         {
-            // Duplicate the material so each enemy has its own instance
+            //duplicate the material so each enemy has its own instance
             ShaderMaterial shaderMaterial = (ShaderMaterial)sprite.Material.Duplicate();
             sprite.Material = shaderMaterial;
         }
@@ -42,15 +44,15 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        //update the target position and exit if there are none
         UpdateNavigationTarget();
-
         if (_navigationAgent.IsNavigationFinished())
         {
             return;
         }
 
+        //move the enemy towards the next target position
         Vector2 nextPathPosition = _navigationAgent.GetNextPathPosition();
-
         MoveTowardsTarget(nextPathPosition, delta);
     }
 
@@ -151,6 +153,9 @@ public partial class BaseEnemyAI : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// handles player collision, create camera shake and deal damage to player
+    /// </summary>
     public void HandlePlayerCollision()
     {
         Player temp = (Player)_player;
@@ -164,7 +169,9 @@ public partial class BaseEnemyAI : CharacterBody2D
         
     }
 
-
+    /// <summary>
+    /// create the flash animation when enemy is damaged
+    /// </summary>
     public void FlashOnDamage() {
         GetNode<AnimationPlayer>("EnemySprite/FlashAnimation").Play("Flash");
     }
