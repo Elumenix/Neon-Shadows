@@ -14,7 +14,7 @@ public partial class BaseEnemyAI : CharacterBody2D
     protected bool _usePathFinding = true;
     protected bool _shouldMove = true;
 
-    private float _iFrames = 0.3f;
+    protected float _iFrames = 0.3f;
 
     protected Node2D _player;
 
@@ -54,6 +54,7 @@ public partial class BaseEnemyAI : CharacterBody2D
         MoveTowardsTarget(nextPathPosition, delta);
     }
 
+
     public override void _Process(double delta)
     {
         if(_iFrames > 0)
@@ -66,6 +67,9 @@ public partial class BaseEnemyAI : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// update the target position of the enemy pathfinding
+    /// </summary>
     private void UpdateNavigationTarget()
     {
         if (_player != null)
@@ -74,9 +78,16 @@ public partial class BaseEnemyAI : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Move the enemy towards the next target position
+    /// </summary>
+    /// <param name="targetPosition">the position enemy is targeting</param>
+    /// <param name="delta">the delta time</param>
     private void MoveTowardsTarget(Vector2 targetPosition, double delta)
     {
+        //only use base enemy pathfinding if usePathFinding and shouldMove are true
         if (_usePathFinding && _shouldMove) { 
+            //create the direction vector and the collision for enemy
             Vector2 direction = (targetPosition - GlobalPosition).Normalized();
             //Position += direction * (float)(_speed * delta);
             var collision = MoveAndCollide(direction * (float)(_speed * delta));

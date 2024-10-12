@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Threading.Tasks;
+using static Godot.TextServer;
 
 public partial class DroneAI : BaseEnemyAI
 {
@@ -55,8 +56,29 @@ public partial class DroneAI : BaseEnemyAI
 
 	public override void _PhysicsProcess(double delta)
 	{
-		//base._PhysicsProcess(delta);
-	}
+        //base._PhysicsProcess(delta);
+
+		//check collision with player short range attack
+        var collision = MoveAndCollide(new Vector2(0,0));
+        if (collision != null)
+        {
+            // Enemy collided with a slash
+            if (collision.GetCollider() is PlayerSlash)
+            {
+                // take damage from the slash
+                PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+                if (_iFrames <= 0)
+                {
+                    this.TakeDamage(temp.DealDamage((Player)_player));
+                }
+            }
+            else if (collision.GetCollider() is Player)
+            {
+                // Collided with the player
+                HandlePlayerCollision();
+            }
+        }
+    }
 
 	public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
