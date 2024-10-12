@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dwkt1vaemwg87"]
+[gd_scene load_steps=18 format=4 uid="uid://dwkt1vaemwg87"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -229,6 +229,9 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(831, 304, 416, 96, 321,
 
 [sub_resource type="Environment" id="Environment_ye1nt"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r37fl"]
+size = Vector2(124, 68)
+
 [node name="GameTest2" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(341, 217)
@@ -299,5 +302,14 @@ environment = SubResource("Environment_ye1nt")
 
 [node name="PauseMenu" parent="." instance=ExtResource("10_4g51h")]
 visible = false
+
+[node name="Node2D" type="Node2D" parent="." groups=["PlatformArea"]]
+position = Vector2(139, 101)
+
+[node name="PlatformArea" type="Area2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/PlatformArea"]
+position = Vector2(52, 24)
+shape = SubResource("RectangleShape2D_r37fl")
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
