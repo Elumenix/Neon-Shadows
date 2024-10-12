@@ -37,6 +37,7 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
+	public int Ammo { get { return _ammo; } }
 	private const int _MaxAmmo = 5;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
