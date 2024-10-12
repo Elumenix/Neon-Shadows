@@ -94,24 +94,23 @@ public partial class DroneAI : BaseEnemyAI
 			{
 				_movementCompleted = true;
 				//Position += direction * (float)(_speed * delta);
-				var collision = MoveAndCollide(direction * (float)(_speed * delta));
-				if (collision != null)
-				{
-					if(collision.GetCollider() is PlayerSlash)
-					{
-						PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-						this.TakeDamage(temp.Damage);
-					}
-				}
-
 				_droneState = DroneFSM.AttackCharging;
 				Attack();
 			}
 			if(process < 0.1) {
 				speed += 10;	
 			}
+			// move the drone and handle any collisions
+            var collision = MoveAndCollide(direction * (float)(_speed * delta));
+            if (collision != null)
+            {
 
-            Position += direction * (float)(speed * delta);
+                if (collision.GetCollider() is PlayerSlash)
+                {
+                    PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+                    this.TakeDamage(temp.DealDamage());
+                }
+            }
         }
         else
         {
@@ -120,6 +119,17 @@ public partial class DroneAI : BaseEnemyAI
                 (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
             _totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
             _movementCompleted = false;
+
+			// Check if the drone is colliding
+			var collision = MoveAndCollide(Vector2.Zero, true);
+			if (collision != null)
+			{
+				if(collision.GetCollider() is PlayerSlash)
+				{
+					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+					this.TakeDamage(temp.DealDamage());
+				}
+			}
         }
     }
 

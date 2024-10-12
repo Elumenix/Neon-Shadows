@@ -43,13 +43,12 @@ public partial class BaseEnemyAI : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         UpdateNavigationTarget();
+        Vector2 nextPathPosition = _navigationAgent.GetNextPathPosition();
 
         if (_navigationAgent.IsNavigationFinished())
         {
-            return;
+            nextPathPosition = GlobalPosition;
         }
-
-        Vector2 nextPathPosition = _navigationAgent.GetNextPathPosition();
 
         MoveTowardsTarget(nextPathPosition, delta);
     }
@@ -86,10 +85,11 @@ public partial class BaseEnemyAI : CharacterBody2D
                 if (collision.GetCollider() is PlayerSlash)
                 {
                     // take damage from the slash
+                    
                     PlayerSlash temp = (PlayerSlash)collision.GetCollider();
                     if(_iFrames <= 0)
                     {
-                        this.TakeDamage(temp.DealDamage((Player)_player));
+                        this.TakeDamage(temp.DealDamage());
                     }
                 }
                 else if(collision.GetCollider() is Player)

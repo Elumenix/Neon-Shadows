@@ -316,6 +316,7 @@ public partial class Player : CharacterBody2D
         slash.Rotation = _marker.Rotation;
         slash.AttackTime = 0.25f;
         slash.Damage = 50;
+		slash.Player = this;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
 		else if (_attackCount == 2) { 
