@@ -13,6 +13,8 @@ public partial class HUDManager : Control
 	
 	private double _fpsUpdateTimer = 1;
 	[Export] private Label _fpsLabel;
+
+	[Export] private Label _ammoCount;
 	public override void _Ready()
 	{
 		 Instance = this;
@@ -27,6 +29,8 @@ public partial class HUDManager : Control
 			_fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond();
 			_fpsUpdateTimer = 0.75;
 		}
+
+		_updateAmmo();
 	}
 
 	public void IncreasePlayerHp() {
@@ -40,5 +44,11 @@ public partial class HUDManager : Control
 	public void DecreasePlayerHp()
 	{
 		HealthIconList[(player as Player).GetPlayerHealth()].Visible = false;
+	}
+
+	private void _updateAmmo()
+	{
+		Player temp = (Player)player;
+		_ammoCount.Text = temp.Ammo.ToString();
 	}
 }

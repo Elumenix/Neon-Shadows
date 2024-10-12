@@ -38,6 +38,7 @@ project/assembly_name="Neon Shadows"
 Player=""
 Enemy=""
 PauseMenu=""
+PlatformArea=""
 
 [input]
 

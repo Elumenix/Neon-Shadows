@@ -1,13 +1,15 @@
-[gd_scene load_steps=44 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=47 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_h38l4"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_gvs22"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
+[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="5_byc78"]
+[ext_resource type="Texture2D" uid="uid://5ltv11m3sos" path="res://Assets/Sprites/Object/Wind_Slash.png" id="6_ydfm4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ytte"]
-size = Vector2(9, 10)
+size = Vector2(10, 15)
 
 [sub_resource type="Animation" id="Animation_rthyb"]
 resource_name = "Flash"
@@ -212,6 +214,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("5_byc78")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ydfm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_byc78")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ydfm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_byc78")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_7ov7f")
 }, {
 "duration": 1.0,
@@ -323,6 +345,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gp43q"]
+size = Vector2(5, 3)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(0, -2)
 collision_mask = 3
@@ -332,7 +357,7 @@ script = ExtResource("1_3yn2a")
 _player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 5)
+position = Vector2(-1, 2.5)
 shape = SubResource("RectangleShape2D_1ytte")
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="."]
@@ -344,6 +369,7 @@ libraries = {
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_03tnr")
 sprite_frames = SubResource("SpriteFrames_0vbwd")
+animation = &"fall"
 
 [node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]
 
@@ -355,3 +381,9 @@ position = Vector2(0, 2)
 
 [node name="ShootTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="EdgeDetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EdgeDetect"]
+position = Vector2(-0.5, 8.5)
+shape = SubResource("RectangleShape2D_gp43q")

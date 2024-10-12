@@ -37,14 +37,19 @@ public partial class Player : CharacterBody2D
 
 	// Ranged Stuff
 	private int _ammo;
+	public int Ammo { get { return _ammo; } }
 	private const int _MaxAmmo = 5;
 	private PackedScene _projectile = GD.Load<PackedScene>("res://Assets/Entities/Objects/PlayerProjectile.tscn");
 	private Marker2D _marker;
 	private Timer _rangedTimer;
 	private bool _isShooting;
 
+	//falling off edges
+    private bool _isFalling = false;
+    private Vector2 _safePosition; 
+	private Timer _safePositionTimer;
 
-	public int GetPlayerHealth() {
+    public int GetPlayerHealth() {
 		return _health;
 	}
 	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
@@ -76,17 +81,28 @@ public partial class Player : CharacterBody2D
 		_ammo = _MaxAmmo;
 		_isShooting = false;
 		_rangedTimer = GetNode<Timer>("ShootTimer");
-	}
+
+
+        //init the variables needed for falling off edges mechanic
+
+        // Connect the frame_changed signal to track animation progress
+        _animatedSprite.FrameChanged += OnFrameChanged;
+        _safePosition = Position;
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if (GameManager.Instance.gamePaused)
 			return;
 
-		// Do stuff as long as the player isn't dead
-		if (!_dead)
+		// Do stuff as long as the player isn't dead and is not falling
+		if (!_isFalling && !_dead)
 		{
-			if(Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
+            //store the player's position as safe if they are on a platform
+            if (IsOnSafePlatform())
+                _safePosition = Position;
+
+            if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
@@ -95,8 +111,14 @@ public partial class Player : CharacterBody2D
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
 			MoveAndCollide(Velocity * (float)delta);
 			walkAnimation();
+
 		}
-	}
+
+        if (!IsOnSafePlatform())
+        {
+			TriggerFall();
+        }
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -316,6 +338,7 @@ public partial class Player : CharacterBody2D
         slash.Rotation = _marker.Rotation;
         slash.AttackTime = 0.25f;
         slash.Damage = 50;
+		slash.Player = this;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
 		else if (_attackCount == 2) { 
@@ -406,4 +429,51 @@ public partial class Player : CharacterBody2D
 			_ammo++;
 		}
 	}
+
+    /// <summary>
+	/// call this function when the player leaves the platform
+	/// </summary>
+    private void TriggerFall()
+    {
+        if (!_isFalling)
+        {
+            _isFalling = true;
+            Velocity = Vector2.Zero;
+
+            //play the fall animation
+            _animatedSprite.Play("fall");
+        }
+    }
+
+    /// <summary>
+	/// Respawn player at the last safe position
+	/// </summary>
+    private void RespawnPlayer()
+    {
+        Position = _safePosition;
+        _animatedSprite.Play("default"); 
+    }
+
+    /// <summary>
+	/// Check if the player is on a valid platform
+	/// </summary>
+	/// <returns></returns>
+    private bool IsOnSafePlatform()
+    {
+        return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
+    }
+
+	/// <summary>
+	/// detect if the fall animation is done
+	/// </summary>
+    private void OnFrameChanged()
+    {
+        //check if the fall animation has reached its last frame
+        if (_animatedSprite.Animation == "fall" &&
+            _animatedSprite.Frame == _animatedSprite.SpriteFrames.GetFrameCount("fall") - 1)
+        {
+            RespawnPlayer();
+            _isFalling = false;
+        }
+    }
 }
