@@ -69,7 +69,7 @@ public partial class DroneAI : BaseEnemyAI
                 PlayerSlash temp = (PlayerSlash)collision.GetCollider();
                 if (_iFrames <= 0)
                 {
-                    this.TakeDamage(temp.DealDamage((Player)_player));
+                    this.TakeDamage(temp.DealDamage());
                 }
             }
             else if (collision.GetCollider() is Player)
