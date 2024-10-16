@@ -48,6 +48,9 @@ public partial class Player : CharacterBody2D
     private bool _isFalling = false;
     private Vector2 _safePosition; 
 	private Timer _safePositionTimer;
+	private Vector2 _direction;
+	private bool _fallCooldown;
+	private AnimationPlayer _animationPlayer;
 
     public int GetPlayerHealth() {
 		return _health;
@@ -73,8 +76,8 @@ public partial class Player : CharacterBody2D
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
-		_dash = GetNode<Dash>("Dash");
+        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        _dash = GetNode<Dash>("Dash");
 		_marker = GetNode<Marker2D>("Marker2D");
 
 		// Ranged Stuff
@@ -86,11 +89,15 @@ public partial class Player : CharacterBody2D
         //init the variables needed for falling off edges mechanic
 
         // Connect the frame_changed signal to track animation progress
-        _animatedSprite.FrameChanged += OnFrameChanged;
+		_safePositionTimer = GetNode<Timer>("SafePositionTimer");
+		_safePositionTimer.Timeout += UpdateSafePosition;
         _safePosition = Position;
+		_direction = new Vector2(0,-1);
+		_fallCooldown = true;
+		_animationPlayer.AnimationFinished += ResetAnimation;
     }
 
-	public override void _PhysicsProcess(double delta)
+    public override void _PhysicsProcess(double delta)
 	{
 		if (GameManager.Instance.gamePaused)
 			return;
@@ -98,10 +105,6 @@ public partial class Player : CharacterBody2D
 		// Do stuff as long as the player isn't dead and is not falling
 		if (!_isFalling && !_dead)
 		{
-            //store the player's position as safe if they are on a platform
-            if (IsOnSafePlatform())
-                _safePosition = Position;
-
             if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
@@ -114,7 +117,7 @@ public partial class Player : CharacterBody2D
 
 		}
 
-        if (!IsOnSafePlatform())
+        if (!IsOnSafePlatform() && !_isFalling)
         {
 			TriggerFall();
         }
@@ -151,21 +154,49 @@ public partial class Player : CharacterBody2D
 	public void GetInput()
 	{
 
-		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		if((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
+        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		/*
+        if ((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
 		{
             _heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
         }
 		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
 		{
 			_heading = _cartesianToIsometric(_heading, false);
-		}
 
-        //// Isometric movement (I think)
-        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-        //_heading = _heading.Normalized();
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }*/
+		if(_heading.X > 0 && _heading.Y > 0)
+		{
+			_heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
+        }
+		else if(_heading.X < 0 && _heading.Y < 0)
+		{
+			_heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }
+		else if (_heading.X > 0 && _heading.Y < 0)
+		{
+			_heading = _cartesianToIsometric(_heading, false);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }
+		else if (_heading.X < 0 && _heading.Y > 0)
+		{
+			_heading = _cartesianToIsometric(_heading, false);
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
+        }
+        _heading = _heading.Normalized();
 
         // Set last move to what it was in the previous frame
         _lastMoved = _hasMoved;
@@ -182,7 +213,7 @@ public partial class Player : CharacterBody2D
 		}
 		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
 		else { Velocity = _heading * _speed; }
-
+		
 		// Attacking Stuff
 		// Check if we're attacking with melee
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
@@ -211,39 +242,47 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void updateFacing()
 	{
-		if (_heading.X > 0 && _heading.Y == 0)
-		{
-			_facing = FACING_DIRECTION.Right;
-		}
-		else if (_heading.X < 0 && _heading.Y == 0)
-		{
-			_facing = FACING_DIRECTION.Left;
-		}
-		else if (_heading.X == 0 && _heading.Y < 0)
-		{
-			_facing = FACING_DIRECTION.Up;
-		}
-		else if (_heading.X == 0 && _heading.Y > 0)
-		{
-			_facing = FACING_DIRECTION.Down;
-		}
-		else if(_heading.X > 0 && _heading.Y < 0)
-		{
-			_facing = FACING_DIRECTION.UpRight;
-		}
-		else if(_heading.X > 0 && _heading.Y > 0)
-		{
-			_facing = FACING_DIRECTION.DownRight;
-		}
-		else if(_heading.X < 0 && _heading.Y < 0)
-		{
-			_facing = FACING_DIRECTION.UpLeft;
-		}
-		else if(_heading.X < 0 && _heading.Y > 0)
-		{
-			_facing = FACING_DIRECTION.DownLeft;
-		}
-	}
+        if (_heading.X > 0 && _heading.Y == 0)
+        {
+            _facing = FACING_DIRECTION.Right;
+            _direction = new Vector2(1, 0);
+        }
+        else if (_heading.X < 0 && _heading.Y == 0)
+        {
+            _facing = FACING_DIRECTION.Left;
+            _direction = new Vector2(-1, 0);
+        }
+        else if (_heading.X == 0 && _heading.Y < 0)
+        {
+            _facing = FACING_DIRECTION.Up;
+            _direction = new Vector2(0, -1);
+        }
+        else if (_heading.X == 0 && _heading.Y > 0)
+        {
+            _facing = FACING_DIRECTION.Down;
+            _direction = new Vector2(0, 1);
+        }
+        else if (_heading.X > 0 && _heading.Y < 0)
+        {
+            _facing = FACING_DIRECTION.UpRight;
+            _direction = new Vector2(1, -1).Normalized();
+        }
+        else if (_heading.X > 0 && _heading.Y > 0)
+        {
+            _facing = FACING_DIRECTION.DownRight;
+            _direction = new Vector2(1, 1).Normalized();
+        }
+        else if (_heading.X < 0 && _heading.Y < 0)
+        {
+            _facing = FACING_DIRECTION.UpLeft;
+            _direction = new Vector2(-1, -1).Normalized();
+        }
+        else if (_heading.X < 0 && _heading.Y > 0)
+        {
+            _facing = FACING_DIRECTION.DownLeft;
+            _direction = new Vector2(-1, 1).Normalized();
+        }
+    }
 	/// <summary>
 	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
 	/// </summary>
@@ -405,7 +444,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	public void FlashOnDamge()
 	{
-		GetNode<AnimationPlayer>("FlashAnimation").Play("Flash");
+		_animationPlayer.Play("Flash");
 	}
 
 	/// <summary>
@@ -443,13 +482,28 @@ public partial class Player : CharacterBody2D
 	/// </summary>
     private void TriggerFall()
     {
-        if (!_isFalling)
+        if (!_isFalling && _fallCooldown)
         {
             _isFalling = true;
             Velocity = Vector2.Zero;
 
             //play the fall animation
             _animatedSprite.Play("fall");
+            _animationPlayer.Play("Fall");
+
+			_fallCooldown = false;
+        }
+    }
+
+    /// <summary>
+    /// store the player's position as safe if they are on a platform
+    /// </summary>
+    public void UpdateSafePosition()
+    {
+		if (IsOnSafePlatform()) {
+            _safePosition = Position;
+            _fallCooldown = true;
+            _isFalling = false;
         }
     }
 
@@ -459,7 +513,9 @@ public partial class Player : CharacterBody2D
     private void RespawnPlayer()
     {
         Position = _safePosition;
-        _animatedSprite.Play("default"); 
+        _animationPlayer.Stop();
+		_animatedSprite.Scale = new Vector2(1,1);
+        _animatedSprite.Play("default");
     }
 
     /// <summary>
@@ -474,16 +530,14 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// detect if the fall animation is done
 	/// </summary>
-    private void OnFrameChanged()
+    private void ResetAnimation(StringName animName)
     {
-        //check if the fall animation has reached its last frame
-        if (_animatedSprite.Animation == "fall" &&
-            _animatedSprite.Frame == _animatedSprite.SpriteFrames.GetFrameCount("fall") - 1)
-        {
+        if(animName == "Fall")
             RespawnPlayer();
-            _isFalling = false;
-        }
+        
     }
+
+
 	/// <summary>
 	/// Converts coordinates from a cartesian system to the isometric system
 	/// </summary>
