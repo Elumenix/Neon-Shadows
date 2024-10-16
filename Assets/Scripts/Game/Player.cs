@@ -109,7 +109,7 @@ public partial class Player : CharacterBody2D
 			}
 			GetInput();
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			MoveAndCollide(_cartesianToIsometric(Velocity * (float)delta));
+			MoveAndCollide(Velocity * (float)delta);
 			walkAnimation();
 
 		}
@@ -152,7 +152,8 @@ public partial class Player : CharacterBody2D
 	{
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		_heading = Input.GetVector("move_right", "move_left", "move_up", "move_down");
+		_heading = _cartesianToIsometric(_heading);
 
 		//// Isometric movement (I think)
 		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
@@ -484,7 +485,7 @@ public partial class Player : CharacterBody2D
 	private Vector2 _cartesianToIsometric(Vector2 cartesian)
 	{
 		Vector2 isometric = new Vector2();
-		isometric.X = cartesian.X - cartesian.Y;
+		isometric.X = cartesian.Y - cartesian.X;
 		isometric.Y = (cartesian.X + cartesian.Y) / 2.0f;
 		return isometric;
 	}
