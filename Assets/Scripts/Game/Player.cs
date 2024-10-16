@@ -151,21 +151,49 @@ public partial class Player : CharacterBody2D
 	public void GetInput()
 	{
 
-		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		if((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
+        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		/*
+        if ((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
 		{
             _heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
         }
 		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
 		{
 			_heading = _cartesianToIsometric(_heading, false);
-		}
 
-        //// Isometric movement (I think)
-        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-        //_heading = _heading.Normalized();
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }*/
+		if(_heading.X > 0 && _heading.Y > 0)
+		{
+			_heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
+        }
+		else if(_heading.X < 0 && _heading.Y < 0)
+		{
+			_heading = _cartesianToIsometric(_heading, true);
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }
+		else if (_heading.X > 0 && _heading.Y < 0)
+		{
+			_heading = _cartesianToIsometric(_heading, false);
+            _heading.X = _heading.X + 0.5f * 64.0f;
+            _heading.Y = _heading.Y + -0.5f * 32.0f;
+        }
+		else if (_heading.X < 0 && _heading.Y > 0)
+		{
+			_heading = _cartesianToIsometric(_heading, false);
+            _heading.X = _heading.X + -0.5f * 64.0f;
+            _heading.Y = _heading.Y + 0.5f * 32.0f;
+        }
+        _heading = _heading.Normalized();
 
         // Set last move to what it was in the previous frame
         _lastMoved = _hasMoved;
@@ -182,7 +210,7 @@ public partial class Player : CharacterBody2D
 		}
 		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
 		else { Velocity = _heading * _speed; }
-
+		
 		// Attacking Stuff
 		// Check if we're attacking with melee
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
