@@ -87,6 +87,8 @@ public partial class Player : CharacterBody2D
 
         // Connect the frame_changed signal to track animation progress
         _animatedSprite.FrameChanged += OnFrameChanged;
+		_safePositionTimer = GetNode<Timer>("SafePositionTimer");
+		_safePositionTimer.Timeout += UpdateSafePosition;
         _safePosition = Position;
     }
 
@@ -98,10 +100,6 @@ public partial class Player : CharacterBody2D
 		// Do stuff as long as the player isn't dead and is not falling
 		if (!_isFalling && !_dead)
 		{
-            //store the player's position as safe if they are on a platform
-            if (IsOnSafePlatform())
-                _safePosition = Position;
-
             if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
@@ -443,7 +441,17 @@ public partial class Player : CharacterBody2D
 
             //play the fall animation
             _animatedSprite.Play("fall");
+            GetNode<AnimationPlayer>("FlashAnimation").Play("Fall");
         }
+    }
+
+    /// <summary>
+    /// store the player's position as safe if they are on a platform
+    /// </summary>
+    public void UpdateSafePosition()
+    {
+        if (IsOnSafePlatform())
+            _safePosition = Position;
     }
 
     /// <summary>
@@ -475,8 +483,11 @@ public partial class Player : CharacterBody2D
         {
             RespawnPlayer();
             _isFalling = false;
+            GetNode<AnimationPlayer>("FlashAnimation").Stop();
         }
     }
+
+
 	/// <summary>
 	/// Converts coordinates from a cartesian system to the isometric system
 	/// </summary>

@@ -42,6 +42,7 @@ layout_mode = 2
 text = "Level1"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level1"]
+layout_mode = 0
 offset_left = 116.0
 offset_top = -57.0
 offset_right = 314.0
@@ -77,6 +78,7 @@ asdadssdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
+layout_mode = 0
 offset_left = 72.1081
 offset_top = 169.73
 offset_right = 161.108
@@ -89,6 +91,7 @@ layout_mode = 2
 text = "Level2"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level2"]
+layout_mode = 0
 offset_left = 116.0
 offset_top = -92.0
 offset_right = 314.0
