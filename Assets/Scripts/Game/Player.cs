@@ -150,16 +150,23 @@ public partial class Player : CharacterBody2D
 	{
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		_heading = Input.GetVector("move_right", "move_left", "move_up", "move_down");
-		_heading = _cartesianToIsometric(_heading);
+		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		if((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
+		{
+            _heading = _cartesianToIsometric(_heading, true);
+        }
+		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
+		{
+			_heading = _cartesianToIsometric(_heading, false);
+		}
 
-		//// Isometric movement (I think)
-		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-		//_heading = _heading.Normalized();
+        //// Isometric movement (I think)
+        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+        //_heading = _heading.Normalized();
 
-		// Set last move to what it was in the previous frame
-		_lastMoved = _hasMoved;
+        // Set last move to what it was in the previous frame
+        _lastMoved = _hasMoved;
 
 		// Update _hasMoved
 		if(_heading == Vector2.Zero)
@@ -492,12 +499,20 @@ public partial class Player : CharacterBody2D
 	/// Converts coordinates from a cartesian system to the isometric system
 	/// </summary>
 	/// <param name="cartesian">The Vector in the cartesian system being modified</param>
+	/// <param name="same"> Whether the heading components are in the same direction of 0 (both greater than or both lesser than)</param>
 	/// <returns>The new vector in the isometric system</returns>
-	private Vector2 _cartesianToIsometric(Vector2 cartesian)
+	private Vector2 _cartesianToIsometric(Vector2 cartesian, bool same = true)
 	{
 		Vector2 isometric = new Vector2();
-		isometric.X = cartesian.Y - cartesian.X;
+		isometric.X = cartesian.X - cartesian.Y;
 		isometric.Y = (cartesian.X + cartesian.Y) / 2.0f;
-		return isometric;
+        isometric = isometric.Rotated(Mathf.Pi * 5.0f / 3.0f);
+        if (!same)
+		{
+			float temp = isometric.X * -1.0f;
+			isometric.X = isometric.Y * -1.0f;
+			isometric.Y = temp;
+		}
+        return isometric;
 	}
 }
