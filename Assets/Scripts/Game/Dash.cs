@@ -56,14 +56,14 @@ public partial class Dash : Node2D
         ghost.FlipV = _sprite.FlipV;
 
         // logic to set up frame correctly
-        if (_facing.X > 0 && _facing.Y == 0) { ghost.Frame = 42; }
-        else if (_facing.X < 0 && _facing.Y == 0) { ghost.Frame = 46; }
-        else if (_facing.X == 0 && _facing.Y < 0) { ghost.Frame = 40; }
-        else if (_facing.X == 0 && _facing.Y > 0) { ghost.Frame = 44; }
-        else if (_facing.X > 0 && _facing.Y < 0) { ghost.Frame = 41; }
-        else if (_facing.X > 0 && _facing.Y > 0) { ghost.Frame = 43; }
-        else if (_facing.X < 0 && _facing.Y < 0) { ghost.Frame = 47; }
-        else if (_facing.X < 0 && _facing.Y > 0) { ghost.Frame = 45; }
+        if (_facing.X > 0 && _facing.Y == 0) { ghost.Frame = 2; }
+        else if (_facing.X < 0 && _facing.Y == 0) { ghost.Frame = 6; }
+        else if (_facing.X == 0 && _facing.Y < 0) { ghost.Frame = 0; }
+        else if (_facing.X == 0 && _facing.Y > 0) { ghost.Frame = 4; }
+        else if (_facing.X > 0 && _facing.Y < 0) { ghost.Frame = 1; }
+        else if (_facing.X > 0 && _facing.Y > 0) { ghost.Frame = 3; }
+        else if (_facing.X < 0 && _facing.Y < 0) { ghost.Frame = 7; }
+        else if (_facing.X < 0 && _facing.Y > 0) { ghost.Frame = 5; }
         else { ghost.Frame = 44; }
         GetParent().GetParent().AddChild(ghost);
     }

@@ -28,6 +28,11 @@ public partial class Projectile : RigidBody2D
 				BaseEnemyAI temp = (BaseEnemyAI)collision.GetCollider();
 				temp.TakeDamage(_damage);
             }
+			else if(collision.GetCollider() is DroneAI)
+			{
+				DroneAI temp = (DroneAI)collision.GetCollider();
+				temp.TakeDamage(_damage);
+			}
 			// If it collides with anything other than the player delete itself
 			// Line could be changed since it no longer has a collision layer in common with player
 			if (!(collision.GetCollider() is Player))

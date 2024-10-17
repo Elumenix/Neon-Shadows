@@ -53,7 +53,7 @@ public partial class Player : CharacterBody2D
 	private AnimationPlayer _animationPlayer;
 
 	// Funky movement thing
-	private bool _moveNSlide = true;
+	private bool _moveNSlide = false;
 
     public int GetPlayerHealth() {
 		return _health;

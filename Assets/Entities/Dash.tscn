@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5um6b05njapt"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Dash.cs" id="1_b0xwq"]
-[ext_resource type="Texture2D" uid="uid://kg0pda5jvqu6" path="res://Assets/Sprites/Small-8-Direction-Characters_by_AxulArt.png" id="2_xnyff"]
+[ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="2_8rw00"]
 
 [node name="Dash" type="Node2D"]
 script = ExtResource("1_b0xwq")
@@ -11,9 +11,9 @@ one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("2_xnyff")
+texture = ExtResource("2_8rw00")
 hframes = 8
-vframes = 12
+vframes = 3
 
 [node name="GhostTimer" type="Timer" parent="."]
 wait_time = 0.03
