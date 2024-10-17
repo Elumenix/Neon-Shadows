@@ -18,6 +18,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     protected Node2D _player;
 
+    protected float _detectionRange;
+
     public override async void _Ready()
     {
         currentHealth = MaxHealth;
@@ -40,13 +42,23 @@ public partial class BaseEnemyAI : CharacterBody2D
             ShaderMaterial shaderMaterial = (ShaderMaterial)sprite.Material.Duplicate();
             sprite.Material = shaderMaterial;
         }
+
+        _detectionRange = 300.0f;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         //update the target position and exit if there are none
         UpdateNavigationTarget();
-        Vector2 nextPathPosition = _navigationAgent.GetNextPathPosition();
+        Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+        if (_navigationAgent.DistanceToTarget() < _detectionRange)
+        {
+            _shouldMove = true;
+        }
+        else
+        {
+            _shouldMove = false;
+        }
 
         if (_navigationAgent.IsNavigationFinished())
         {
