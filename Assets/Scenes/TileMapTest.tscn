@@ -239,9 +239,6 @@ agent_radius = 5.0
 
 [sub_resource type="Environment" id="Environment_ye1nt"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r37fl"]
-size = Vector2(3455, 2816)
-
 [node name="GameTest2" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(341, 217)
@@ -319,12 +316,15 @@ environment = SubResource("Environment_ye1nt")
 visible = false
 
 [node name="Node2D" type="Node2D" parent="." groups=["PlatformArea"]]
-visible = false
 position = Vector2(139, 101)
 
 [node name="PlatformArea" type="Area2D" parent="Node2D"]
 
 [node name="EdgeDetect" type="CollisionPolygon2D" parent="Node2D/PlatformArea"]
+polygon = PackedVector2Array(439, 398, 758, 235, 983, 348, 1397, 140, 2195, 541, 911, 1180, 849, 1147, 598, 1277, 661, 1309, 628, 1328, 536, 1276, 502, 1259, 532, 1242, 472, 1211, 442, 1228, 535, 1276, 516, 1284, 503, 1291, 534, 1308, 503, 1323, 404, 1276, 374, 1292, 404, 1307, 373, 1324, 404, 1340, 374, 1355, 342, 1339, 310, 1355, 278, 1339, 342, 1307, 278, 1275, 310, 1259, 279, 1242, 309, 1226, 276, 1211, 340, 1179, 309, 1163, 883, 875, 372, 620, 628, 492)
+
+[node name="EdgeDetect2" type="CollisionPolygon2D" parent="Node2D/PlatformArea"]
+position = Vector2(-1103, -533)
 polygon = PackedVector2Array(439, 398, 758, 235, 983, 348, 1397, 140, 2195, 541, 911, 1180, 849, 1147, 598, 1277, 661, 1309, 628, 1328, 536, 1276, 502, 1259, 532, 1242, 472, 1211, 442, 1228, 535, 1276, 516, 1284, 503, 1291, 534, 1308, 503, 1323, 404, 1276, 374, 1292, 404, 1307, 373, 1324, 404, 1340, 374, 1355, 342, 1339, 310, 1355, 278, 1339, 342, 1307, 278, 1275, 310, 1259, 279, 1242, 309, 1226, 276, 1211, 340, 1179, 309, 1163, 883, 875, 372, 620, 628, 492)
 
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]

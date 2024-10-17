@@ -93,7 +93,7 @@ public partial class Player : CharacterBody2D
 		_safePositionTimer.Timeout += UpdateSafePosition;
         _safePosition = Position;
 		_direction = new Vector2(0,-1);
-		_fallCooldown = true;
+		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
     }
 
@@ -482,7 +482,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
     private void TriggerFall()
     {
-        if (!_isFalling && _fallCooldown)
+        if (!_isFalling && _fallCooldown && !_dash.IsDashing)
         {
             _isFalling = true;
             Velocity = Vector2.Zero;
