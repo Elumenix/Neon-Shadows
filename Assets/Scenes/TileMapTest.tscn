@@ -316,6 +316,7 @@ environment = SubResource("Environment_ye1nt")
 visible = false
 
 [node name="Node2D" type="Node2D" parent="." groups=["PlatformArea"]]
+visible = false
 position = Vector2(139, 101)
 
 [node name="PlatformArea" type="Area2D" parent="Node2D"]
