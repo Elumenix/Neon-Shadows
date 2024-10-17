@@ -52,6 +52,9 @@ public partial class Player : CharacterBody2D
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
 
+	// Funky movement thing
+	private bool _moveNSlide = true;
+
     public int GetPlayerHealth() {
 		return _health;
 	}
@@ -112,8 +115,15 @@ public partial class Player : CharacterBody2D
 			}
 			GetInput();
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			MoveAndCollide(Velocity * (float)delta);
-			walkAnimation();
+			if (_moveNSlide)
+			{
+				MoveAndSlide();
+			}
+			else
+			{
+				MoveAndCollide(Velocity * (float)delta);
+			}
+            walkAnimation();
 
 		}
 
@@ -126,6 +136,12 @@ public partial class Player : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Temp code for toggling two movement types
+		if (Input.IsActionJustPressed("moveToggle"))
+		{
+			_moveNSlide = !_moveNSlide;
+		}
+
 		// Used mostly to check for timer like objects.
 		// Most player logic should be handled by _PhysicsProcess
 		

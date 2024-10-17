@@ -273,7 +273,6 @@ unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="HUD" parent="." instance=ExtResource("5_pvo04")]
-visible = false
 
 [node name="TempButton" type="Button" parent="HUD"]
 custom_minimum_size = Vector2(70.245, 20.33)
