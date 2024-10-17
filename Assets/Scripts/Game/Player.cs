@@ -93,7 +93,7 @@ public partial class Player : CharacterBody2D
 		_safePositionTimer.Timeout += UpdateSafePosition;
         _safePosition = Position;
 		_direction = new Vector2(0,-1);
-		_fallCooldown = true;
+		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
     }
 
