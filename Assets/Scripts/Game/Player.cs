@@ -571,7 +571,9 @@ public partial class Player : CharacterBody2D
 	{
 		if(animName == "Fall")
 			RespawnPlayer();
-		
+		if (animName == "Flash") {
+            _animationPlayer.Stop();
+		}
 	}
 
 
