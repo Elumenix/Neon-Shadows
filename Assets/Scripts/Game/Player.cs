@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
@@ -57,10 +58,13 @@ public partial class Player : CharacterBody2D
 	private bool _moveNSlide = false;
 
     //Foot step effect
-    [Export] public PackedScene FootstepParticle;
-    [Export] public float StepDistance = 50.0f;
+    [Export] public PackedScene footstepParticle;
+    [Export] public float stepDistance = 50.0f;
     private Vector2 _lastStepPosition;
+	private Vector2 _footStepEffectSpawnPosition;
+	private Vector2 _playerSpriteSize;
 
+	[Export] PackedScene test;
 
     public int GetPlayerHealth() {
 		return _health;
@@ -108,6 +112,7 @@ public partial class Player : CharacterBody2D
 
         //foot step
         _lastStepPosition = GlobalPosition;
+		_playerSpriteSize = _animatedSprite.SpriteFrames.GetFrameTexture("default", 0).GetSize();
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -144,11 +149,12 @@ public partial class Player : CharacterBody2D
 		}
 
 		//spawn foot step effect when player traveraled long enough
-        if (GlobalPosition.DistanceTo(_lastStepPosition) >= StepDistance)
+        if (GlobalPosition.DistanceTo(_lastStepPosition) >= stepDistance)
         {
             SpawnFootstep();
             _lastStepPosition = GlobalPosition;
         }
+
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -281,42 +287,50 @@ public partial class Player : CharacterBody2D
 		{
 			_facing = FACING_DIRECTION.Right;
 			_direction = new Vector2(1, 0);
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X - _playerSpriteSize.X / 2, Position.Y + _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X < 0 && _heading.Y == 0)
 		{
 			_facing = FACING_DIRECTION.Left;
 			_direction = new Vector2(-1, 0);
-		}
+			_footStepEffectSpawnPosition = new Vector2(Position.X + _playerSpriteSize.X / 2,Position.Y + _playerSpriteSize.Y/2);
+        }
 		else if (_heading.X == 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.Up;
 			_direction = new Vector2(0, -1);
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X == 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.Down;
 			_direction = new Vector2(0, 1);
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y - _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X > 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.UpRight;
 			_direction = new Vector2(1, -1).Normalized();
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X > 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownRight;
 			_direction = new Vector2(1, 1).Normalized();
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X < 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.UpLeft;
 			_direction = new Vector2(-1, -1).Normalized();
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+        }
 		else if (_heading.X < 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownLeft;
 			_direction = new Vector2(-1, 1).Normalized();
-		}
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+        }
 	}
 	/// <summary>
 	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
@@ -603,11 +617,19 @@ public partial class Player : CharacterBody2D
 	/// </summary>
     private void SpawnFootstep()
     {
-		//spawn the effect
-        var particleInstance = (CpuParticles2D)FootstepParticle.Instantiate();
-        particleInstance.ZIndex = 10;
-        particleInstance.GlobalPosition = Position;
-        particleInstance.Emitting = true;  // Start emitting
+		//multiply by 0.8 to make the color a little darker
+        Color pixelColor = GetScreenColorUnderPlayer() *0.8f;
+
+        //spawn the effect
+        var particleInstance = (CpuParticles2D)footstepParticle.Instantiate();
+        particleInstance.ZIndex = 1;
+        particleInstance.GlobalPosition = _footStepEffectSpawnPosition;
+
+
+
+        particleInstance.Color = pixelColor;
+        particleInstance.Emitting = true;
+		particleInstance.Gravity = -_direction * 100;
         GetTree().CurrentScene.AddChild(particleInstance);
 
         //delete effect after it's done
@@ -616,6 +638,26 @@ public partial class Player : CharacterBody2D
         {
             particleInstance.QueueFree();
         };
+    }
+
+
+
+    private Color GetScreenColorUnderPlayer()
+    {
+        Viewport viewport = GetViewport();
+        Image image = viewport.GetTexture().GetImage();
+
+        Camera2D camera = viewport.GetCamera2D();
+
+        Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
+
+		GD.Print("Screen Position" + screenPos);
+		GD.Print("Mouse Position:" + viewport.GetMousePosition());
+
+        int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
+        int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
+
+        return image.GetPixel(x, y);
     }
 
 }
