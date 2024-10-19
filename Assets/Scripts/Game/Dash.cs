@@ -3,7 +3,7 @@ using System;
 
 public partial class Dash : Node2D
 {
-	private const double _DashDelay = 0.4f;
+	private const double _DashDelay = 0.6f;
 	private Timer _timer;
 	private Timer _ghostTimer;
 	private bool _canDash = true;
@@ -64,7 +64,7 @@ public partial class Dash : Node2D
         else if (_facing.X > 0 && _facing.Y > 0) { ghost.Frame = 3; }
         else if (_facing.X < 0 && _facing.Y < 0) { ghost.Frame = 7; }
         else if (_facing.X < 0 && _facing.Y > 0) { ghost.Frame = 5; }
-        else { ghost.Frame = 44; }
+        else { ghost.Frame = 4; }
         GetParent().GetParent().AddChild(ghost);
     }
 

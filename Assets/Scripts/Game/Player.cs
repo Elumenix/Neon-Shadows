@@ -9,8 +9,10 @@ public partial class Player : CharacterBody2D
 {
 	// Fields
 	private Vector2 _heading;
-	private float _maxSpeed = 50.0f;
-	private float _speed = 130.0f;
+	private float _maxSpeed = 150.0f;
+	private float _speed = 70.0f;
+	private float _friction = 450.0f;
+
 	private AnimatedSprite2D _animatedSprite;
 	private FACING_DIRECTION _facing;
 
@@ -33,7 +35,7 @@ public partial class Player : CharacterBody2D
 	// Dash Stuff
 	private Dash _dash;
 	private float _dashSpeed = 550.0f;
-	private const float _DashDuration = 0.2f;
+	private const float _DashDuration = 0.15f;
 
 	// Ranged Stuff
 	private int _ammo;
@@ -53,7 +55,7 @@ public partial class Player : CharacterBody2D
 	private AnimationPlayer _animationPlayer;
 
 	// Funky movement thing
-	private bool _moveNSlide = false;
+	private bool _moveNSlide = true;
 
 	public int GetPlayerHealth() {
 		return _health;
@@ -113,7 +115,7 @@ public partial class Player : CharacterBody2D
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
-			GetInput();
+			GetInput((float)delta);
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
 			if (_moveNSlide)
 			{
@@ -167,7 +169,7 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
 	/// </summary>
-	public void GetInput()
+	public void GetInput(float delta)
 	{
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
@@ -227,8 +229,28 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
-		else { Velocity = _heading * _speed; }
+
+		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
+		{
+			if(Velocity.Length() > (_friction * delta))
+			{
+				Velocity -= Velocity.Normalized() * (_friction * delta);
+			}
+			else
+			{
+				Velocity = Vector2.Zero;
+			}
+		}
+		else
+		{
+            if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+            else { 
+				Velocity += _heading * _speed;
+				Velocity = Velocity.LimitLength(_maxSpeed);
+			}
+        }
+
+
 		
 		// Attacking Stuff
 		// Check if we're attacking with melee
