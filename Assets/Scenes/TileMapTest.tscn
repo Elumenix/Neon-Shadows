@@ -263,7 +263,7 @@ tile_map_data = PackedByteArray("AAD6/wEAAAAAAAAAAgADAAMAAAAAAAAAAgATAP//AAAAAAA
 tile_set = SubResource("TileSet_ttviy")
 
 [node name="Player" parent="TileMap/Objects&Entities" instance=ExtResource("1_qr48g")]
-position = Vector2(88, -161)
+position = Vector2(1280, 1658)
 
 [node name="1F" type="TileMapLayer" parent="TileMap"]
 y_sort_enabled = true
