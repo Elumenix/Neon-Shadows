@@ -55,8 +55,13 @@ public partial class Player : CharacterBody2D
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
 
+	// Coyote time stuff
+	private Timer _coyoteTimer;
+	private float _coyoteWait = 0.2f; // Wait time added to Coyote Timer
+	private bool _coyoteEnd;
+
 	// Funky movement thing
-	private bool _moveNSlide = true;
+	private bool _moveNSlide = false;
 
     //Foot step effect
     [Export] public PackedScene FootstepParticle;
@@ -107,6 +112,8 @@ public partial class Player : CharacterBody2D
 		_direction = new Vector2(0,-1);
 		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
+		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
+		_coyoteEnd = true;
 
         //foot step
         _lastStepPosition = GlobalPosition;
@@ -138,12 +145,19 @@ public partial class Player : CharacterBody2D
 			walkAnimation();
 
 		}
-
-		//trigger fall
-		if (!IsOnSafePlatform() && !_isFalling)
+		// Fall stuff
+		if (!IsOnSafePlatform())
 		{
-			TriggerFall();
-		}
+            if (!_coyoteEnd && _coyoteTimer.WaitTime == 0)
+            {
+                _coyoteTimer.Start(_coyoteWait);
+            }
+
+			if (!_isFalling && _coyoteEnd)
+			{
+                TriggerFall();
+            }
+        }
 
 		//spawn foot step effect when player traveraled long enough
         if (GlobalPosition.DistanceTo(_lastStepPosition) >= StepDistance)
@@ -195,20 +209,7 @@ public partial class Player : CharacterBody2D
 		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		/*
-		if ((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
-		{
-			_heading = _cartesianToIsometric(_heading, true);
-			_heading.X = _heading.X + 0.5f * 64.0f;
-			_heading.Y = _heading.Y + 0.5f * 32.0f;
-		}
-		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
-		{
-			_heading = _cartesianToIsometric(_heading, false);
-
-			_heading.X = _heading.X + -0.5f * 64.0f;
-			_heading.Y = _heading.Y + -0.5f * 32.0f;
-		}*/
+		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
 			_heading = _cartesianToIsometric(_heading, true);
@@ -549,6 +550,7 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
+			_coyoteEnd = false;
 		}
 	}
 
@@ -618,6 +620,13 @@ public partial class Player : CharacterBody2D
 			isometric.Y = temp;
 		}
 		return isometric;
+	}
+	/// <summary>
+	/// Called when the coyote Timer goes off
+	/// </summary>
+	private void _endCoyoteTime()
+	{
+		_coyoteEnd = true;
 	}
 
 	/// <summary>
