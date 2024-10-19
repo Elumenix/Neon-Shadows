@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -55,7 +56,13 @@ public partial class Player : CharacterBody2D
 	// Funky movement thing
 	private bool _moveNSlide = false;
 
-	public int GetPlayerHealth() {
+    //Foot step effect
+    [Export] public PackedScene FootstepParticle;
+    [Export] public float StepDistance = 50.0f;
+    private Vector2 _lastStepPosition;
+
+
+    public int GetPlayerHealth() {
 		return _health;
 	}
 	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
@@ -98,7 +105,10 @@ public partial class Player : CharacterBody2D
 		_direction = new Vector2(0,-1);
 		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
-	}
+
+        //foot step
+        _lastStepPosition = GlobalPosition;
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -127,11 +137,19 @@ public partial class Player : CharacterBody2D
 
 		}
 
+		//trigger fall
 		if (!IsOnSafePlatform() && !_isFalling)
 		{
 			TriggerFall();
 		}
-	}
+
+		//spawn foot step effect when player traveraled long enough
+        if (GlobalPosition.DistanceTo(_lastStepPosition) >= StepDistance)
+        {
+            SpawnFootstep();
+            _lastStepPosition = GlobalPosition;
+        }
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -163,7 +181,8 @@ public partial class Player : CharacterBody2D
 			// Stop shooting
 			_isShooting = false;
 		}
-	}
+
+    }
 	/// <summary>
 	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
 	/// </summary>
@@ -552,7 +571,9 @@ public partial class Player : CharacterBody2D
 	{
 		if(animName == "Fall")
 			RespawnPlayer();
-		
+		if (animName == "Flash") {
+            _animationPlayer.Stop();
+		}
 	}
 
 
@@ -576,4 +597,25 @@ public partial class Player : CharacterBody2D
 		}
 		return isometric;
 	}
+
+	/// <summary>
+	/// spawn foot step effect
+	/// </summary>
+    private void SpawnFootstep()
+    {
+		//spawn the effect
+        var particleInstance = (CpuParticles2D)FootstepParticle.Instantiate();
+        particleInstance.ZIndex = 10;
+        particleInstance.GlobalPosition = Position;
+        particleInstance.Emitting = true;  // Start emitting
+        GetTree().CurrentScene.AddChild(particleInstance);
+
+        //delete effect after it's done
+        particleInstance.OneShot = true;
+        GetTree().CreateTimer((float)particleInstance.Lifetime).Timeout += () =>
+        {
+            particleInstance.QueueFree();
+        };
+    }
+
 }
