@@ -11,6 +11,13 @@ public partial class LevelSelect : CanvasLayer
     [Export]
     private Panel _quitConfirmPanel;
 
+    public override void _Ready()
+    {
+        _quitConfirmPanel.Hide();
+        _levelTwoDescriptionPanel.Hide();
+        _levelOneDescriptionPanel.Show();
+    }
+    
     /// <summary>
     /// open the level 1 panel
     /// </summary>
@@ -43,7 +50,6 @@ public partial class LevelSelect : CanvasLayer
         _levelOneDescriptionPanel.Hide();
         _levelTwoDescriptionPanel.Hide();
         _quitConfirmPanel.Show();
-
     }
 
     /// <summary>
@@ -52,7 +58,7 @@ public partial class LevelSelect : CanvasLayer
     public void OnLevelOneStartPressed() 
     {
         GD.Print("level 1 start");
-        GetTree().ChangeSceneToFile("res://Assets/Scenes/Level1.tscn");
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/TileMapTest.tscn");
     }
 
     /// <summary>
@@ -62,5 +68,23 @@ public partial class LevelSelect : CanvasLayer
     {
         GD.Print("level 2 start");
         GetTree().ChangeSceneToFile("res://Assets/Scenes/TileMapTest.tscn");
+    }
+
+    /// <summary>
+    /// Back to main menu
+    /// </summary>
+    public void OnConfirmQuit()
+    {
+        GD.Print("Quitting");
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+    }
+
+    /// <summary>
+    /// Close quit menu
+    /// </summary>
+    public void OnRejectQuit()
+    {
+        GD.Print("Refuse to quit");
+        _quitConfirmPanel.Hide();
     }
 }

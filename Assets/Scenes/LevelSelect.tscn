@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://di7sqrj73qtt1"]
 
-[ext_resource type="Script" path="res://Assets/Entities/UI/LevelSelect.cs" id="1_468uq"]
-[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="1_l8155"]
+[ext_resource type="Script" path="res://Assets/Scripts/UI/LevelSelect.cs" id="1_6gxph"]
+[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_xk8ig"]
 
 [node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_levelOneDescriptionPanel", "_levelTwoDescriptionPanel", "_quitConfirmPanel")]
-script = ExtResource("1_468uq")
+script = ExtResource("1_6gxph")
 _levelOneDescriptionPanel = NodePath("Panel/VBoxContainer/Level1/LevelInfoPanel")
 _levelTwoDescriptionPanel = NodePath("Panel/VBoxContainer/Level2/LevelInfoPanel")
 _quitConfirmPanel = NodePath("Panel/VBoxContainer/Quit/Confirm Quit")
@@ -55,7 +55,7 @@ offset_top = 3.78378
 offset_right = 169.622
 offset_bottom = 131.784
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("1_l8155")
+texture = ExtResource("2_xk8ig")
 
 [node name="Level" type="Label" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
 layout_mode = 0
@@ -104,7 +104,7 @@ offset_top = 3.78378
 offset_right = 169.622
 offset_bottom = 131.784
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("1_l8155")
+texture = ExtResource("2_xk8ig")
 
 [node name="Level" type="Label" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
 layout_mode = 0
@@ -182,3 +182,5 @@ autowrap_mode = 2
 [connection signal="pressed" from="Panel/VBoxContainer/Level2" to="." method="OnLevelTwoPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Level2/LevelInfoPanel/Start" to="." method="OnLevelTwoStartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="OnQuitPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/Yes" to="." method="OnConfirmQuit"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/No" to="." method="OnRejectQuit"]

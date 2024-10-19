@@ -1,7 +1,8 @@
-[gd_scene load_steps=48 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=49 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
+[ext_resource type="PackedScene" uid="uid://b7n5ul88o2x42" path="res://Assets/Entities/ParticleEffect/FootStep.tscn" id="2_p3t5q"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_gvs22"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 [ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="4_bb74h"]
@@ -389,6 +390,7 @@ size = Vector2(5, 3)
 position = Vector2(0, -2)
 collision_mask = 3
 script = ExtResource("1_3yn2a")
+FootstepParticle = ExtResource("2_p3t5q")
 
 [node name="Dash" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("2_oi25e")]
 _player = NodePath("..")
