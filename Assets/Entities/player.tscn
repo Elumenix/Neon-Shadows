@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
+[ext_resource type="PackedScene" path="res://Assets/Entities/ParticleEffect/FootStep.tscn" id="2_p3t5q"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_gvs22"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 [ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="4_bb74h"]
