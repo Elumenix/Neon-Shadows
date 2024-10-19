@@ -15,7 +15,7 @@ public partial class PlayButton : Button
 
 	public void _on_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://Assets/Scenes/TileMapTest.tscn");
+		GetTree().ChangeSceneToFile("res://Assets/Scenes/LevelSelect.tscn");
 	}
 	
 	public void _on_leave()

@@ -182,3 +182,5 @@ autowrap_mode = 2
 [connection signal="pressed" from="Panel/VBoxContainer/Level2" to="." method="OnLevelTwoPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Level2/LevelInfoPanel/Start" to="." method="OnLevelTwoStartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="OnQuitPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/Yes" to="." method="OnConfirmQuit"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/No" to="." method="OnRejectQuit"]
