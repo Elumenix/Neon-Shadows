@@ -134,16 +134,10 @@ public partial class Player : CharacterBody2D
 				_dash.EndDash();
 			}
 			GetInput();
-			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			if (_moveNSlide)
-			{
-				MoveAndSlide();
-			}
-			else
-			{
-				MoveAndCollide(Velocity * (float)delta);
-			}
-			walkAnimation();
+            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+            //var collision = MoveAndCollide(Velocity * (float)delta);
+            MoveAndCollide(Velocity * (float)delta);
+            walkAnimation();
 
 		}
 
