@@ -1,10 +1,9 @@
-[gd_scene load_steps=50 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=49 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="PackedScene" uid="uid://b7n5ul88o2x42" path="res://Assets/Entities/ParticleEffect/FootStep.tscn" id="2_p3t5q"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_gvs22"]
-[ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="3_jqlvf"]
 [ext_resource type="PackedScene" uid="uid://cvqpwnagt6rqv" path="res://Assets/Entities/RangedWeapon.tscn" id="3_yo48m"]
 [ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="4_bb74h"]
 [ext_resource type="PackedScene" uid="uid://b6dfh432kt4s1" path="res://Assets/Entities/ParticleEffect/Wind.tscn" id="6_nkt72"]
@@ -412,8 +411,6 @@ libraries = {
 material = SubResource("ShaderMaterial_03tnr")
 sprite_frames = SubResource("SpriteFrames_0vbwd")
 animation = &"walk_upright"
-
-[node name="Camera2D" parent="." instance=ExtResource("3_jqlvf")]
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

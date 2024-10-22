@@ -29,7 +29,6 @@ public partial class Camera : Camera2D
         _shakeIntensity = intensity;
         DragHorizontalEnabled = false;
         DragVerticalEnabled = false;
-        GD.Print(_shakeDuration);
     }
 
     public void ShakeCamera(double delta) {

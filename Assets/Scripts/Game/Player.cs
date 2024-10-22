@@ -660,10 +660,7 @@ public partial class Player : CharacterBody2D
 
         Camera2D camera = viewport.GetCamera2D();
 
-        Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
-
-		GD.Print("Screen Position" + screenPos);
-		GD.Print("Mouse Position:" + viewport.GetMousePosition());
+		Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
 
         int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
         int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
