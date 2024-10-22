@@ -64,7 +64,7 @@ public partial class Dash : Node2D
         else if (_facing.X > 0 && _facing.Y > 0) { ghost.Frame = 3; }
         else if (_facing.X < 0 && _facing.Y < 0) { ghost.Frame = 7; }
         else if (_facing.X < 0 && _facing.Y > 0) { ghost.Frame = 5; }
-        else { ghost.Frame = 44; }
+        else { ghost.Frame = 6; }
         GetParent().GetParent().AddChild(ghost);
     }
 
@@ -74,6 +74,11 @@ public partial class Dash : Node2D
 	}
     public async void EndDash()
 	{
+		// double check that the timer stopped
+		if (!_timer.IsStopped())
+		{
+			_timer.Stop();
+		}
 		_ghostTimer.Stop();
 		_canDash = false;
 		await ToSignal(GetTree().CreateTimer(_DashDelay), "timeout");

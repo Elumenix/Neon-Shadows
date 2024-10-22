@@ -128,6 +128,11 @@ public partial class Player : CharacterBody2D
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
+			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
+			{
+				// ends the dash early if the spacebar is released
+				_dash.EndDash();
+			}
 			GetInput();
 			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
 			if (_moveNSlide)
@@ -252,7 +257,13 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+		if (_dash.IsDashing) {
+			if (_heading.IsZeroApprox())
+			{
+				_heading = Vector2.Left;
+			}
+			Velocity = _heading * _dashSpeed; 
+		}
 		else { Velocity = _heading * _speed; }
 		
 		// Attacking Stuff
