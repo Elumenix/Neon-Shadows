@@ -137,17 +137,16 @@ public partial class Player : CharacterBody2D
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
-			GetInput((float)delta);
-			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			if (_moveNSlide)
+			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
 			{
-				MoveAndSlide();
+				// ends the dash early if the spacebar is released
+				_dash.EndDash();
 			}
-			else
-			{
-				MoveAndCollide(Velocity * (float)delta);
-			}
-			walkAnimation();
+			GetInput();
+            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+            //var collision = MoveAndCollide(Velocity * (float)delta);
+            MoveAndCollide(Velocity * (float)delta);
+            walkAnimation();
 
 		}
 		// Fall stuff
@@ -255,6 +254,14 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
+		if (_dash.IsDashing) {
+			if (_heading.IsZeroApprox())
+			{
+				_heading = Vector2.Left;
+			}
+			Velocity = _heading * _dashSpeed; 
+		}
+		else { Velocity = _heading * _speed; }
 
 		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
 		{
@@ -680,10 +687,7 @@ public partial class Player : CharacterBody2D
 
         Camera2D camera = viewport.GetCamera2D();
 
-        Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
-
-		GD.Print("Screen Position" + screenPos);
-		GD.Print("Mouse Position:" + viewport.GetMousePosition());
+		Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
 
         int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
         int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
