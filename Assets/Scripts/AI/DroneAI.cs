@@ -104,23 +104,34 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
+    /// <summary>
+    /// update the target position of the enemy pathfinding
+    /// </summary>
+    private void UpdateNavigationTarget()
+    {
+        if (_player != null)
+        {
+            _navigationAgent.TargetPosition = _targetPosition;
+        }
+    }
 
-	/// <summary>
-	/// Move the drone towards the target position near the player
-	/// </summary>
-	/// <param name="delta"></param>
-	private void DroneMovement(double delta) {
+    /// <summary>
+    /// Move the drone towards the target position near the player
+    /// </summary>
+    /// <param name="delta"></param>
+    private void DroneMovement(double delta) {
 		//move the drone towards the target position if the current target position is not reached
 		if (!_movementCompleted)
 		{
 			//init the variable needed for movement
-			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
+			Vector2 nextPosition = _navigationAgent.GetNextPathPosition();
+			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, GlobalPosition);
 			double process = (_totalDistance - currentDistance) / _totalDistance;
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
-			Vector2 direction = (_targetPosition - Position).Normalized();
+			Vector2 direction = (nextPosition - GlobalPosition).Normalized();
 
 			//mark current movement as complete when it's close enough to the target position
-			if (currentDistance < 1)
+			if (_navigationAgent.IsNavigationFinished())
 			{
 				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
@@ -146,10 +157,11 @@ public partial class DroneAI : BaseEnemyAI
 		else
 		{
 			//create a new target position if the previouse movement is completed
-			_targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
-				(float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
-			_totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
-			_movementCompleted = false;
+			_targetPosition = new Vector2(_player.GlobalPosition.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
+				(float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.GlobalPosition.Y);
+			_totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, GlobalPosition);
+			UpdateNavigationTarget();
+            _movementCompleted = false;
 
 			// Check if the drone is colliding
 			var collision = MoveAndCollide(Vector2.Zero, true);
