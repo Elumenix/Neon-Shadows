@@ -271,6 +271,10 @@ remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" parent="TileMap/Objects&Entities" instance=ExtResource("6_vsxus")]
 position = Vector2(1280, 1658)
+drag_left_margin = 0.2
+drag_top_margin = 0.2
+drag_right_margin = 0.2
+drag_bottom_margin = 0.2
 
 [node name="1F" type="TileMapLayer" parent="TileMap"]
 y_sort_enabled = true

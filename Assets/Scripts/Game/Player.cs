@@ -55,6 +55,7 @@ public partial class Player : CharacterBody2D
 	private Vector2 _direction;
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
+	[Export] private float _fallSpeed;
 
 	// Coyote time stuff
 	private Timer _coyoteTimer;
@@ -114,7 +115,9 @@ public partial class Player : CharacterBody2D
 		_safePositionTimer.Timeout += UpdateSafePosition;
 		_safePosition = Position;
 		_direction = new Vector2(0,-1);
-		_fallCooldown = false;
+		_isFalling = false;
+		ZIndex = 0;
+        _fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
 		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
 		_coyoteEnd = true;
@@ -157,8 +160,9 @@ public partial class Player : CharacterBody2D
                 _coyoteTimer.Start(_coyoteWait);
             }
 
-			if (!_isFalling && _coyoteEnd)
-			{
+			//if (!_isFalling && _coyoteEnd)
+            if (!_isFalling)
+            {
                 TriggerFall();
             }
         }
@@ -201,6 +205,29 @@ public partial class Player : CharacterBody2D
 		{
 			// Stop shooting
 			_isShooting = false;
+		}
+		if (_isFalling)
+		{
+
+			if (_direction.Y < 0)
+			{
+				GlobalPosition += new Vector2(1, 1).Normalized() * _fallSpeed * (float)delta;
+			}
+			else
+			{
+				GlobalPosition += (new Vector2(1, 1).Normalized() + _direction).Normalized() * _fallSpeed * (float)delta;
+			}
+
+
+
+			if (_direction.Y < 0) { 
+				ZIndex = -1;
+			}
+
+			if (GlobalPosition.Y < GetViewport().GetCamera2D().GetScreenCenterPosition().Y && _direction.X < 0) {
+				GD.Print(1);
+				ZIndex = -1;
+			}
 		}
 
     }
@@ -313,7 +340,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void updateFacing()
 	{
-		if (_heading.X > 0 && _heading.Y == 0)
+        if (_heading.X > 0 && _heading.Y == 0)
 		{
 			_facing = FACING_DIRECTION.Right;
 			_direction = new Vector2(1, 0);
@@ -334,7 +361,7 @@ public partial class Player : CharacterBody2D
 		else if (_heading.X == 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.Down;
-			_direction = new Vector2(0, 1);
+            _direction = new Vector2(0, 1);
             _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y - _playerSpriteSize.Y / 2);
         }
 		else if (_heading.X > 0 && _heading.Y < 0)
@@ -346,7 +373,7 @@ public partial class Player : CharacterBody2D
 		else if (_heading.X > 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownRight;
-			_direction = new Vector2(1, 1).Normalized();
+            _direction = new Vector2(1, 1).Normalized();
             _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
 		else if (_heading.X < 0 && _heading.Y < 0)
@@ -358,7 +385,7 @@ public partial class Player : CharacterBody2D
 		else if (_heading.X < 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownLeft;
-			_direction = new Vector2(-1, 1).Normalized();
+            _direction = new Vector2(-1, 1).Normalized();
             _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
 	}
@@ -592,7 +619,9 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void RespawnPlayer()
 	{
-		Position = _safePosition;
+		_isFalling = false;
+        ZIndex = 0;
+        Position = _safePosition;
 		_animationPlayer.Stop();
 		_animatedSprite.Scale = new Vector2(1,1);
 		_animatedSprite.Play("default");
