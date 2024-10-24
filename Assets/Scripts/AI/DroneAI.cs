@@ -49,59 +49,59 @@ public partial class DroneAI : BaseEnemyAI
 	{
 		base._Process(delta);
 		DetermineDrongState();
-        DroneLogic(delta);
+		DroneLogic(delta);
 
 		currentShootCooldown -= delta;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-        //base._PhysicsProcess(delta);
+		//base._PhysicsProcess(delta);
 
 		//check collision with player short range attack
-        var collision = MoveAndCollide(new Vector2(0,0));
-        if (collision != null)
-        {
-            // Enemy collided with a slash
-            if (collision.GetCollider() is PlayerSlash)
-            {
-                // take damage from the slash
-                PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-                if (_iFrames <= 0)
-                {
-                    this.TakeDamage(temp.DealDamage());
-                }
-            }
-            else if (collision.GetCollider() is Player)
-            {
-                // Collided with the player
-                HandlePlayerCollision();
-            }
-        }
-    }
+		var collision = MoveAndCollide(new Vector2(0,0));
+		if (collision != null)
+		{
+			// Enemy collided with a slash
+			if (collision.GetCollider() is PlayerSlash)
+			{
+				// take damage from the slash
+				PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+				if (_iFrames <= 0)
+				{
+					this.TakeDamage(temp.DealDamage());
+				}
+			}
+			else if (collision.GetCollider() is Player)
+			{
+				// Collided with the player
+				HandlePlayerCollision();
+			}
+		}
+	}
 
 	public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
 			//new movement logic
 			//Attack();
 			//
-            //Vector2 direction = (_player.Position - Position).Normalized();
-            //Vector2 newDirection = new Vector2(-direction.Y, direction.X);
+			//Vector2 direction = (_player.Position - Position).Normalized();
+			//Vector2 newDirection = new Vector2(-direction.Y, direction.X);
 			//if (_positiveDirection)
 			//{
-            //    Position += newDirection * (float)(_speed * delta);
-            //}
+			//    Position += newDirection * (float)(_speed * delta);
+			//}
 			//else {
-            //    Position += newDirection * (float)(-_speed * delta);
-            //}
+			//    Position += newDirection * (float)(-_speed * delta);
+			//}
 			DroneMovement(delta);
 
 
-        }
+		}
 		else if (_droneState == DroneFSM.TrackPlayer) {
 			DroneMovement(delta);
 
-        }
+		}
 	}
 
 
@@ -111,16 +111,16 @@ public partial class DroneAI : BaseEnemyAI
 	/// <param name="delta"></param>
 	private void DroneMovement(double delta) {
 		//move the drone towards the target position if the current target position is not reached
-        if (!_movementCompleted)
-        {
+		if (!_movementCompleted)
+		{
 			//init the variable needed for movement
 			double currentDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
 			double process = (_totalDistance - currentDistance) / _totalDistance;
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
-            Vector2 direction = (_targetPosition - Position).Normalized();
+			Vector2 direction = (_targetPosition - Position).Normalized();
 
 			//mark current movement as complete when it's close enough to the target position
-            if (currentDistance < 1)
+			if (currentDistance < 1)
 			{
 				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
@@ -132,24 +132,24 @@ public partial class DroneAI : BaseEnemyAI
 				speed += 10;	
 			}
 			// move the drone and handle any collisions
-            var collision = MoveAndCollide(direction * (float)(_speed * delta));
-            if (collision != null)
-            {
+			var collision = MoveAndCollide(direction * (float)(_speed * delta));
+			if (collision != null)
+			{
 
-                if (collision.GetCollider() is PlayerSlash)
-                {
-                    PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-                    this.TakeDamage(temp.DealDamage());
-                }
-            }
-        }
-        else
-        {
-            //create a new target position if the previouse movement is completed
-            _targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
-                (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
-            _totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
-            _movementCompleted = false;
+				if (collision.GetCollider() is PlayerSlash)
+				{
+					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
+					this.TakeDamage(temp.DealDamage());
+				}
+			}
+		}
+		else
+		{
+			//create a new target position if the previouse movement is completed
+			_targetPosition = new Vector2(_player.Position.X + (float)new BetterMath().GetRandomWithNegative(targetMaxOffset.X),
+				(float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.Position.Y);
+			_totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, Position);
+			_movementCompleted = false;
 
 			// Check if the drone is colliding
 			var collision = MoveAndCollide(Vector2.Zero, true);
@@ -161,8 +161,8 @@ public partial class DroneAI : BaseEnemyAI
 					this.TakeDamage(temp.DealDamage());
 				}
 			}
-        }
-    }
+		}
+	}
 
 	/// <summary>
 	/// determine which state the drone will currently be
@@ -171,27 +171,27 @@ public partial class DroneAI : BaseEnemyAI
 	{
 		DetectPlayer();
 		if (_droneState != DroneFSM.AttackCharging) {
-            if (IsPlayerTooClose())
-            {
-                _droneState = DroneFSM.Attacking;
-            }
-            else if (_isPlayerInRange && _shouldMove)
-            {
-                _droneState = DroneFSM.TrackPlayer;
-            }
-            else
-            {
-                _droneState = DroneFSM.Stop;
-                _movementCompleted = true;
-            }
-        }
+			if (IsPlayerTooClose())
+			{
+				_droneState = DroneFSM.Attacking;
+			}
+			else if (_isPlayerInRange && _shouldMove)
+			{
+				_droneState = DroneFSM.TrackPlayer;
+			}
+			else
+			{
+				_droneState = DroneFSM.Stop;
+				_movementCompleted = true;
+			}
+		}
 	}
 
-    /// <summary>
-    /// return whether or not drone is too close to the player
-    /// </summary>
-    /// <returns></returns>
-    private bool IsPlayerTooClose() {
+	/// <summary>
+	/// return whether or not drone is too close to the player
+	/// </summary>
+	/// <returns></returns>
+	private bool IsPlayerTooClose() {
 		if (_player == null) {
 			return false;
 		}
@@ -215,11 +215,11 @@ public partial class DroneAI : BaseEnemyAI
 	private async void Attack() {
 		//show the charging attack particle effect before shoot the bullet
 		_particles.Show();
-        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-        _particles.Hide();
+		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+		_particles.Hide();
 
-        //calculate angle
-        Vector2 bulletDirection = _player.Position - Position;
+		//calculate angle
+		Vector2 bulletDirection = _player.Position - Position;
 		float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
 		shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
 
@@ -234,8 +234,8 @@ public partial class DroneAI : BaseEnemyAI
 		_positiveDirection = !_positiveDirection;
 
 		//stop for a period of time before next state
-        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-        _droneState = DroneFSM.Stop;
+		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+		_droneState = DroneFSM.Stop;
 
 	}
 

@@ -1,6 +1,8 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
@@ -9,8 +11,10 @@ public partial class Player : CharacterBody2D
 {
 	// Fields
 	private Vector2 _heading;
-	private float _maxSpeed = 50.0f;
-	private float _speed = 130.0f;
+	private float _maxSpeed = 150.0f;
+	private float _speed = 70.0f;
+	private float _friction = 450.0f;
+
 	private AnimatedSprite2D _animatedSprite;
 	private FACING_DIRECTION _facing;
 
@@ -33,7 +37,7 @@ public partial class Player : CharacterBody2D
 	// Dash Stuff
 	private Dash _dash;
 	private float _dashSpeed = 550.0f;
-	private const float _DashDuration = 0.2f;
+	private const float _DashDuration = 0.15f;
 
 	// Ranged Stuff
 	private int _ammo;
@@ -45,15 +49,29 @@ public partial class Player : CharacterBody2D
 	private bool _isShooting;
 
 	//falling off edges
-    private bool _isFalling = false;
-    private Vector2 _safePosition; 
+	private bool _isFalling = false;
+	private Vector2 _safePosition; 
 	private Timer _safePositionTimer;
 	private Vector2 _direction;
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
 
+	// Coyote time stuff
+	private Timer _coyoteTimer;
+	private float _coyoteWait = 0.2f; // Wait time added to Coyote Timer
+	private bool _coyoteEnd;
+
 	// Funky movement thing
-	private bool _moveNSlide = true;
+	private bool _moveNSlide = false;
+
+    //Foot step effect
+    [Export] public PackedScene footstepParticle;
+    [Export] public float stepDistance = 50.0f;
+    private Vector2 _lastStepPosition;
+	private Vector2 _footStepEffectSpawnPosition;
+	private Vector2 _playerSpriteSize;
+
+	[Export] PackedScene test;
 
     public int GetPlayerHealth() {
 		return _health;
@@ -79,8 +97,8 @@ public partial class Player : CharacterBody2D
 		
 
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        _dash = GetNode<Dash>("Dash");
+		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		_dash = GetNode<Dash>("Dash");
 		_marker = GetNode<Marker2D>("Marker2D");
 
 		// Ranged Stuff
@@ -89,18 +107,24 @@ public partial class Player : CharacterBody2D
 		_rangedTimer = GetNode<Timer>("ShootTimer");
 
 
-        //init the variables needed for falling off edges mechanic
+		//init the variables needed for falling off edges mechanic
 
-        // Connect the frame_changed signal to track animation progress
+		// Connect the frame_changed signal to track animation progress
 		_safePositionTimer = GetNode<Timer>("SafePositionTimer");
 		_safePositionTimer.Timeout += UpdateSafePosition;
-        _safePosition = Position;
+		_safePosition = Position;
 		_direction = new Vector2(0,-1);
 		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
+		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
+		_coyoteEnd = true;
+
+        //foot step
+        _lastStepPosition = GlobalPosition;
+		_playerSpriteSize = _animatedSprite.SpriteFrames.GetFrameTexture("default", 0).GetSize();
     }
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (GameManager.Instance.gamePaused)
 			return;
@@ -108,29 +132,44 @@ public partial class Player : CharacterBody2D
 		// Do stuff as long as the player isn't dead and is not falling
 		if (!_isFalling && !_dead)
 		{
-            if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
+			if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
+			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
+			{
+				// ends the dash early if the spacebar is released
+				_dash.EndDash();
+			}
 			GetInput();
-			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			if (_moveNSlide)
-			{
-				MoveAndSlide();
-			}
-			else
-			{
-				MoveAndCollide(Velocity * (float)delta);
-			}
+            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+            //var collision = MoveAndCollide(Velocity * (float)delta);
+            MoveAndCollide(Velocity * (float)delta);
             walkAnimation();
 
 		}
+		// Fall stuff
+		if (!IsOnSafePlatform())
+		{
+            if (!_coyoteEnd && _coyoteTimer.WaitTime == 0)
+            {
+                _coyoteTimer.Start(_coyoteWait);
+            }
 
-        if (!IsOnSafePlatform() && !_isFalling)
-        {
-			TriggerFall();
+			if (!_isFalling && _coyoteEnd)
+			{
+                TriggerFall();
+            }
         }
+
+		//spawn foot step effect when player traveraled long enough
+        if (GlobalPosition.DistanceTo(_lastStepPosition) >= stepDistance)
+        {
+            SpawnFootstep();
+            _lastStepPosition = GlobalPosition;
+        }
+
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -147,8 +186,8 @@ public partial class Player : CharacterBody2D
 		
 		if(_damageFrames > 0.0f)
 		{
-            // reduce damage frames
-            _damageFrames -= (float)delta;
+			// reduce damage frames
+			_damageFrames -= (float)delta;
 			if(_damageFrames < 0.0f) { _damageFrames = 0.0f; }
 		}
 		// Attack timer stuff
@@ -163,59 +202,47 @@ public partial class Player : CharacterBody2D
 			// Stop shooting
 			_isShooting = false;
 		}
-	}
+
+    }
 	/// <summary>
 	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
 	/// </summary>
-	public void GetInput()
+	public void GetInput(float delta)
 	{
 
-        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		/*
-        if ((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
-		{
-            _heading = _cartesianToIsometric(_heading, true);
-            _heading.X = _heading.X + 0.5f * 64.0f;
-            _heading.Y = _heading.Y + 0.5f * 32.0f;
-        }
-		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
-		{
-			_heading = _cartesianToIsometric(_heading, false);
-
-            _heading.X = _heading.X + -0.5f * 64.0f;
-            _heading.Y = _heading.Y + -0.5f * 32.0f;
-        }*/
+		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
 			_heading = _cartesianToIsometric(_heading, true);
-            _heading.X = _heading.X + 0.5f * 64.0f;
-            _heading.Y = _heading.Y + 0.5f * 32.0f;
-        }
+			_heading.X = _heading.X + 0.5f * 64.0f;
+			_heading.Y = _heading.Y + 0.5f * 32.0f;
+		}
 		else if(_heading.X < 0 && _heading.Y < 0)
 		{
 			_heading = _cartesianToIsometric(_heading, true);
-            _heading.X = _heading.X + -0.5f * 64.0f;
-            _heading.Y = _heading.Y + -0.5f * 32.0f;
-        }
+			_heading.X = _heading.X + -0.5f * 64.0f;
+			_heading.Y = _heading.Y + -0.5f * 32.0f;
+		}
 		else if (_heading.X > 0 && _heading.Y < 0)
 		{
 			_heading = _cartesianToIsometric(_heading, false);
-            _heading.X = _heading.X + 0.5f * 64.0f;
-            _heading.Y = _heading.Y + -0.5f * 32.0f;
-        }
+			_heading.X = _heading.X + 0.5f * 64.0f;
+			_heading.Y = _heading.Y + -0.5f * 32.0f;
+		}
 		else if (_heading.X < 0 && _heading.Y > 0)
 		{
 			_heading = _cartesianToIsometric(_heading, false);
-            _heading.X = _heading.X + -0.5f * 64.0f;
-            _heading.Y = _heading.Y + 0.5f * 32.0f;
-        }
-        _heading = _heading.Normalized();
+			_heading.X = _heading.X + -0.5f * 64.0f;
+			_heading.Y = _heading.Y + 0.5f * 32.0f;
+		}
+		_heading = _heading.Normalized();
 
-        // Set last move to what it was in the previous frame
-        _lastMoved = _hasMoved;
+		// Set last move to what it was in the previous frame
+		_lastMoved = _hasMoved;
 
 		// Update _hasMoved
 		if(_heading == Vector2.Zero)
@@ -227,78 +254,114 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+		if (_dash.IsDashing) {
+			if (_heading.IsZeroApprox())
+			{
+				_heading = Vector2.Left;
+			}
+			Velocity = _heading * _dashSpeed; 
+		}
 		else { Velocity = _heading * _speed; }
+
+		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
+		{
+			if(Velocity.Length() > (_friction * delta))
+			{
+				Velocity -= Velocity.Normalized() * (_friction * delta);
+			}
+			else
+			{
+				Velocity = Vector2.Zero;
+			}
+		}
+		else
+		{
+            if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+            else { 
+				Velocity += _heading * _speed;
+				Velocity = Velocity.LimitLength(_maxSpeed);
+			}
+        }
+
+
 		
 		// Attacking Stuff
 		// Check if we're attacking with melee
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
-        {
+		{
 			_meleeAttack();
-        }
+		}
 
 		// Check if we are attacking with ranged
-        if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
-        {
-            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-            // Create a Ranged Attack
-            _marker.LookAt(mousePOSinPlayer);
-            if (_ammo > 0)
-            {
-                _rangedTimer.WaitTime = 0.25f;
-                _isShooting = false;
-                CreateProjectile();
-            }
+		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
+		{
+			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+			// Create a Ranged Attack
+			_marker.LookAt(mousePOSinPlayer);
+			if (_ammo > 0)
+			{
+				_rangedTimer.WaitTime = 0.25f;
+				_isShooting = false;
+				CreateProjectile();
+			}
 
-        }
+		}
 
-    }
+	}
 	/// <summary>
 	/// Updates the FACING_DIRECTION Enum which is used for animation stuff
 	/// </summary>
 	private void updateFacing()
 	{
-        if (_heading.X > 0 && _heading.Y == 0)
-        {
-            _facing = FACING_DIRECTION.Right;
-            _direction = new Vector2(1, 0);
+		if (_heading.X > 0 && _heading.Y == 0)
+		{
+			_facing = FACING_DIRECTION.Right;
+			_direction = new Vector2(1, 0);
+            _footStepEffectSpawnPosition = new Vector2(Position.X - _playerSpriteSize.X / 2, Position.Y + _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X < 0 && _heading.Y == 0)
-        {
-            _facing = FACING_DIRECTION.Left;
-            _direction = new Vector2(-1, 0);
+		else if (_heading.X < 0 && _heading.Y == 0)
+		{
+			_facing = FACING_DIRECTION.Left;
+			_direction = new Vector2(-1, 0);
+			_footStepEffectSpawnPosition = new Vector2(Position.X + _playerSpriteSize.X / 2,Position.Y + _playerSpriteSize.Y/2);
         }
-        else if (_heading.X == 0 && _heading.Y < 0)
-        {
-            _facing = FACING_DIRECTION.Up;
-            _direction = new Vector2(0, -1);
+		else if (_heading.X == 0 && _heading.Y < 0)
+		{
+			_facing = FACING_DIRECTION.Up;
+			_direction = new Vector2(0, -1);
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X == 0 && _heading.Y > 0)
-        {
-            _facing = FACING_DIRECTION.Down;
-            _direction = new Vector2(0, 1);
+		else if (_heading.X == 0 && _heading.Y > 0)
+		{
+			_facing = FACING_DIRECTION.Down;
+			_direction = new Vector2(0, 1);
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y - _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X > 0 && _heading.Y < 0)
-        {
-            _facing = FACING_DIRECTION.UpRight;
-            _direction = new Vector2(1, -1).Normalized();
+		else if (_heading.X > 0 && _heading.Y < 0)
+		{
+			_facing = FACING_DIRECTION.UpRight;
+			_direction = new Vector2(1, -1).Normalized();
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X > 0 && _heading.Y > 0)
-        {
-            _facing = FACING_DIRECTION.DownRight;
-            _direction = new Vector2(1, 1).Normalized();
+		else if (_heading.X > 0 && _heading.Y > 0)
+		{
+			_facing = FACING_DIRECTION.DownRight;
+			_direction = new Vector2(1, 1).Normalized();
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X < 0 && _heading.Y < 0)
-        {
-            _facing = FACING_DIRECTION.UpLeft;
-            _direction = new Vector2(-1, -1).Normalized();
+		else if (_heading.X < 0 && _heading.Y < 0)
+		{
+			_facing = FACING_DIRECTION.UpLeft;
+			_direction = new Vector2(-1, -1).Normalized();
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
-        else if (_heading.X < 0 && _heading.Y > 0)
-        {
-            _facing = FACING_DIRECTION.DownLeft;
-            _direction = new Vector2(-1, 1).Normalized();
+		else if (_heading.X < 0 && _heading.Y > 0)
+		{
+			_facing = FACING_DIRECTION.DownLeft;
+			_direction = new Vector2(-1, 1).Normalized();
+            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
         }
-    }
+	}
 	/// <summary>
 	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
 	/// </summary>
@@ -387,20 +450,20 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void _meleeAttack()
 	{
-        _isAttacking = true;
+		_isAttacking = true;
 
-        // Rotate Marker to follow the mouse
-        Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-        _marker.LookAt(mousePOSinPlayer);
+		// Rotate Marker to follow the mouse
+		Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+		_marker.LookAt(mousePOSinPlayer);
 		// Start attackTimer
-        _attackTimer.Start(0.25f);
+		_attackTimer.Start(0.25f);
 
 		// Instantiate a player slash
-        PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
-        slash.Position = this.Position * this.Transform;
-        slash.Rotation = _marker.Rotation;
-        slash.AttackTime = 0.25f;
-        slash.Damage = 50;
+		PlayerSlash slash = (PlayerSlash)_slashScene.Instantiate();
+		slash.Position = this.Position * this.Transform;
+		slash.Rotation = _marker.Rotation;
+		slash.AttackTime = 0.25f;
+		slash.Damage = 50;
 		slash.Player = this;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
@@ -408,11 +471,11 @@ public partial class Player : CharacterBody2D
 			// End of combo should deal more knockback then normal
 			slash.Modulate = Colors.Red;
 		}
-        AddChild(slash);
+		AddChild(slash);
 
 		// increase attack combo
 		if(_attackCount < 3) { _attackCount++;}
-    }
+	}
 	/* Old way we handled attacks, kept for code references
 	public void on_area_2d_area_entered(Area2D collision)
 	{
@@ -493,65 +556,70 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-    /// <summary>
+	/// <summary>
 	/// call this function when the player leaves the platform
 	/// </summary>
-    private void TriggerFall()
-    {
-        if (!_isFalling && _fallCooldown && !_dash.IsDashing)
-        {
-            _isFalling = true;
-            Velocity = Vector2.Zero;
+	private void TriggerFall()
+	{
+		if (!_isFalling && _fallCooldown && !_dash.IsDashing)
+		{
+			_isFalling = true;
+			Velocity = Vector2.Zero;
 
-            //play the fall animation
-            _animatedSprite.Play("fall");
-            _animationPlayer.Play("Fall");
+			//play the fall animation
+			_animatedSprite.Play("fall");
+			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
-        }
-    }
+			_coyoteEnd = false;
+		}
+	}
 
-    /// <summary>
-    /// store the player's position as safe if they are on a platform
-    /// </summary>
-    public void UpdateSafePosition()
-    {
+	/// <summary>
+	/// store the player's position as safe if they are on a platform
+	/// </summary>
+	public void UpdateSafePosition()
+	{
 		if (IsOnSafePlatform()) {
-            _safePosition = Position;
-            _fallCooldown = true;
-            _isFalling = false;
-        }
-    }
+			_safePosition = Position;
+			_fallCooldown = true;
+			_isFalling = false;
+		}
+	}
 
-    /// <summary>
+	/// <summary>
 	/// Respawn player at the last safe position
 	/// </summary>
-    private void RespawnPlayer()
-    {
-        Position = _safePosition;
-        _animationPlayer.Stop();
+	private void RespawnPlayer()
+	{
+		Position = _safePosition;
+		_animationPlayer.Stop();
 		_animatedSprite.Scale = new Vector2(1,1);
-        _animatedSprite.Play("default");
-    }
+		_animatedSprite.Play("default");
+		//takeDamage(1);
+		//HUDManager.Instance.DecreasePlayerHp();
+	}
 
-    /// <summary>
+	/// <summary>
 	/// Check if the player is on a valid platform
 	/// </summary>
 	/// <returns></returns>
-    private bool IsOnSafePlatform()
-    {
-        return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
-    }
+	private bool IsOnSafePlatform()
+	{
+		return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
+	}
 
 	/// <summary>
 	/// detect if the fall animation is done
 	/// </summary>
-    private void ResetAnimation(StringName animName)
-    {
-        if(animName == "Fall")
-            RespawnPlayer();
-        
-    }
+	private void ResetAnimation(StringName animName)
+	{
+		if(animName == "Fall")
+			RespawnPlayer();
+		if (animName == "Flash") {
+            _animationPlayer.Stop();
+		}
+	}
 
 
 	/// <summary>
@@ -565,13 +633,66 @@ public partial class Player : CharacterBody2D
 		Vector2 isometric = new Vector2();
 		isometric.X = cartesian.X - cartesian.Y;
 		isometric.Y = (cartesian.X + cartesian.Y) / 2.0f;
-        isometric = isometric.Rotated(Mathf.Pi * 5.0f / 3.0f);
-        if (!same)
+		isometric = isometric.Rotated(Mathf.Pi * 5.0f / 3.0f);
+		if (!same)
 		{
 			float temp = isometric.X * -1.0f;
 			isometric.X = isometric.Y * -1.0f;
 			isometric.Y = temp;
 		}
-        return isometric;
+		return isometric;
 	}
+	/// <summary>
+	/// Called when the coyote Timer goes off
+	/// </summary>
+	private void _endCoyoteTime()
+	{
+		_coyoteEnd = true;
+	}
+
+	/// <summary>
+	/// spawn foot step effect
+	/// </summary>
+    private void SpawnFootstep()
+    {
+		//multiply by 0.8 to make the color a little darker
+        Color pixelColor = GetScreenColorUnderPlayer() *0.8f;
+
+        //spawn the effect
+        var particleInstance = (CpuParticles2D)footstepParticle.Instantiate();
+        particleInstance.ZIndex = 1;
+        particleInstance.GlobalPosition = _footStepEffectSpawnPosition;
+
+
+
+        particleInstance.Color = pixelColor;
+        particleInstance.Emitting = true;
+		particleInstance.Gravity = -_direction * 100;
+        GetTree().CurrentScene.AddChild(particleInstance);
+
+        //delete effect after it's done
+        particleInstance.OneShot = true;
+        GetTree().CreateTimer((float)particleInstance.Lifetime).Timeout += () =>
+        {
+            particleInstance.QueueFree();
+        };
+    }
+
+
+
+    private Color GetScreenColorUnderPlayer()
+    {
+        Viewport viewport = GetViewport();
+        Image image = viewport.GetTexture().GetImage();
+
+        Camera2D camera = viewport.GetCamera2D();
+
+		Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
+
+        int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
+        int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
+
+        return image.GetPixel(x, y);
+    }
+
 }
