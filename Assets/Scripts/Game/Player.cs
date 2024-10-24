@@ -254,33 +254,30 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) {
+
+        if (_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
+        {
+            if (Velocity.Length() > (_friction * delta))
+            {
+                Velocity -= Velocity.Normalized() * (_friction * delta);
+            }
+            else
+            {
+                Velocity = Vector2.Zero;
+            }
+        }
+
+        if (_dash.IsDashing) {
 			if (_heading.IsZeroApprox())
 			{
 				_heading = Vector2.Left;
 			}
 			Velocity = _heading * _dashSpeed; 
 		}
-		else { Velocity = _heading * _speed; }
-
-		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
-		{
-			if(Velocity.Length() > (_friction * delta))
-			{
-				Velocity -= Velocity.Normalized() * (_friction * delta);
-			}
-			else
-			{
-				Velocity = Vector2.Zero;
-			}
-		}
-		else
-		{
-            if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
-            else { 
-				Velocity += _heading * _speed;
-				Velocity = Velocity.LimitLength(_maxSpeed);
-			}
+        else
+        {
+            Velocity += _heading * _speed;
+            Velocity = Velocity.LimitLength(_maxSpeed);
         }
 
 
