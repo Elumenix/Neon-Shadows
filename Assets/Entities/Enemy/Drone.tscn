@@ -100,6 +100,7 @@ libraries = {
 }
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
 visible = false

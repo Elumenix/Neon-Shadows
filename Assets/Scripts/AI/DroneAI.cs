@@ -104,12 +104,22 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
+    /// <summary>
+    /// update the target position of the enemy pathfinding
+    /// </summary>
+    private void UpdateNavigationTarget()
+    {
+        if (_player != null)
+        {
+            _navigationAgent.TargetPosition = _targetPosition;
+        }
+    }
 
-	/// <summary>
-	/// Move the drone towards the target position near the player
-	/// </summary>
-	/// <param name="delta"></param>
-	private void DroneMovement(double delta) {
+    /// <summary>
+    /// Move the drone towards the target position near the player
+    /// </summary>
+    /// <param name="delta"></param>
+    private void DroneMovement(double delta) {
 		//move the drone towards the target position if the current target position is not reached
 		if (!_movementCompleted)
 		{

@@ -10,7 +10,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	[ExportCategory("Movement")]
 	[Export] protected float _speed;
-	[Export] private NavigationAgent2D _navigationAgent;
+	[Export] protected NavigationAgent2D _navigationAgent;
 	protected bool _usePathFinding = true;
 	protected bool _shouldMove = true;
 
