@@ -11,7 +11,7 @@ public partial class Projectile : RigidBody2D
 	public override void _Ready()
 	{
 		_damage = 50;
-		_speed = 165.0f;
+		_speed = 175.0f;
 		Heading = Vector2.Zero; 
 	}
 

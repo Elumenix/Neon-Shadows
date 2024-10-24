@@ -12,7 +12,7 @@ public partial class Player : CharacterBody2D
 	// Fields
 	private Vector2 _heading;
 	private float _maxSpeed = 150.0f;
-	private float _speed = 70.0f;
+	private float _speed = 60.0f;
 	private float _friction = 450.0f;
 
 	private AnimatedSprite2D _animatedSprite;
@@ -572,7 +572,7 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
-			_coyoteEnd = false;
+			//_coyoteEnd = false;
 		}
 	}
 
