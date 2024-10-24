@@ -146,10 +146,13 @@ public partial class Player : CharacterBody2D
 				_dash.EndDash();
 			}
 			GetInput((float)delta);
-			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			//var collision = MoveAndCollide(Velocity * (float)delta);
-			MoveAndCollide(Velocity * (float)delta);
-			walkAnimation();
+            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+            //var collision = MoveAndCollide(Velocity * (float)delta);
+            MoveAndCollide(Velocity * (float)delta);
+			if (!_isAttacking)
+			{
+                walkAnimation();
+            }
 
 		}
 		// Fall stuff
@@ -296,11 +299,7 @@ public partial class Player : CharacterBody2D
 		if (_dash.IsDashing) {
 			if (_heading.IsZeroApprox() && !Velocity.Normalized().IsZeroApprox())
 			{
-				_heading = Velocity.Normalized();
-			}
-			else if(_heading.IsZeroApprox())
-			{
-				_heading = Vector2.Left;
+				_heading = _directionFromFacing();
 			}
 			Velocity = _heading * _dashSpeed; 
 		}
@@ -317,6 +316,7 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
 		{
 			_meleeAttack();
+			_attackAnimation();
 		}
 
 		// Check if we are attacking with ranged
@@ -389,6 +389,60 @@ public partial class Player : CharacterBody2D
 			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
 		}
 	}
+	
+	/// <summary>
+	/// Returns a normalized vector based on the direction the player is facing
+	/// </summary>
+	/// <returns>normalized vector in the direction the player is facing</returns>
+	private Vector2 _directionFromFacing()
+	{
+		Vector2 direction = Vector2.Zero;
+		switch(_facing)
+		{
+			case (FACING_DIRECTION.Up):
+			{
+				direction = Vector2.Up;
+				break;
+			}
+			case (FACING_DIRECTION.UpRight):
+				{
+					direction =new Vector2(1,-1).Normalized();
+					break;
+				}
+			case(FACING_DIRECTION.UpLeft):
+				{
+					direction = new Vector2(-1,-1).Normalized();
+					break;
+				}
+			case (FACING_DIRECTION.Down):
+				{
+					direction = Vector2.Down;
+					break;
+				}
+			case (FACING_DIRECTION.DownRight):
+				{
+					direction = new Vector2(1,1).Normalized();
+					break;
+				}
+			case (FACING_DIRECTION.DownLeft):
+				{
+					direction = new Vector2(-1,1).Normalized();
+					break;
+				}
+			case(FACING_DIRECTION.Right):
+				{
+					direction = Vector2.Right;
+					break;
+				}
+			case (FACING_DIRECTION.Left):
+				{
+					direction = Vector2.Right;
+					break;
+				}
+		}
+		return direction;
+	}
+
 	/// <summary>
 	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
 	/// </summary>
@@ -470,6 +524,61 @@ public partial class Player : CharacterBody2D
 		{
 			_animatedSprite.Stop();
 			_animatedSprite.Frame = 1;
+		}
+	}
+	/// <summary>
+	/// Changes the attack animation after updateFacing
+	/// </summary>
+	private void _attackAnimation()
+	{
+		updateFacing();
+		switch (_facing)
+		{
+			case (FACING_DIRECTION.Up):
+				{
+					_animatedSprite.Play("attack_up");
+					break;
+				}
+			case (FACING_DIRECTION.Left):
+				{
+					_animatedSprite.Play("attack_left");
+					break;
+				}
+			case (FACING_DIRECTION.Right):
+				{
+					_animatedSprite.Play("attack_right");
+					break;
+				}
+			case (FACING_DIRECTION.Down):
+				{
+					_animatedSprite.Play("attack_down");
+					break;
+				}
+			case (FACING_DIRECTION.UpLeft):
+				{
+					_animatedSprite.Play("attack_upleft");
+					break;
+				}
+			case (FACING_DIRECTION.DownLeft):
+				{
+					_animatedSprite.Play("attack_downleft");
+					break;
+				}
+			case (FACING_DIRECTION.UpRight):
+				{
+					_animatedSprite.Play("attack_upright");
+					break;
+				}
+			case (FACING_DIRECTION.DownRight):
+				{
+					_animatedSprite.Play("attack_downright");
+					break;
+				}
+			default:
+				{
+					_animatedSprite.Play("default");
+					break;
+				}
 		}
 	}
 	/// <summary>
