@@ -142,7 +142,7 @@ public partial class Player : CharacterBody2D
 				// ends the dash early if the spacebar is released
 				_dash.EndDash();
 			}
-			GetInput();
+			GetInput((float)delta);
             // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
             //var collision = MoveAndCollide(Velocity * (float)delta);
             MoveAndCollide(Velocity * (float)delta);
