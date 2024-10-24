@@ -11,8 +11,10 @@ public partial class Player : CharacterBody2D
 {
 	// Fields
 	private Vector2 _heading;
-	private float _maxSpeed = 50.0f;
-	private float _speed = 130.0f;
+	private float _maxSpeed = 150.0f;
+	private float _speed = 70.0f;
+	private float _friction = 450.0f;
+
 	private AnimatedSprite2D _animatedSprite;
 	private FACING_DIRECTION _facing;
 
@@ -35,7 +37,7 @@ public partial class Player : CharacterBody2D
 	// Dash Stuff
 	private Dash _dash;
 	private float _dashSpeed = 550.0f;
-	private const float _DashDuration = 0.2f;
+	private const float _DashDuration = 0.15f;
 
 	// Ranged Stuff
 	private int _ammo;
@@ -53,6 +55,11 @@ public partial class Player : CharacterBody2D
 	private Vector2 _direction;
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
+
+	// Coyote time stuff
+	private Timer _coyoteTimer;
+	private float _coyoteWait = 0.2f; // Wait time added to Coyote Timer
+	private bool _coyoteEnd;
 
 	// Funky movement thing
 	private bool _moveNSlide = false;
@@ -109,6 +116,8 @@ public partial class Player : CharacterBody2D
 		_direction = new Vector2(0,-1);
 		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
+		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
+		_coyoteEnd = true;
 
         //foot step
         _lastStepPosition = GlobalPosition;
@@ -128,25 +137,31 @@ public partial class Player : CharacterBody2D
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_heading, _DashDuration);
 			}
+			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
+			{
+				// ends the dash early if the spacebar is released
+				_dash.EndDash();
+			}
 			GetInput();
-			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-			if (_moveNSlide)
-			{
-				MoveAndSlide();
-			}
-			else
-			{
-				MoveAndCollide(Velocity * (float)delta);
-			}
-			walkAnimation();
+            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+            //var collision = MoveAndCollide(Velocity * (float)delta);
+            MoveAndCollide(Velocity * (float)delta);
+            walkAnimation();
 
 		}
-
-		//trigger fall
-		if (!IsOnSafePlatform() && !_isFalling)
+		// Fall stuff
+		if (!IsOnSafePlatform())
 		{
-			TriggerFall();
-		}
+            if (!_coyoteEnd && _coyoteTimer.WaitTime == 0)
+            {
+                _coyoteTimer.Start(_coyoteWait);
+            }
+
+			if (!_isFalling && _coyoteEnd)
+			{
+                TriggerFall();
+            }
+        }
 
 		//spawn foot step effect when player traveraled long enough
         if (GlobalPosition.DistanceTo(_lastStepPosition) >= stepDistance)
@@ -192,27 +207,14 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
 	/// </summary>
-	public void GetInput()
+	public void GetInput(float delta)
 	{
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
 		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		/*
-		if ((_heading.X > 0 &&  _heading.Y > 0) || (_heading.X < 0 && _heading.Y < 0))
-		{
-			_heading = _cartesianToIsometric(_heading, true);
-			_heading.X = _heading.X + 0.5f * 64.0f;
-			_heading.Y = _heading.Y + 0.5f * 32.0f;
-		}
-		else if((_heading.X > 0 && _heading.Y < 0) || (_heading.X < 0 && _heading.Y > 0))
-		{
-			_heading = _cartesianToIsometric(_heading, false);
-
-			_heading.X = _heading.X + -0.5f * 64.0f;
-			_heading.Y = _heading.Y + -0.5f * 32.0f;
-		}*/
+		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
 			_heading = _cartesianToIsometric(_heading, true);
@@ -252,8 +254,36 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+		if (_dash.IsDashing) {
+			if (_heading.IsZeroApprox())
+			{
+				_heading = Vector2.Left;
+			}
+			Velocity = _heading * _dashSpeed; 
+		}
 		else { Velocity = _heading * _speed; }
+
+		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
+		{
+			if(Velocity.Length() > (_friction * delta))
+			{
+				Velocity -= Velocity.Normalized() * (_friction * delta);
+			}
+			else
+			{
+				Velocity = Vector2.Zero;
+			}
+		}
+		else
+		{
+            if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
+            else { 
+				Velocity += _heading * _speed;
+				Velocity = Velocity.LimitLength(_maxSpeed);
+			}
+        }
+
+
 		
 		// Attacking Stuff
 		// Check if we're attacking with melee
@@ -541,6 +571,7 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
+			_coyoteEnd = false;
 		}
 	}
 
@@ -610,6 +641,13 @@ public partial class Player : CharacterBody2D
 			isometric.Y = temp;
 		}
 		return isometric;
+	}
+	/// <summary>
+	/// Called when the coyote Timer goes off
+	/// </summary>
+	private void _endCoyoteTime()
+	{
+		_coyoteEnd = true;
 	}
 
 	/// <summary>

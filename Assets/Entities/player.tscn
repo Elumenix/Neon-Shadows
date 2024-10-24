@@ -388,6 +388,7 @@ size = Vector2(5, 3)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(0, -2)
+collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_3yn2a")
 footstepParticle = ExtResource("2_p3t5q")
@@ -433,3 +434,8 @@ autostart = true
 [node name="CPUParticles2D" parent="." instance=ExtResource("6_nkt72")]
 position = Vector2(-279, -11)
 amount = 25
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_endCoyoteTime"]
