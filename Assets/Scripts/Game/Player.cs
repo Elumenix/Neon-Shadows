@@ -12,7 +12,7 @@ public partial class Player : CharacterBody2D
 	// Fields
 	private Vector2 _heading;
 	private float _maxSpeed = 150.0f;
-	private float _speed = 70.0f;
+	private float _speed = 60.0f;
 	private float _friction = 450.0f;
 
 	private AnimatedSprite2D _animatedSprite;
@@ -65,16 +65,16 @@ public partial class Player : CharacterBody2D
 	// Funky movement thing
 	private bool _moveNSlide = false;
 
-    //Foot step effect
-    [Export] public PackedScene footstepParticle;
-    [Export] public float stepDistance = 50.0f;
-    private Vector2 _lastStepPosition;
+	//Foot step effect
+	[Export] public PackedScene footstepParticle;
+	[Export] public float stepDistance = 50.0f;
+	private Vector2 _lastStepPosition;
 	private Vector2 _footStepEffectSpawnPosition;
 	private Vector2 _playerSpriteSize;
 
 	[Export] PackedScene test;
 
-    public int GetPlayerHealth() {
+	public int GetPlayerHealth() {
 		return _health;
 	}
 	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
@@ -122,10 +122,10 @@ public partial class Player : CharacterBody2D
 		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
 		_coyoteEnd = true;
 
-        //foot step
-        _lastStepPosition = GlobalPosition;
+		//foot step
+		_lastStepPosition = GlobalPosition;
 		_playerSpriteSize = _animatedSprite.SpriteFrames.GetFrameTexture("default", 0).GetSize();
-    }
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -146,35 +146,34 @@ public partial class Player : CharacterBody2D
 				_dash.EndDash();
 			}
 			GetInput((float)delta);
-            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-            //var collision = MoveAndCollide(Velocity * (float)delta);
-            MoveAndCollide(Velocity * (float)delta);
-            walkAnimation();
+			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+			//var collision = MoveAndCollide(Velocity * (float)delta);
+			MoveAndCollide(Velocity * (float)delta);
+			walkAnimation();
 
 		}
 		// Fall stuff
 		if (!IsOnSafePlatform())
 		{
-            if (!_coyoteEnd && _coyoteTimer.WaitTime == 0)
-            {
-                _coyoteTimer.Start(_coyoteWait);
-            }
+			if (!_coyoteEnd && _coyoteTimer.WaitTime == 0)
+			{
+				_coyoteTimer.Start(_coyoteWait);
+			}
 
-			//if (!_isFalling && _coyoteEnd)
-            if (!_isFalling)
-            {
-                TriggerFall();
-            }
-        }
+			if (!_isFalling && _coyoteEnd)
+			{
+				TriggerFall();
+			}
+		}
 
 		//spawn foot step effect when player traveraled long enough
-        if (GlobalPosition.DistanceTo(_lastStepPosition) >= stepDistance)
-        {
-            SpawnFootstep();
-            _lastStepPosition = GlobalPosition;
-        }
+		if (GlobalPosition.DistanceTo(_lastStepPosition) >= stepDistance)
+		{
+			SpawnFootstep();
+			_lastStepPosition = GlobalPosition;
+		}
 
-    }
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -230,7 +229,7 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-    }
+	}
 	/// <summary>
 	/// Checks for player relevant input actions and handles them. (Called once per Physics Frame)
 	/// </summary>
@@ -272,7 +271,7 @@ public partial class Player : CharacterBody2D
 		_lastMoved = _hasMoved;
 
 		// Update _hasMoved
-		if(_heading == Vector2.Zero)
+		if(_heading.IsZeroApprox())
 		{
 			_hasMoved = false;
 			//GD.Print("Hasn't moved");
@@ -281,18 +280,10 @@ public partial class Player : CharacterBody2D
 		{
 			_hasMoved = true;
 		}
-		if (_dash.IsDashing) {
-			if (_heading.IsZeroApprox())
-			{
-				_heading = Vector2.Left;
-			}
-			Velocity = _heading * _dashSpeed; 
-		}
-		else { Velocity = _heading * _speed; }
 
-		if(_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
+		if (_heading.IsEqualApprox(Vector2.Zero) && !_dash.IsDashing)
 		{
-			if(Velocity.Length() > (_friction * delta))
+			if (Velocity.Length() > (_friction * delta))
 			{
 				Velocity -= Velocity.Normalized() * (_friction * delta);
 			}
@@ -301,14 +292,23 @@ public partial class Player : CharacterBody2D
 				Velocity = Vector2.Zero;
 			}
 		}
+
+		if (_dash.IsDashing) {
+			if (_heading.IsZeroApprox() && !Velocity.Normalized().IsZeroApprox())
+			{
+				_heading = Velocity.Normalized();
+			}
+			else if(_heading.IsZeroApprox())
+			{
+				_heading = Vector2.Left;
+			}
+			Velocity = _heading * _dashSpeed; 
+		}
 		else
 		{
-            if (_dash.IsDashing) { Velocity = _heading * _dashSpeed; }
-            else { 
-				Velocity += _heading * _speed;
-				Velocity = Velocity.LimitLength(_maxSpeed);
-			}
-        }
+			Velocity += _heading * _speed;
+			Velocity = Velocity.LimitLength(_maxSpeed);
+		}
 
 
 		
@@ -344,50 +344,50 @@ public partial class Player : CharacterBody2D
 		{
 			_facing = FACING_DIRECTION.Right;
 			_direction = new Vector2(1, 0);
-            _footStepEffectSpawnPosition = new Vector2(Position.X - _playerSpriteSize.X / 2, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_footStepEffectSpawnPosition = new Vector2(Position.X - _playerSpriteSize.X / 2, Position.Y + _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X < 0 && _heading.Y == 0)
 		{
 			_facing = FACING_DIRECTION.Left;
 			_direction = new Vector2(-1, 0);
 			_footStepEffectSpawnPosition = new Vector2(Position.X + _playerSpriteSize.X / 2,Position.Y + _playerSpriteSize.Y/2);
-        }
+		}
 		else if (_heading.X == 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.Up;
 			_direction = new Vector2(0, -1);
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X == 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.Down;
-            _direction = new Vector2(0, 1);
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y - _playerSpriteSize.Y / 2);
-        }
+			_direction = new Vector2(0, 1);
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y - _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X > 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.UpRight;
 			_direction = new Vector2(1, -1).Normalized();
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X > 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownRight;
-            _direction = new Vector2(1, 1).Normalized();
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_direction = new Vector2(1, 1).Normalized();
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X < 0 && _heading.Y < 0)
 		{
 			_facing = FACING_DIRECTION.UpLeft;
 			_direction = new Vector2(-1, -1).Normalized();
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+		}
 		else if (_heading.X < 0 && _heading.Y > 0)
 		{
 			_facing = FACING_DIRECTION.DownLeft;
-            _direction = new Vector2(-1, 1).Normalized();
-            _footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
-        }
+			_direction = new Vector2(-1, 1).Normalized();
+			_footStepEffectSpawnPosition = new Vector2(Position.X, Position.Y + _playerSpriteSize.Y / 2);
+		}
 	}
 	/// <summary>
 	/// Takes damage if the player doesn't have any invulenrable frames, if the player takes damage the gain i frames, and has the sprite flash
@@ -493,7 +493,7 @@ public partial class Player : CharacterBody2D
 		slash.Damage = 50;
 		slash.Player = this;
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
-		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; }
+		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; slash.GetChild<Sprite2D>(0).FlipV = true; }
 		else if (_attackCount == 2) { 
 			// End of combo should deal more knockback then normal
 			slash.Modulate = Colors.Red;
@@ -598,7 +598,7 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
-			_coyoteEnd = false;
+			//_coyoteEnd = false;
 		}
 	}
 
@@ -646,7 +646,7 @@ public partial class Player : CharacterBody2D
 		if(animName == "Fall")
 			RespawnPlayer();
 		if (animName == "Flash") {
-            _animationPlayer.Stop();
+			_animationPlayer.Stop();
 		}
 	}
 
@@ -682,46 +682,46 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// spawn foot step effect
 	/// </summary>
-    private void SpawnFootstep()
-    {
+	private void SpawnFootstep()
+	{
 		//multiply by 0.8 to make the color a little darker
-        Color pixelColor = GetScreenColorUnderPlayer() *0.8f;
+		Color pixelColor = GetScreenColorUnderPlayer() *0.8f;
 
-        //spawn the effect
-        var particleInstance = (CpuParticles2D)footstepParticle.Instantiate();
-        particleInstance.ZIndex = 1;
-        particleInstance.GlobalPosition = _footStepEffectSpawnPosition;
+		//spawn the effect
+		var particleInstance = (CpuParticles2D)footstepParticle.Instantiate();
+		particleInstance.ZIndex = 1;
+		particleInstance.GlobalPosition = _footStepEffectSpawnPosition;
 
 
 
-        particleInstance.Color = pixelColor;
-        particleInstance.Emitting = true;
+		particleInstance.Color = pixelColor;
+		particleInstance.Emitting = true;
 		particleInstance.Gravity = -_direction * 100;
-        GetTree().CurrentScene.AddChild(particleInstance);
+		GetTree().CurrentScene.AddChild(particleInstance);
 
-        //delete effect after it's done
-        particleInstance.OneShot = true;
-        GetTree().CreateTimer((float)particleInstance.Lifetime).Timeout += () =>
-        {
-            particleInstance.QueueFree();
-        };
-    }
+		//delete effect after it's done
+		particleInstance.OneShot = true;
+		GetTree().CreateTimer((float)particleInstance.Lifetime).Timeout += () =>
+		{
+			particleInstance.QueueFree();
+		};
+	}
 
 
 
-    private Color GetScreenColorUnderPlayer()
-    {
-        Viewport viewport = GetViewport();
-        Image image = viewport.GetTexture().GetImage();
+	private Color GetScreenColorUnderPlayer()
+	{
+		Viewport viewport = GetViewport();
+		Image image = viewport.GetTexture().GetImage();
 
-        Camera2D camera = viewport.GetCamera2D();
+		Camera2D camera = viewport.GetCamera2D();
 
 		Vector2 screenPos = GlobalPosition - (camera.GlobalPosition - (viewport.GetVisibleRect().Size / 2));
 
-        int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
-        int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
+		int x = Mathf.Clamp((int)screenPos.X, 0, image.GetWidth() - 1);
+		int y = Mathf.Clamp((int)screenPos.Y, 0, image.GetHeight() - 1);
 
-        return image.GetPixel(x, y);
-    }
+		return image.GetPixel(x, y);
+	}
 
 }
