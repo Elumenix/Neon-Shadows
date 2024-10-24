@@ -245,7 +245,7 @@ public partial class Player : CharacterBody2D
 		_lastMoved = _hasMoved;
 
 		// Update _hasMoved
-		if(_heading == Vector2.Zero)
+		if(_heading.IsZeroApprox())
 		{
 			_hasMoved = false;
 			//GD.Print("Hasn't moved");
@@ -268,7 +268,11 @@ public partial class Player : CharacterBody2D
         }
 
         if (_dash.IsDashing) {
-			if (_heading.IsZeroApprox())
+			if (_heading.IsZeroApprox() && !Velocity.Normalized().IsZeroApprox())
+			{
+				_heading = Velocity.Normalized();
+			}
+			else if(_heading.IsZeroApprox())
 			{
 				_heading = Vector2.Left;
 			}
