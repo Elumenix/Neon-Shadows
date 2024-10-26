@@ -297,7 +297,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (_dash.IsDashing) {
-			if (_heading.IsZeroApprox() && !Velocity.Normalized().IsZeroApprox())
+			if (_heading.IsZeroApprox())
 			{
 				_heading = _directionFromFacing();
 			}
@@ -436,7 +436,7 @@ public partial class Player : CharacterBody2D
 				}
 			case (FACING_DIRECTION.Left):
 				{
-					direction = Vector2.Right;
+					direction = Vector2.Left;
 					break;
 				}
 		}
