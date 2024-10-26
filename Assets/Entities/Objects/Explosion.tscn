@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c40tgsprg06kq"]
+[gd_scene load_steps=3 format=3 uid="uid://c40tgsprg06kq"]
+
+[ext_resource type="Texture2D" uid="uid://dm31rtodfqa48" path="res://Assets/Sprites/Object/08b0ca83b3bd433.png" id="1_2nbbu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c3s0x"]
-radius = 16.0
+radius = 40.0125
 
 [node name="Explosion" type="Node2D"]
 
@@ -9,3 +11,8 @@ radius = 16.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_c3s0x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(7.735, 0)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_2nbbu")
