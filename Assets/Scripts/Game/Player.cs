@@ -12,8 +12,8 @@ public partial class Player : CharacterBody2D
 	// Fields
 	private Vector2 _heading;
 	private float _maxSpeed = 150.0f;
-	private float _speed = 60.0f;
-	private float _friction = 450.0f;
+	private float _speed = 80.0f;
+	private float _friction = 700.0f;
 
 	private AnimatedSprite2D _animatedSprite;
 	private FACING_DIRECTION _facing;
@@ -316,7 +316,6 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
 		{
 			_meleeAttack();
-			_attackAnimation();
 		}
 
 		// Check if we are attacking with ranged
@@ -588,8 +587,10 @@ public partial class Player : CharacterBody2D
 	{
 		_isAttacking = true;
 
-		// Rotate Marker to follow the mouse
-		Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+        _attackAnimation();
+
+        // Rotate Marker to follow the mouse
+        Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 		_marker.LookAt(mousePOSinPlayer);
 		// Start attackTimer
 		_attackTimer.Start(0.25f);
