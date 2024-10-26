@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D
 {
 	// Fields
 	private Vector2 _heading;
-	private float _maxSpeed = 150.0f;
+	private float _maxSpeed = 160.0f;
 	private float _speed = 80.0f;
 	private float _friction = 700.0f;
 
