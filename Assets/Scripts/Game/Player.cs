@@ -446,6 +446,10 @@ public partial class Player : CharacterBody2D
 	/// <param name="damage">The amount of damage the player will take (usually only 1 damage)</param>
 	public void takeDamage(int damage)
 	{
+		if (_isFalling) {
+			return;
+		}
+
 		if(_damageFrames > 0.0f)
 		{
 			return;
