@@ -56,7 +56,7 @@ public partial class Player : CharacterBody2D
 	private bool _fallCooldown;
 	private AnimationPlayer _animationPlayer;
 	[Export] private float _fallSpeed;
-
+	private Timer _zIndexTimer;
 	// Coyote time stuff
 	private Timer _coyoteTimer;
 	private float _coyoteWait = 0.2f; // Wait time added to Coyote Timer
@@ -113,7 +113,9 @@ public partial class Player : CharacterBody2D
 		// Connect the frame_changed signal to track animation progress
 		_safePositionTimer = GetNode<Timer>("SafePositionTimer");
 		_safePositionTimer.Timeout += UpdateSafePosition;
-		_safePosition = Position;
+		_zIndexTimer = GetNode<Timer>("ZIndexTimer");
+		_zIndexTimer.Timeout += ChangeZIndex;
+        _safePosition = Position;
 		_direction = new Vector2(0,-1);
 		_isFalling = true;
 		RespawnPlayer();
@@ -222,17 +224,6 @@ public partial class Player : CharacterBody2D
 			{
 				GlobalPosition += (new Vector2(1, 1).Normalized() + _direction).Normalized() * _fallSpeed * (float)delta;
 			}
-
-
-
-			if (_direction.Y < 0) { 
-				ZIndex = -1;
-			}
-
-			if (GlobalPosition.Y < GetViewport().GetCamera2D().GetScreenCenterPosition().Y && _direction.X < 0) {
-				GD.Print(1);
-				ZIndex = -1;
-			}
 		}
 
 	}
@@ -241,6 +232,10 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	public void GetInput(float delta)
 	{
+		if (_isFalling) {
+			Velocity = new Vector2(0,0);
+			return;
+		}
 
 		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
 		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
@@ -701,6 +696,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void TriggerFall()
 	{
+
 		if (!_isFalling && _fallCooldown && !_dash.IsDashing)
 		{
 			_isFalling = true;
@@ -711,8 +707,18 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
-			//_coyoteEnd = false;
-		}
+            //_coyoteEnd = false;
+
+            if (_direction.Y < 0)
+            {
+                _zIndexTimer.Start();
+            }
+
+            if (GlobalPosition.Y < GetViewport().GetCamera2D().GetScreenCenterPosition().Y && _direction.X < 0)
+            {
+                _zIndexTimer.Start();
+            }
+        }
 	}
 
 	/// <summary>
@@ -722,17 +728,21 @@ public partial class Player : CharacterBody2D
 	{
 		if (IsOnSafePlatform()) {
 			_safePosition = Position;
-			_fallCooldown = true;
-			_isFalling = false;
-		}
+            _fallCooldown = true;
+        }
+	}
+
+	private void ChangeZIndex() {
+		ZIndex = -1;
 	}
 
 	/// <summary>
 	/// Respawn player at the last safe position
 	/// </summary>
 	private void RespawnPlayer()
-	{
-		_isFalling = false;
+    {
+		_zIndexTimer.Stop();
+        _isFalling = false;
         ZIndex = 0;
         Position = _safePosition;
 		_animationPlayer.Stop();
