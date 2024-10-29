@@ -12,7 +12,8 @@ public partial class Dash : Node2D
 
 	private PackedScene _ghostScene = GD.Load<PackedScene>("res://Assets/Entities/DashGhost.tscn");
 	private Sprite2D _sprite;
-	private Vector2 _facing;
+	private FACING_DIRECTION _facing;
+	
 
 	[Export]
 	private Player _player;
@@ -26,9 +27,9 @@ public partial class Dash : Node2D
 		_sprite = GetNode<Sprite2D>("Sprite2D");
 	}
 
-	public void StartDash(Vector2 facing, float duration)
+	public void StartDash(FACING_DIRECTION facing, float duration)
 	{
-		_facing = facing.Normalized();
+		_facing = facing;
 		_timer.WaitTime = duration;
 		_timer.Start();
 		
@@ -56,14 +57,14 @@ public partial class Dash : Node2D
         ghost.FlipV = _sprite.FlipV;
 
         // logic to set up frame correctly
-        if (_facing.X > 0 && _facing.Y == 0) { ghost.Frame = 2; }
-        else if (_facing.X < 0 && _facing.Y == 0) { ghost.Frame = 6; }
-        else if (_facing.X == 0 && _facing.Y < 0) { ghost.Frame = 0; }
-        else if (_facing.X == 0 && _facing.Y > 0) { ghost.Frame = 4; }
-        else if (_facing.X > 0 && _facing.Y < 0) { ghost.Frame = 1; }
-        else if (_facing.X > 0 && _facing.Y > 0) { ghost.Frame = 3; }
-        else if (_facing.X < 0 && _facing.Y < 0) { ghost.Frame = 7; }
-        else if (_facing.X < 0 && _facing.Y > 0) { ghost.Frame = 5; }
+        if (_facing == FACING_DIRECTION.Right) { ghost.Frame = 2; }
+        else if (_facing == FACING_DIRECTION.Left) { ghost.Frame = 6; }
+        else if (_facing == FACING_DIRECTION.Up) { ghost.Frame = 0; }
+        else if (_facing == FACING_DIRECTION.Down) { ghost.Frame = 4; }
+        else if (_facing == FACING_DIRECTION.UpRight) { ghost.Frame = 1; }
+        else if (_facing == FACING_DIRECTION.DownRight) { ghost.Frame = 3; }
+        else if (_facing == FACING_DIRECTION.UpLeft) { ghost.Frame = 7; }
+        else if (_facing == FACING_DIRECTION.DownLeft) { ghost.Frame = 5; }
         else { ghost.Frame = 6; }
         GetParent().GetParent().AddChild(ghost);
     }
