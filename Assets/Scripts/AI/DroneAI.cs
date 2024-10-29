@@ -16,6 +16,7 @@ public partial class DroneAI : BaseEnemyAI
 	private float _moveStopRange;
 	[Export]
 	private float _playerDetectRange;
+	private float _aggroDetectRange;
 
 	private DroneFSM _droneState;
 	private bool _isPlayerInRange = false;
@@ -43,6 +44,7 @@ public partial class DroneAI : BaseEnemyAI
 		base._Ready();
 		_usePathFinding = false;
 		currentShootCooldown = shootCooldown;
+		_aggroDetectRange = _playerDetectRange * 3;
 	}
 
 	public override void _Process(double delta)
@@ -186,6 +188,7 @@ public partial class DroneAI : BaseEnemyAI
 			if (IsPlayerTooClose())
 			{
 				_droneState = DroneFSM.Attacking;
+				_playerDetectRange = _aggroDetectRange;
 			}
 			else if (_isPlayerInRange && _shouldMove)
 			{
@@ -250,5 +253,8 @@ public partial class DroneAI : BaseEnemyAI
 		_droneState = DroneFSM.Stop;
 
 	}
-
+	public override void TakeDamage(int damageAmount) { 
+		base.TakeDamage(damageAmount);
+		_playerDetectRange = _aggroDetectRange;
+	}
 }
