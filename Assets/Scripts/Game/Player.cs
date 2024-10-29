@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
+public enum FACING_DIRECTION { Left, Right, Up, Down, UpLeft, UpRight, DownLeft, DownRight }
 
 public partial class Player : CharacterBody2D
 {
@@ -142,7 +142,7 @@ public partial class Player : CharacterBody2D
 			if (Input.IsActionJustPressed("dash") && _dash.CanDash && !_dash.IsDashing)
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
-				_dash.StartDash(_heading, _DashDuration);
+				_dash.StartDash(_facing, _DashDuration);
 			}
 			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
 			{
