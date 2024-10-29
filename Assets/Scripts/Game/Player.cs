@@ -115,7 +115,9 @@ public partial class Player : CharacterBody2D
 		_safePositionTimer.Timeout += UpdateSafePosition;
 		_safePosition = Position;
 		_direction = new Vector2(0,-1);
-		_isFalling = false;
+		_isFalling = true;
+		RespawnPlayer();
+		UpdateSafePosition();
 		ZIndex = 0;
         _fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
@@ -155,6 +157,7 @@ public partial class Player : CharacterBody2D
             }
 
 		}
+
 		// Fall stuff
 		if (!IsOnSafePlatform())
 		{
