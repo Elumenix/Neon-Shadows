@@ -748,6 +748,7 @@ public partial class Player : CharacterBody2D
 		_animationPlayer.Stop();
 		_animatedSprite.Scale = new Vector2(1,1);
 		_animatedSprite.Play("default");
+		GetViewport().GetCamera2D().GlobalPosition = GlobalPosition;
 		//takeDamage(1);
 		//HUDManager.Instance.DecreasePlayerHp();
 	}
