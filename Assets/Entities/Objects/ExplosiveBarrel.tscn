@@ -1,0 +1,116 @@
+[gd_scene load_steps=17 format=3 uid="uid://b3dgrm1h8cdpi"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Object/Barrel.cs" id="1_ga5tf"]
+[ext_resource type="Texture2D" uid="uid://djowgstbiem6j" path="res://Assets/Sprites/Object/exploding_barrel.png" id="2_5gttv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmp0o"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(0, 0, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gy83b"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(96, 0, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u12ll"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(192, 0, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnvox"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(0, 160, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur80h"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(96, 160, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ye0fm"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(192, 160, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qecs7"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(0, 320, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58wue"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(96, 320, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5whes"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(192, 320, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5s15v"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(0, 480, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qohh5"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(96, 480, 96, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svros"]
+atlas = ExtResource("2_5gttv")
+region = Rect2(192, 480, 96, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_req2s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmp0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gy83b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u12ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnvox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur80h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ye0fm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qecs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58wue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5whes")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5s15v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qohh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svros")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sk5fr"]
+size = Vector2(32, 46)
+
+[node name="ExplosiveBarrel" type="RigidBody2D"]
+collision_mask = 13
+gravity_scale = 0.0
+script = ExtResource("1_ga5tf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 11)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_req2s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 24)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_sk5fr")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="ExplosionEnd"]
