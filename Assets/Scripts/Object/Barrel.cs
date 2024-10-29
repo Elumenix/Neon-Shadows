@@ -31,7 +31,6 @@ public partial class Barrel : RigidBody2D
     public void _onHit()
 	{
 		// Spawn explosion
-		GD.Print("EXPLOSION!");
 
 		// play explosion animation
 		_sprite.Play("default");
