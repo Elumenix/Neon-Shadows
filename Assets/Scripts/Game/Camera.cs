@@ -14,12 +14,11 @@ public partial class Camera : Camera2D
     public override void _Ready()
     {
         Instance = this;
-       
-        _originalPosition = Position;
     }
 
     public override void _Process(double delta)
     {
+        _originalPosition = GameManager.Instance.player.GlobalPosition;
         ShakeCamera(delta);
     }
 
@@ -38,7 +37,7 @@ public partial class Camera : Camera2D
             float offsetX = (float)(_random.NextDouble() * 2 - 1) * _shakeIntensity;
             float offsetY = (float)(_random.NextDouble() * 2 - 1) * _shakeIntensity;
 
-            Position = _originalPosition + new Vector2(offsetX, offsetY);
+            GlobalPosition = _originalPosition + new Vector2(offsetX, offsetY);
 
             _shakeDuration -= (float)delta;
 
@@ -46,8 +45,7 @@ public partial class Camera : Camera2D
             // Reset the camera location when shake is over
             if (_shakeDuration <= 0)
             {
-                Position = _originalPosition;
-
+                GlobalPosition = _originalPosition;
                 DragHorizontalEnabled = true;
                 DragVerticalEnabled = true;
             }

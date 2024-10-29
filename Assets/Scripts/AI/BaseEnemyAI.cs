@@ -132,7 +132,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// Manages enemy's health when taking damage
 	/// </summary>
 	/// <param name="damageAmount"></param>
-	public void TakeDamage(int damageAmount)
+	public virtual void TakeDamage(int damageAmount)
 	{
 		if (_iFrames <=0)
 		{
