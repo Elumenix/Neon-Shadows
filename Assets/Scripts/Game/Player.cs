@@ -237,10 +237,21 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+        if (_dash.IsDashing)
+        {
+            if (_heading.IsZeroApprox())
+            {
+                _heading = _directionFromFacing();
+            }
+            Velocity = _heading * _dashSpeed;
+			return;
+        }
+
+
+        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
@@ -294,18 +305,10 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-		if (_dash.IsDashing) {
-			if (_heading.IsZeroApprox())
-			{
-				_heading = _directionFromFacing();
-			}
-			Velocity = _heading * _dashSpeed; 
-		}
-		else
-		{
-			Velocity += _heading * _speed;
-			Velocity = Velocity.LimitLength(_maxSpeed);
-		}
+		
+		Velocity += _heading * _speed;
+		Velocity = Velocity.LimitLength(_maxSpeed);
+		
 
 
 		
