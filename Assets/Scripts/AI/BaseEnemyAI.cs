@@ -44,7 +44,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 		}
 
 		_detectionRange = 300.0f;
-	}
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -115,13 +115,13 @@ public partial class BaseEnemyAI : CharacterBody2D
 					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
 					if(_iFrames <= 0)
 					{
-						this.TakeDamage(temp.DealDamage());
+						//this.TakeDamage(temp.DealDamage());
 					}
 				}
 				else if(collision.GetCollider() is Player)
 				{
 					// Collided with the player
-					HandlePlayerCollision();
+					//HandlePlayerCollision();
 				}
 			}
 			
@@ -158,11 +158,11 @@ public partial class BaseEnemyAI : CharacterBody2D
 	}
 
 	// This function will be called when a collision with the player happens
-	public void OnBodyEntered(Node2D body)
+	public virtual void OnBodyEntered(Node2D body)
 	{
 		if (body.IsInGroup("Player"))
 		{
-			//HandlePlayerCollision();
+			HandlePlayerCollision();
 		}
 	}
 

@@ -237,10 +237,43 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+        // Attacking Stuff
+        // Check if we're attacking with melee
+        if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
+        {
+            _meleeAttack();
+        }
+
+        // Check if we are attacking with ranged
+        if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
+        {
+            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+            // Create a Ranged Attack
+            _marker.LookAt(mousePOSinPlayer);
+            if (_ammo > 0)
+            {
+                _rangedTimer.WaitTime = 0.25f;
+                _isShooting = false;
+                CreateProjectile();
+            }
+
+        }
+
+        if (_dash.IsDashing)
+        {
+            if (_heading.IsZeroApprox())
+            {
+                _heading = _directionFromFacing();
+            }
+            Velocity = _heading * _dashSpeed;
+			return;
+        }
+
+
+        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
@@ -294,42 +327,10 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-		if (_dash.IsDashing) {
-			if (_heading.IsZeroApprox())
-			{
-				_heading = _directionFromFacing();
-			}
-			Velocity = _heading * _dashSpeed; 
-		}
-		else
-		{
-			Velocity += _heading * _speed;
-			Velocity = Velocity.LimitLength(_maxSpeed);
-		}
-
-
 		
-		// Attacking Stuff
-		// Check if we're attacking with melee
-		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
-		{
-			_meleeAttack();
-		}
-
-		// Check if we are attacking with ranged
-		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
-		{
-			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-			// Create a Ranged Attack
-			_marker.LookAt(mousePOSinPlayer);
-			if (_ammo > 0)
-			{
-				_rangedTimer.WaitTime = 0.25f;
-				_isShooting = false;
-				CreateProjectile();
-			}
-
-		}
+		Velocity += _heading * _speed;
+		Velocity = Velocity.LimitLength(_maxSpeed);
+		
 
 	}
 	/// <summary>

@@ -17,7 +17,8 @@ public partial class PlayerSlash : StaticBody2D
 	public override void _Ready()
 	{
         _timer = GetNode<Timer>("Timer");
-	}
+        GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -47,5 +48,15 @@ public partial class PlayerSlash : StaticBody2D
         // return damage value so enemy can take damage
         if(_damage < 0) { return 0; }
         return _damage;
+    }
+
+    public void OnBodyEntered(Node2D body) {
+        if (body.IsInGroup("Enemy"))
+        {
+            if (body is BaseEnemyAI enemy)
+            {
+                enemy.TakeDamage(DealDamage());
+            }
+        }
     }
 }
