@@ -131,9 +131,9 @@ public partial class DroneAI : BaseEnemyAI
 			double process = (_totalDistance - currentDistance) / _totalDistance;
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
 			Vector2 direction = (nextPosition - GlobalPosition).Normalized();
-
-			//mark current movement as complete when it's close enough to the target position
-			if (_navigationAgent.IsNavigationFinished())
+			UpdateAnimation(direction);
+            //mark current movement as complete when it's close enough to the target position
+            if (_navigationAgent.IsNavigationFinished())
 			{
 				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
@@ -238,8 +238,10 @@ public partial class DroneAI : BaseEnemyAI
 		float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
 		shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
 
-		//shoot bullet
-		Node node = _bullet.Instantiate();
+		UpdateAnimation(new BetterMath().AngleToVector(shootAngle));
+
+        //shoot bullet
+        Node node = _bullet.Instantiate();
 		(node as Node2D).Position = Position;
 		(node as Node2D).Rotation = shootAngle;
 		(node as Bullet).player = _player;
@@ -253,7 +255,47 @@ public partial class DroneAI : BaseEnemyAI
 		_droneState = DroneFSM.Stop;
 
 	}
-	public override void TakeDamage(int damageAmount) { 
+
+    private void UpdateAnimation(Vector2 direction)
+    {
+        direction = direction.Normalized();
+		GD.Print(direction);
+        if (direction.Y < -0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Backward-Rightward");
+        }
+        else if (direction.Y < -0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Backward-Leftward");
+        }
+        else if (direction.Y > 0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Forward-Rightward");
+        }
+        else if (direction.Y > 0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Forward-Leftward");
+        }
+        else if (direction.Y < -0.5f)
+        {
+            _animatedSprite.Play("Backward");
+        }
+        else if (direction.Y > 0.5f)
+        {
+             _animatedSprite.Play("Forward");
+        }
+        else if (direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Leftward");
+        }
+        else if (direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Rightward");
+        }
+    }
+
+
+    public override void TakeDamage(int damageAmount) { 
 		base.TakeDamage(damageAmount);
 		_playerDetectRange = _aggroDetectRange;
 	}
