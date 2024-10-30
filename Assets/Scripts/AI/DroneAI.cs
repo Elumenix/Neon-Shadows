@@ -259,7 +259,6 @@ public partial class DroneAI : BaseEnemyAI
     private void UpdateAnimation(Vector2 direction)
     {
         direction = direction.Normalized();
-		GD.Print(direction);
         if (direction.Y < -0.5f && direction.X > 0.5f)
         {
             _animatedSprite.Play("Backward-Rightward");
