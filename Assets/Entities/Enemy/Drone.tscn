@@ -1,24 +1,28 @@
-[gd_scene load_steps=12 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=13 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
-[ext_resource type="Texture2D" uid="uid://byaimhocpic7n" path="res://Assets/Sprites/Enemy/Temp/tempdrone.png" id="2_32kxf"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_pwhas"]
+[ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
-size = Vector2(34, 13.6088)
+size = Vector2(34, 16.3406)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wdy8t"]
 shader = ExtResource("3_pwhas")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_iu2ub"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(32, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_32kxf")
+"texture": SubResource("AtlasTexture_iu2ub")
 }],
 "loop": true,
 "name": &"Walk",
@@ -81,17 +85,17 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -7.46375)
+position = Vector2(0, -7.82968)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -7.19562)
+position = Vector2(-0.5, -8.19561)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_wdy8t")
-position = Vector2(0, -7)
-scale = Vector2(0.025, 0.025)
+position = Vector2(1, -4)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
 frame_progress = 0.3935
