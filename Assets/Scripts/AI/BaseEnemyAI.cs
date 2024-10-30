@@ -178,7 +178,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 			Camera.Instance.StartShakeCamera(0.1f, 25);
 		}
 		temp.takeDamage(1);
-		HUDManager.Instance.DecreasePlayerHp();
 		
 	}
 
