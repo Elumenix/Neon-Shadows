@@ -237,6 +237,28 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
+        // Attacking Stuff
+        // Check if we're attacking with melee
+        if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
+        {
+            _meleeAttack();
+        }
+
+        // Check if we are attacking with ranged
+        if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
+        {
+            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+            // Create a Ranged Attack
+            _marker.LookAt(mousePOSinPlayer);
+            if (_ammo > 0)
+            {
+                _rangedTimer.WaitTime = 0.25f;
+                _isShooting = false;
+                CreateProjectile();
+            }
+
+        }
+
         if (_dash.IsDashing)
         {
             if (_heading.IsZeroApprox())
@@ -309,30 +331,6 @@ public partial class Player : CharacterBody2D
 		Velocity += _heading * _speed;
 		Velocity = Velocity.LimitLength(_maxSpeed);
 		
-
-
-		
-		// Attacking Stuff
-		// Check if we're attacking with melee
-		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
-		{
-			_meleeAttack();
-		}
-
-		// Check if we are attacking with ranged
-		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
-		{
-			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-			// Create a Ranged Attack
-			_marker.LookAt(mousePOSinPlayer);
-			if (_ammo > 0)
-			{
-				_rangedTimer.WaitTime = 0.25f;
-				_isShooting = false;
-				CreateProjectile();
-			}
-
-		}
 
 	}
 	/// <summary>
