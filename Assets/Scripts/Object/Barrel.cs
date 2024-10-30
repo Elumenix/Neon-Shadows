@@ -3,9 +3,10 @@ using System;
 
 public partial class Barrel : RigidBody2D
 {
-
-	private Explosion _explosion;
 	private AnimatedSprite2D _sprite;
+
+	private PackedScene _explosion = GD.Load<PackedScene>("res://Assets/Entities/Objects/Explosion.tscn");
+	private bool _wasHit = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -30,14 +31,21 @@ public partial class Barrel : RigidBody2D
     }
     public void _onHit()
 	{
-		// Spawn explosion
-
+		if (_wasHit)
+		{
+			return;
+		}
+		_wasHit = true;
 		// play explosion animation
 		_sprite.Play("default");
 
-	}
+        // Spawn explosion
+		Explosion temp = (Explosion)_explosion.Instantiate();
+		temp.Position = this.Position * this.Transform;
+		AddChild(temp);
+    }
 
-	public void ExplosionEnd()
+    public void ExplosionEnd()
 	{
 		QueueFree();
 	}
