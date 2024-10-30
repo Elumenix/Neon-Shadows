@@ -152,7 +152,7 @@ public partial class DroneAI : BaseEnemyAI
 				if (collision.GetCollider() is PlayerSlash)
 				{
 					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
-					this.TakeDamage(temp.DealDamage());
+					//this.TakeDamage(temp.DealDamage());
 				}
 			}
 		}
@@ -256,5 +256,9 @@ public partial class DroneAI : BaseEnemyAI
 	public override void TakeDamage(int damageAmount) { 
 		base.TakeDamage(damageAmount);
 		_playerDetectRange = _aggroDetectRange;
+	}
+
+	public override void OnBodyEntered(Node2D body) {
+		return;
 	}
 }
