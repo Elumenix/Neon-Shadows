@@ -74,7 +74,7 @@ offset_right = 351.598
 offset_bottom = 219.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
-asdadssdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+The first level of neon shadows, are you ready for the waves of enemy?"
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
@@ -123,7 +123,7 @@ offset_right = 351.598
 offset_bottom = 219.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
-asdadssdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+Not Implemented!"
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
