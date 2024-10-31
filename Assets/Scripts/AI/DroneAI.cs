@@ -54,11 +54,13 @@ public partial class DroneAI : BaseEnemyAI
 		DroneLogic(delta);
 
 		currentShootCooldown -= delta;
+		/*
 		if (_droneState == DroneFSM.Attacking) {
 
             Vector2 bulletDirection = _player.Position - Position;
             UpdateAnimation(bulletDirection);
 		}
+		*/
 	}
 
 	public override void _PhysicsProcess(double delta)
