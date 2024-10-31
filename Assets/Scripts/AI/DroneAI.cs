@@ -194,7 +194,6 @@ public partial class DroneAI : BaseEnemyAI
 		if (_droneState != DroneFSM.AttackCharging) {
 			if (IsPlayerTooClose())
 			{
-				_droneState = DroneFSM.Attacking;
 				_playerDetectRange = _aggroDetectRange;
 			}
 			else if (_isPlayerInRange && _shouldMove)
@@ -261,7 +260,7 @@ public partial class DroneAI : BaseEnemyAI
 
 		//stop for a period of time before next state
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-		_droneState = DroneFSM.Stop;
+		_droneState = DroneFSM.TrackPlayer;
 
 	}
 
