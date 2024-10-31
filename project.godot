@@ -98,6 +98,7 @@ heal={
 2d_physics/layer_2="Walls"
 2d_physics/layer_3="PlayerAttacks"
 2d_physics/layer_4="EnemyAttacks"
+2d_physics/layer_5="ExplosionDamage"
 
 [rendering]
 
