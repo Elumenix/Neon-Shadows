@@ -99,7 +99,7 @@ animations = [{
 size = Vector2(32, 46)
 
 [node name="ExplosiveBarrel" type="RigidBody2D"]
-collision_mask = 13
+collision_mask = 45
 gravity_scale = 0.0
 freeze = true
 script = ExtResource("1_ga5tf")
