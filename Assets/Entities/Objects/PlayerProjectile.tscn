@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bko5w8bo1ul3x"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Projectile.cs" id="1_a041j"]
-[ext_resource type="Texture2D" uid="uid://3gtlue1wstrl" path="res://Assets/Sprites/Object/vecteezy_element-abstract-retro-style-80s-90s-pixel-art-8-bit_34556587.png" id="1_wb1kr"]
+[ext_resource type="Texture2D" uid="uid://db4aobb5jab05" path="res://Assets/Sprites/Object/playerbullet.png" id="2_1h7hx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xllda"]
-radius = 6.0
+radius = 6.08276
 
 [node name="PlayerProjectile" type="RigidBody2D"]
 collision_layer = 4
@@ -12,9 +12,9 @@ collision_mask = 14
 gravity_scale = 0.0
 script = ExtResource("1_a041j")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.003, 0.003)
-texture = ExtResource("1_wb1kr")
+[node name="Playerbullet" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_1h7hx")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 position = Vector2(1.19209e-07, 2.98023e-07)
