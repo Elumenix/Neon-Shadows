@@ -356,4 +356,7 @@ polygon = PackedVector2Array(629, 1419, 597, 1436, 501, 1388, 533, 1372, 501, 13
 position = Vector2(1442, 1593)
 mass = 1000.0
 
+[node name="ExplosiveBarrel2" parent="." instance=ExtResource("12_3527r")]
+position = Vector2(1473, 799)
+
 [connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
