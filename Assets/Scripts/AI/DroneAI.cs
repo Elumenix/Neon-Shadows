@@ -54,13 +54,13 @@ public partial class DroneAI : BaseEnemyAI
 		DroneLogic(delta);
 
 		currentShootCooldown -= delta;
-		/*
-		if (_droneState == DroneFSM.Attacking) {
+	
+		if (_droneState == DroneFSM.AttackCharging) {
 
-            Vector2 bulletDirection = _player.Position - Position;
-            UpdateAnimation(bulletDirection);
+			Vector2 bulletDirection = _player.Position - Position;
+			UpdateAnimation(bulletDirection);
 		}
-		*/
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -113,22 +113,22 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-    /// <summary>
-    /// update the target position of the enemy pathfinding
-    /// </summary>
-    private void UpdateNavigationTarget()
-    {
-        if (_player != null)
-        {
-            _navigationAgent.TargetPosition = _targetPosition;
-        }
-    }
+	/// <summary>
+	/// update the target position of the enemy pathfinding
+	/// </summary>
+	private void UpdateNavigationTarget()
+	{
+		if (_player != null)
+		{
+			_navigationAgent.TargetPosition = _targetPosition;
+		}
+	}
 
-    /// <summary>
-    /// Move the drone towards the target position near the player
-    /// </summary>
-    /// <param name="delta"></param>
-    private void DroneMovement(double delta) {
+	/// <summary>
+	/// Move the drone towards the target position near the player
+	/// </summary>
+	/// <param name="delta"></param>
+	private void DroneMovement(double delta) {
 		//move the drone towards the target position if the current target position is not reached
 		if (!_movementCompleted)
 		{
@@ -139,8 +139,8 @@ public partial class DroneAI : BaseEnemyAI
 			double speed = _speed * new BetterMath().EasingCalculation(process) + _speed/5;
 			Vector2 direction = (nextPosition - GlobalPosition).Normalized();
 			UpdateAnimation(direction);
-            //mark current movement as complete when it's close enough to the target position
-            if (_navigationAgent.IsNavigationFinished())
+			//mark current movement as complete when it's close enough to the target position
+			if (_navigationAgent.IsNavigationFinished())
 			{
 				_movementCompleted = true;
 				_droneState = DroneFSM.AttackCharging;
@@ -170,7 +170,7 @@ public partial class DroneAI : BaseEnemyAI
 				(float)new BetterMath().GetRandomWithNegative(targetMaxOffset.Y) + _player.GlobalPosition.Y);
 			_totalDistance = new BetterMath().DistanceBetweenTwoVector(_targetPosition, GlobalPosition);
 			UpdateNavigationTarget();
-            _movementCompleted = false;
+			_movementCompleted = false;
 
 			// Check if the drone is colliding
 			var collision = MoveAndCollide(Vector2.Zero, true);
@@ -194,7 +194,6 @@ public partial class DroneAI : BaseEnemyAI
 		if (_droneState != DroneFSM.AttackCharging) {
 			if (IsPlayerTooClose())
 			{
-				_droneState = DroneFSM.Attacking;
 				_playerDetectRange = _aggroDetectRange;
 			}
 			else if (_isPlayerInRange && _shouldMove)
@@ -236,9 +235,9 @@ public partial class DroneAI : BaseEnemyAI
 	/// </summary>
 	private async void Attack() {
 
-        //_droneState = DroneFSM.Attacking;
-        //show the charging attack particle effect before shoot the bullet
-        _particles.Show();
+		//_droneState = DroneFSM.Attacking;
+		//show the charging attack particle effect before shoot the bullet
+		_particles.Show();
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 		_particles.Hide();
 
@@ -249,8 +248,8 @@ public partial class DroneAI : BaseEnemyAI
 
 		UpdateAnimation(new BetterMath().AngleToVector(shootAngle));
 
-        //shoot bullet
-        Node node = _bullet.Instantiate();
+		//shoot bullet
+		Node node = _bullet.Instantiate();
 		(node as Node2D).Position = Position;
 		(node as Node2D).Rotation = shootAngle;
 		(node as Bullet).player = _player;
@@ -265,45 +264,45 @@ public partial class DroneAI : BaseEnemyAI
 
 	}
 
-    private void UpdateAnimation(Vector2 direction)
-    {
-        direction = direction.Normalized();
-        if (direction.Y < -0.5f && direction.X > 0.5f)
-        {
-            _animatedSprite.Play("Backward-Rightward");
-        }
-        else if (direction.Y < -0.5f && direction.X < -0.5f)
-        {
-            _animatedSprite.Play("Backward-Leftward");
-        }
-        else if (direction.Y > 0.5f && direction.X > 0.5f)
-        {
-            _animatedSprite.Play("Forward-Rightward");
-        }
-        else if (direction.Y > 0.5f && direction.X < -0.5f)
-        {
-            _animatedSprite.Play("Forward-Leftward");
-        }
-        else if (direction.Y < -0.5f)
-        {
-            _animatedSprite.Play("Backward");
-        }
-        else if (direction.Y > 0.5f)
-        {
-             _animatedSprite.Play("Forward");
-        }
-        else if (direction.X < -0.5f)
-        {
-            _animatedSprite.Play("Leftward");
-        }
-        else if (direction.X > 0.5f)
-        {
-            _animatedSprite.Play("Rightward");
-        }
-    }
+	private void UpdateAnimation(Vector2 direction)
+	{
+		direction = direction.Normalized();
+		if (direction.Y < -0.5f && direction.X > 0.5f)
+		{
+			_animatedSprite.Play("Backward-Rightward");
+		}
+		else if (direction.Y < -0.5f && direction.X < -0.5f)
+		{
+			_animatedSprite.Play("Backward-Leftward");
+		}
+		else if (direction.Y > 0.5f && direction.X > 0.5f)
+		{
+			_animatedSprite.Play("Forward-Rightward");
+		}
+		else if (direction.Y > 0.5f && direction.X < -0.5f)
+		{
+			_animatedSprite.Play("Forward-Leftward");
+		}
+		else if (direction.Y < -0.5f)
+		{
+			_animatedSprite.Play("Backward");
+		}
+		else if (direction.Y > 0.5f)
+		{
+			 _animatedSprite.Play("Forward");
+		}
+		else if (direction.X < -0.5f)
+		{
+			_animatedSprite.Play("Leftward");
+		}
+		else if (direction.X > 0.5f)
+		{
+			_animatedSprite.Play("Rightward");
+		}
+	}
 
 
-    public override void TakeDamage(int damageAmount) { 
+	public override void TakeDamage(int damageAmount) { 
 		base.TakeDamage(damageAmount);
 		_playerDetectRange = _aggroDetectRange;
 	}

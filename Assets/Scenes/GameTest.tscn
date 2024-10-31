@@ -207,6 +207,10 @@ tile_set = SubResource("TileSet_ttviy")
 
 [node name="Player" parent="TileMap/Objects&Entities" instance=ExtResource("3_pls7k")]
 position = Vector2(192, 121)
+_fallSpeed = 0.0
+footstepParticle = null
+stepDistance = 50.0
+test = null
 
 [node name="1F" type="TileMapLayer" parent="TileMap"]
 y_sort_enabled = true
