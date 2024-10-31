@@ -54,6 +54,11 @@ public partial class DroneAI : BaseEnemyAI
 		DroneLogic(delta);
 
 		currentShootCooldown -= delta;
+		if (_droneState == DroneFSM.Attacking) {
+
+            Vector2 bulletDirection = _player.Position - Position;
+            UpdateAnimation(bulletDirection);
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -96,7 +101,7 @@ public partial class DroneAI : BaseEnemyAI
 			//else {
 			//    Position += newDirection * (float)(-_speed * delta);
 			//}
-			DroneMovement(delta);
+			//DroneMovement(delta);
 
 
 		}
@@ -228,8 +233,10 @@ public partial class DroneAI : BaseEnemyAI
 	/// Shoot bullet toward a position near the player
 	/// </summary>
 	private async void Attack() {
-		//show the charging attack particle effect before shoot the bullet
-		_particles.Show();
+
+        //_droneState = DroneFSM.Attacking;
+        //show the charging attack particle effect before shoot the bullet
+        _particles.Show();
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 		_particles.Hide();
 
