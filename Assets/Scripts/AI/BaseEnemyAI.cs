@@ -20,7 +20,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	protected float _detectionRange;
 
-	public override async void _Ready()
+    protected AnimatedSprite2D _animatedSprite;
+
+    public override async void _Ready()
 	{
 		currentHealth = MaxHealth;
 
@@ -33,20 +35,21 @@ public partial class BaseEnemyAI : CharacterBody2D
 		// Connect the Area2D signal for collision detection
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
 		UpdateNavigationTarget();
-		AnimatedSprite2D sprite = GetNode<AnimatedSprite2D>("EnemySprite");
 
-		//create the shader for enemy if there are none
-		if (sprite.Material != null && sprite.Material is ShaderMaterial)
+        _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+        //create the shader for enemy if there are none
+        if (_animatedSprite.Material != null && _animatedSprite.Material is ShaderMaterial)
 		{
 			//duplicate the material so each enemy has its own instance
-			ShaderMaterial shaderMaterial = (ShaderMaterial)sprite.Material.Duplicate();
-			sprite.Material = shaderMaterial;
+			ShaderMaterial shaderMaterial = (ShaderMaterial)_animatedSprite.Material.Duplicate();
+            _animatedSprite.Material = shaderMaterial;
 		}
 
 		_detectionRange = 300.0f;
+
     }
 
-	public override void _PhysicsProcess(double delta)
+    public override void _PhysicsProcess(double delta)
 	{
 		//update the target position and exit if there are none
 		UpdateNavigationTarget();
@@ -178,7 +181,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 			Camera.Instance.StartShakeCamera(0.1f, 25);
 		}
 		temp.takeDamage(1);
-		HUDManager.Instance.DecreasePlayerHp();
 		
 	}
 

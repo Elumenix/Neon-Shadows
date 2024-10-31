@@ -40,6 +40,10 @@ public partial class Bullet : Sprite2D
             HandlePlayerCollision();
             QueueFree();
         }
+        if (!body.IsInGroup("Enemy"))
+        {
+            QueueFree();
+        }
     }
 
     public void HandlePlayerCollision()

@@ -1,24 +1,124 @@
-[gd_scene load_steps=12 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=21 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
-[ext_resource type="Texture2D" uid="uid://byaimhocpic7n" path="res://Assets/Sprites/Enemy/Temp/tempdrone.png" id="2_32kxf"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_pwhas"]
+[ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
-size = Vector2(34, 13.6088)
+size = Vector2(19.7813, 15.9747)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wdy8t"]
 shader = ExtResource("3_pwhas")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_k168i"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upqpt"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w67od"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxooo"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvbou"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_880v7"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gifp"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be438"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iu2ub"]
+atlas = ExtResource("4_ca8cm")
+region = Rect2(32, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_32kxf")
+"texture": SubResource("AtlasTexture_k168i")
+}],
+"loop": true,
+"name": &"Backward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upqpt")
+}],
+"loop": true,
+"name": &"Backward-Leftward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w67od")
+}],
+"loop": true,
+"name": &"Backward-Rightward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxooo")
+}],
+"loop": true,
+"name": &"Forward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvbou")
+}],
+"loop": true,
+"name": &"Forward-Leftward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_880v7")
+}],
+"loop": true,
+"name": &"Forward-Rightward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gifp")
+}],
+"loop": true,
+"name": &"Leftward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_be438")
+}],
+"loop": true,
+"name": &"Rightward",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iu2ub")
 }],
 "loop": true,
 "name": &"Walk",
@@ -81,20 +181,19 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -7.46375)
+position = Vector2(0.109375, -7.82968)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -7.19562)
+position = Vector2(0.21875, -8.01264)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_wdy8t")
-position = Vector2(0, -7)
-scale = Vector2(0.025, 0.025)
+position = Vector2(1, -4)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Walk"
-frame_progress = 0.3935
+animation = &"Backward"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {

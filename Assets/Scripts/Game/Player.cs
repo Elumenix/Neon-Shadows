@@ -259,6 +259,10 @@ public partial class Player : CharacterBody2D
 
         }
 
+		if (Input.IsActionJustPressed("heal")) {
+			takeDamage(-1);
+		}
+
         if (_dash.IsDashing)
         {
             if (_heading.IsZeroApprox())
@@ -447,6 +451,13 @@ public partial class Player : CharacterBody2D
 	/// <param name="damage">The amount of damage the player will take (usually only 1 damage)</param>
 	public void takeDamage(int damage)
 	{
+		if (damage < 0)
+        {
+            _health -= damage;
+            HUDManager.Instance.IncreasePlayerHp();
+			return;
+        }
+
 		if (_isFalling) {
 			return;
 		}
@@ -457,11 +468,11 @@ public partial class Player : CharacterBody2D
 		}
 		FlashOnDamge();
 
-
-		if (_health > 0)
+        if (_health > 0)
 		{
 			_health -= damage;
-			_damageFrames = 1.0f;
+            HUDManager.Instance.DecreasePlayerHp();
+            _damageFrames = 1.0f;
 			if (_health <= 0)
 			{
 				_health = 0;
