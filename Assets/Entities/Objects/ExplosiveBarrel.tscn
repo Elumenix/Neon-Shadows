@@ -96,21 +96,24 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sk5fr"]
-size = Vector2(32, 46)
+size = Vector2(32, 29)
 
 [node name="ExplosiveBarrel" type="RigidBody2D"]
+position = Vector2(0, 2)
 collision_mask = 45
 gravity_scale = 0.0
 freeze = true
 script = ExtResource("1_ga5tf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 11)
+position = Vector2(0, -18)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_req2s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 24)
+z_index = -1
+y_sort_enabled = true
+position = Vector2(0, -0.75)
 scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_sk5fr")
 
