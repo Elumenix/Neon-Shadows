@@ -115,13 +115,13 @@ public partial class Player : CharacterBody2D
 		_safePositionTimer.Timeout += UpdateSafePosition;
 		_zIndexTimer = GetNode<Timer>("ZIndexTimer");
 		_zIndexTimer.Timeout += ChangeZIndex;
-        _safePosition = Position;
+		_safePosition = Position;
 		_direction = new Vector2(0,-1);
 		_isFalling = true;
 		RespawnPlayer();
 		UpdateSafePosition();
 		ZIndex = 0;
-        _fallCooldown = false;
+		_fallCooldown = false;
 		_animationPlayer.AnimationFinished += ResetAnimation;
 		_coyoteTimer = GetNode<Timer>("CoyoteTimer");
 		_coyoteEnd = true;
@@ -150,13 +150,13 @@ public partial class Player : CharacterBody2D
 				_dash.EndDash();
 			}
 			GetInput((float)delta);
-            // We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
-            //var collision = MoveAndCollide(Velocity * (float)delta);
-            MoveAndCollide(Velocity * (float)delta);
+			// We don't currently use the returned KinematicCollision since the enemy will take care of dealing damage to the player
+			//var collision = MoveAndCollide(Velocity * (float)delta);
+			MoveAndCollide(Velocity * (float)delta);
 			if (!_isAttacking)
 			{
-                walkAnimation();
-            }
+				walkAnimation();
+			}
 
 		}
 
@@ -237,47 +237,47 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-        // Attacking Stuff
-        // Check if we're attacking with melee
-        if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
-        {
-            _meleeAttack();
-        }
+		// Attacking Stuff
+		// Check if we're attacking with melee
+		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
+		{
+			_meleeAttack();
+		}
 
-        // Check if we are attacking with ranged
-        if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
-        {
-            Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
-            // Create a Ranged Attack
-            _marker.LookAt(mousePOSinPlayer);
-            if (_ammo > 0)
-            {
-                _rangedTimer.WaitTime = 0.25f;
-                _isShooting = false;
-                CreateProjectile();
-            }
+		// Check if we are attacking with ranged
+		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
+		{
+			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+			// Create a Ranged Attack
+			_marker.LookAt(mousePOSinPlayer);
+			if (_ammo > 0)
+			{
+				_rangedTimer.WaitTime = 0.25f;
+				_isShooting = false;
+				CreateProjectile();
+			}
 
-        }
+		}
 
 		if (Input.IsActionJustPressed("heal")) {
 			takeDamage(-1);
 		}
 
-        if (_dash.IsDashing)
-        {
-            if (_heading.IsZeroApprox())
-            {
-                _heading = _directionFromFacing();
-            }
-            Velocity = _heading * _dashSpeed;
+		if (_dash.IsDashing)
+		{
+			if (_heading.IsZeroApprox())
+			{
+				_heading = _directionFromFacing();
+			}
+			Velocity = _heading * _dashSpeed;
 			return;
-        }
+		}
 
 
-        // Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
-        //_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        //_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-        _heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		// Get Vector returns a vector based off the inputs, with a length of 1 (normalized)
+		//_heading.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+		//_heading.Y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+		_heading = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		// Use isometrics on diagonals
 		if(_heading.X > 0 && _heading.Y > 0)
 		{
@@ -342,7 +342,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void updateFacing()
 	{
-        if (_heading.X > 0 && _heading.Y == 0)
+		if (_heading.X > 0 && _heading.Y == 0)
 		{
 			_facing = FACING_DIRECTION.Right;
 			_direction = new Vector2(1, 0);
@@ -452,11 +452,11 @@ public partial class Player : CharacterBody2D
 	public void takeDamage(int damage)
 	{
 		if (damage < 0)
-        {
-            _health -= damage;
-            HUDManager.Instance.IncreasePlayerHp();
+		{
+			_health -= damage;
+			HUDManager.Instance.IncreasePlayerHp();
 			return;
-        }
+		}
 
 		if (_isFalling) {
 			return;
@@ -468,11 +468,11 @@ public partial class Player : CharacterBody2D
 		}
 		FlashOnDamge();
 
-        if (_health > 0)
+		if (_health > 0)
 		{
 			_health -= damage;
-            HUDManager.Instance.DecreasePlayerHp();
-            _damageFrames = 1.0f;
+			HUDManager.Instance.DecreasePlayerHp();
+			_damageFrames = 1.0f;
 			if (_health <= 0)
 			{
 				_health = 0;
@@ -601,10 +601,10 @@ public partial class Player : CharacterBody2D
 	{
 		_isAttacking = true;
 
-        _attackAnimation();
+		_attackAnimation();
 
-        // Rotate Marker to follow the mouse
-        Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+		// Rotate Marker to follow the mouse
+		Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
 		_marker.LookAt(mousePOSinPlayer);
 		// Start attackTimer
 		_attackTimer.Start(0.25f);
@@ -737,18 +737,18 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Play("Fall");
 
 			_fallCooldown = false;
-            //_coyoteEnd = false;
+			//_coyoteEnd = false;
 
-            if (_direction.Y < 0)
-            {
-                _zIndexTimer.Start();
-            }
+			if (_direction.Y < 0)
+			{
+				_zIndexTimer.Start();
+			}
 
-            if (GlobalPosition.Y < GetViewport().GetCamera2D().GetScreenCenterPosition().Y && _direction.X < 0)
-            {
-                _zIndexTimer.Start();
-            }
-        }
+			if (GlobalPosition.Y < GetViewport().GetCamera2D().GetScreenCenterPosition().Y && _direction.X < 0)
+			{
+				_zIndexTimer.Start();
+			}
+		}
 	}
 
 	/// <summary>
@@ -758,8 +758,8 @@ public partial class Player : CharacterBody2D
 	{
 		if (IsOnSafePlatform()) {
 			_safePosition = Position;
-            _fallCooldown = true;
-        }
+			_fallCooldown = true;
+		}
 	}
 
 	private void ChangeZIndex() {
@@ -770,11 +770,11 @@ public partial class Player : CharacterBody2D
 	/// Respawn player at the last safe position
 	/// </summary>
 	private void RespawnPlayer()
-    {
+	{
 		_zIndexTimer.Stop();
-        _isFalling = false;
-        ZIndex = 0;
-        Position = _safePosition;
+		_isFalling = false;
+		ZIndex = 0;
+		Position = _safePosition;
 		_animationPlayer.Stop();
 		_animatedSprite.Scale = new Vector2(1,1);
 		_animatedSprite.Play("default");
