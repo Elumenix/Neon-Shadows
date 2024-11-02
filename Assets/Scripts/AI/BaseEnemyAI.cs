@@ -20,9 +20,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	protected float _detectionRange;
 
-    protected AnimatedSprite2D _animatedSprite;
+	protected AnimatedSprite2D _animatedSprite;
 
-    public override async void _Ready()
+	public override async void _Ready()
 	{
 		currentHealth = MaxHealth;
 
@@ -36,20 +36,20 @@ public partial class BaseEnemyAI : CharacterBody2D
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
 		UpdateNavigationTarget();
 
-        _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
-        //create the shader for enemy if there are none
-        if (_animatedSprite.Material != null && _animatedSprite.Material is ShaderMaterial)
+		_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+		//create the shader for enemy if there are none
+		if (_animatedSprite.Material != null && _animatedSprite.Material is ShaderMaterial)
 		{
 			//duplicate the material so each enemy has its own instance
 			ShaderMaterial shaderMaterial = (ShaderMaterial)_animatedSprite.Material.Duplicate();
-            _animatedSprite.Material = shaderMaterial;
+			_animatedSprite.Material = shaderMaterial;
 		}
 
 		_detectionRange = 300.0f;
 
-    }
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		//update the target position and exit if there are none
 		UpdateNavigationTarget();
