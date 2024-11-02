@@ -616,12 +616,26 @@ public partial class Player : CharacterBody2D
 		slash.AttackTime = 0.25f;
 		slash.Damage = 50;
 		slash.Player = this;
+
+		// Get a (normalized) vector based on rotation
+		Vector2 unscaledVelocity = _VectorFromRotation(slash.RotationDegrees);
+		// Scale by Knockback Amount
+		// Change Slash's linear velocity to new scaled vector;
+		slash.ConstantLinearVelocity = unscaledVelocity * 22000f;
+
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
-		else if (_attackCount == 1) { slash.Modulate = Colors.Blue; slash.GetChild<Sprite2D>(0).FlipV = true; }
+		else if (_attackCount == 1) 
+		{ 
+			slash.Modulate = Colors.Blue; 
+			slash.GetChild<Sprite2D>(0).FlipV = true;
+			slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 2f;
+		}
 		else if (_attackCount == 2) { 
 			// End of combo should deal more knockback then normal
 			slash.Modulate = Colors.Red;
+			slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 4f;
 		}
+		GD.Print($"Slash Linear Velocity{slash.ConstantLinearVelocity}");
 		AddChild(slash);
 
 		// increase attack combo
@@ -789,7 +803,32 @@ public partial class Player : CharacterBody2D
 			_animationPlayer.Stop();
 		}
 	}
-
+	/// <summary>
+	/// Returns a normalized vector based off the rotation in degrees
+	/// </summary>
+	/// <param name="degrees">Angle of rotation in degrees</param>
+	/// <returns></returns>
+	private Vector2 _VectorFromRotation(float degrees)
+	{
+		// Use a 45 degree offset so it seems more accurate
+		if(degrees >=315.0f || degrees < 45.0f)
+		{
+			return Vector2.Right;
+		}
+		else if(degrees >= 45.0f && degrees < 135.0f)
+		{
+			return Vector2.Down;
+		}
+		else if(degrees >= 135.0f && degrees < 225.0f)
+		{
+			return Vector2.Left;
+		}
+		else if(degrees >= 225.0f && degrees < 315.0f)
+		{
+			return Vector2.Up;
+		}
+		return Vector2.Zero;
+	}
 
 	/// <summary>
 	/// Converts coordinates from a cartesian system to the isometric system

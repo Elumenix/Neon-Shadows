@@ -10,6 +10,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	[ExportCategory("Movement")]
 	[Export] protected float _speed;
+	[Export] protected float _maxSpeed;
 	[Export] protected NavigationAgent2D _navigationAgent;
 	protected bool _usePathFinding = true;
 	protected bool _shouldMove = true;
@@ -46,6 +47,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 		}
 
 		_detectionRange = 300.0f;
+		if(_maxSpeed <= 0) { _maxSpeed = _speed; }
 
     }
 
@@ -107,7 +109,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 			//create the direction vector and the collision for enemy
 			Vector2 direction = (targetPosition - GlobalPosition).Normalized();
 			//Position += direction * (float)(_speed * delta);
-			var collision = MoveAndCollide(direction * (float)(_speed * delta));
+			Velocity = direction * _speed;
+			//Velocity = Velocity.LimitLength(_maxSpeed);
+			var collision = MoveAndCollide(Velocity * (float)(delta));
 			if(collision != null)
 			{
 				// Enemy collided with a slash
@@ -120,6 +124,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 					{
 						//this.TakeDamage(temp.DealDamage());
 					}
+					//Velocity += Velocity.Normalized() * -2.5f;
+					//Vector2 awayFromPlayer = (Position - _player.Position).Normalized();
+					//Velocity += awayFromPlayer * 60;
 				}
 				else if(collision.GetCollider() is Player)
 				{

@@ -51,6 +51,7 @@ public partial class PlayerSlash : StaticBody2D
     }
 
     public void OnBodyEntered(Node2D body) {
+        /*
         if (body.IsInGroup("Enemy"))
         {
             if (body is BaseEnemyAI enemy)
@@ -58,5 +59,6 @@ public partial class PlayerSlash : StaticBody2D
                 enemy.TakeDamage(DealDamage());
             }
         }
+        */
     }
 }
