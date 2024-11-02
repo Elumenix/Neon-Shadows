@@ -162,7 +162,6 @@ public partial class DroneAI : BaseEnemyAI
 				{
 					PlayerSlash temp = (PlayerSlash)collision.GetCollider();
 					//this.TakeDamage(temp.DealDamage());
-					Velocity += Velocity.Normalized() * -2.5f;
 				}
 			}
 		}

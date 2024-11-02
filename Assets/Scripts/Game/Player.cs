@@ -635,7 +635,7 @@ public partial class Player : CharacterBody2D
 			slash.Modulate = Colors.Red;
 			slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 4f;
 		}
-		GD.Print($"Slash Linear Velocity{slash.ConstantLinearVelocity}");
+		//GD.Print($"Slash Linear Velocity{slash.ConstantLinearVelocity}");
 		AddChild(slash);
 
 		// increase attack combo
