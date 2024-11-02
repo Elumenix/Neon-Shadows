@@ -1,0 +1,157 @@
+[gd_scene load_steps=4 format=3 uid="uid://df6ksbgtlj4f2"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/UI/PauseMenu.cs" id="1_lix15"]
+[ext_resource type="Shader" path="res://Assets/Shader/PauseMenu.gdshader" id="1_v5f0y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cewhh"]
+shader = ExtResource("1_v5f0y")
+shader_parameter/amount = 1.0
+
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("_quitConfirmPanel", "_restartConfirmPanel", "_OptionsPanel") groups=["PauseMenu"]]
+script = ExtResource("1_lix15")
+_quitConfirmPanel = NodePath("Panel/VBoxContainer/Quit/Confirm Quit")
+_restartConfirmPanel = NodePath("Panel/VBoxContainer/Restart/Confirm Restart")
+_OptionsPanel = NodePath("Panel/VBoxContainer/Options/Option Panel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_cewhh")
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(16.0121, 9.01416)
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -177.0
+offset_right = 274.0
+offset_bottom = 180.0
+grow_vertical = 2
+
+[node name="Setting" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 3.0
+offset_right = 131.0
+offset_bottom = 26.0
+scale = Vector2(2, 2)
+text = "Setting"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 74.0
+offset_right = 140.0
+offset_bottom = 210.0
+scale = Vector2(1.85, 1.85)
+alignment = 1
+
+[node name="Resume" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Options" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Option"
+
+[node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
+visible = false
+layout_mode = 0
+offset_left = 116.216
+offset_top = -60.9459
+offset_right = 305.216
+offset_bottom = 108.054
+
+[node name="Restart" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Confirm Restart" type="Panel" parent="Panel/VBoxContainer/Restart"]
+visible = false
+layout_mode = 0
+offset_left = 116.216
+offset_top = -96.486
+offset_right = 305.216
+offset_bottom = 72.514
+
+[node name="Yes" type="Button" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 0
+offset_left = 41.3784
+offset_top = 87.3784
+offset_right = 76.3784
+offset_bottom = 118.378
+text = "Yes"
+
+[node name="No" type="Button" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 0
+offset_left = 110.027
+offset_top = 87.9189
+offset_right = 141.027
+offset_bottom = 118.919
+text = "No"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.7433
+offset_top = 10.0811
+offset_right = 75.2567
+offset_bottom = 59.0811
+grow_horizontal = 2
+text = "Are you sure you want to restart?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
+visible = false
+layout_mode = 0
+offset_left = 116.216
+offset_top = -130.946
+offset_right = 305.216
+offset_bottom = 38.054
+
+[node name="Yes" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 0
+offset_left = 41.3784
+offset_top = 87.3784
+offset_right = 76.3784
+offset_bottom = 118.378
+text = "Yes"
+
+[node name="No" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 0
+offset_left = 110.027
+offset_top = 87.9189
+offset_right = 141.027
+offset_bottom = 118.919
+text = "No"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.7433
+offset_top = 10.0811
+offset_right = 75.2567
+offset_bottom = 59.0811
+grow_horizontal = 2
+text = "Are you sure you want to quit?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="OnResumePressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="OnOptionPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="OnRestartPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/Yes" to="." method="OnRestartYesPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/No" to="." method="OnRestartNoPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="OnQuitPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/Yes" to="." method="OnQuitYesPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/No" to="." method="OnQuitNoPressed"]

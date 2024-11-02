@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7n5ul88o2x42"]
+
+[sub_resource type="Curve" id="Curve_s5ono"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.284264, 200), 0.0, 0.0, 0, 0, Vector2(0.588832, 10.989), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+amount = 1
+lifetime = 0.5
+speed_scale = 2.0
+explosiveness = 1.0
+direction = Vector2(0, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+angular_velocity_min = -10000.0
+angular_velocity_max = 10000.0
+tangential_accel_max = 3.0
+tangential_accel_curve = SubResource("Curve_s5ono")
+scale_amount_min = 3.0
+scale_amount_max = 3.0

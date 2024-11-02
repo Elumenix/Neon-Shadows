@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvqpwnagt6rqv"]
+
+[ext_resource type="Texture2D" uid="uid://3gtlue1wstrl" path="res://Assets/Sprites/Object/vecteezy_element-abstract-retro-style-80s-90s-pixel-art-8-bit_34556587.png" id="1_yqxoc"]
+
+[node name="Projectile" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.025, 0.025)
+texture = ExtResource("1_yqxoc")

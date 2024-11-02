@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b3yk12gr2mn1n"]
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+amount = 25
+lifetime = 0.25
+explosiveness = 0.2
+randomness = 0.2
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+angular_velocity_min = 186.67
+angular_velocity_max = 186.67
+color = Color(1, 0, 0, 1)

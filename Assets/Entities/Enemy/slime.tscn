@@ -1,9 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://dx50r3tdnt0wo"]
+[gd_scene load_steps=21 format=3 uid="uid://dx50r3tdnt0wo"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/BaseEnemyAI.cs" id="1_7mvx3"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_p1078"]
 [ext_resource type="Texture2D" uid="uid://vptu4xhmxmtc" path="res://Assets/Sprites/Enemy/Temp/red-slime-spritesheet.png" id="2_xcxxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
+size = Vector2(13.5, 11)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yfphp"]
+shader = ExtResource("2_p1078")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk0lu"]
 atlas = ExtResource("2_xcxxb")
@@ -90,15 +97,71 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Slime" type="Node2D"]
+[sub_resource type="Animation" id="Animation_rthyb"]
+resource_name = "Flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_x6so7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cfmod"]
+_data = {
+"Flash": SubResource("Animation_rthyb"),
+"RESET": SubResource("Animation_x6so7")
+}
+
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
+position = Vector2(0, 6)
+collision_layer = 24
+collision_mask = 4
 script = ExtResource("1_7mvx3")
+_speed = 10.0
+_navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.25, -6.5)
 shape = SubResource("RectangleShape2D_ejd0x")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_ejd0x")
+
+[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_yfphp")
+position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
 animation = &"Walk"
+
+[node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
+libraries = {
+"": SubResource("AnimationLibrary_cfmod")
+}
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 0.1

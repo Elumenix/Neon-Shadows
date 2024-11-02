@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtfm6fu55cubd"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Object/Explosion.cs" id="1_gra11"]
+[ext_resource type="Texture2D" uid="uid://dm31rtodfqa48" path="res://Assets/Sprites/Object/08b0ca83b3bd433.png" id="1_hvq8e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pikrn"]
+radius = 96.0052
+
+[node name="Explosion" type="RigidBody2D"]
+disable_mode = 2
+collision_layer = 0
+collision_mask = 16
+freeze = true
+script = ExtResource("1_gra11")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(25, 0)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_hvq8e")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pikrn")
+
+[connection signal="body_entered" from="." to="." method="InExplosion"]
+[connection signal="timeout" from="Timer" to="." method="ExplosionEnd"]
