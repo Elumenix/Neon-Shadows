@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=23 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_pwhas"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
+[ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(19.7813, 15.9747)
@@ -162,6 +163,8 @@ _data = {
 "RESET": SubResource("Animation_x6so7")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rgyqe"]
+
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
 collision_layer = 24
 collision_mask = 4
@@ -206,4 +209,13 @@ libraries = {
 visible = false
 position = Vector2(0, -3)
 
+[node name="DoneAudio" type="AudioStreamPlayer2D" parent="."]
+visible = false
+stream = SubResource("AudioStreamRandomizer_rgyqe")
+
+[node name="ConstantWhine" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_yfkbb")
+autoplay = true
+max_distance = 400.0
+attenuation = 2.0
 [node name="KnockbackTimer" type="Timer" parent="."]
