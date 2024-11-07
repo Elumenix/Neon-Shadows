@@ -57,7 +57,7 @@ public partial class PlayerSlash : StaticBody2D
             {
                 enemy.TakeDamage(DealDamage());
                 Vector2 knockback = Vector2.Right.Rotated(RotationDegrees);
-                knockback *= 50.0f;
+                knockback *= 80.0f;
                 enemy.ApplyKnockback(knockback);
             }
         }

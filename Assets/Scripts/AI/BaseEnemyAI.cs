@@ -120,7 +120,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 			}
 			else
 			{
-				Velocity = Velocity.Lerp(direction * _speed, 0.1f);
+				//Velocity = Velocity.Lerp(direction * _speed, 0.1f);
 			}
 			var collision = MoveAndCollide(Velocity * (float)(delta));
 			if(collision != null)
@@ -231,7 +231,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// <param name="knockback">The Force knockingback the enemy</param>
 	public void ApplyKnockback(Vector2 knockback)
 	{
-		ApplyForce(knockback);
+		Velocity = knockback;
 		_knocked = true;
 		_knockbackTimer.Start(0.5);
 	}
