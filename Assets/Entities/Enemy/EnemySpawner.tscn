@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch4bby515ngar"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/AI/EnemySpawner.cs" id="1_gc12i"]
+[ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_lmxu3"]
+[ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="3_uellc"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_gc12i")
+_baseEnemy = ExtResource("2_lmxu3")
+_drone = ExtResource("3_uellc")
+spawnCooldown = 1.0
+maxSpawnNum = 10
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]

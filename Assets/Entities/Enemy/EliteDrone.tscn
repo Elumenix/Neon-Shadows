@@ -1,53 +1,53 @@
-[gd_scene load_steps=21 format=3 uid="uid://bb3opovdjqbri"]
+[gd_scene load_steps=21 format=3 uid="uid://bo6kp3q4fvgwb"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_ojht7"]
-[ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_2g7rm"]
-[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_dcf22"]
-[ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_pvdbo"]
-[ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="5_n7i7l"]
+[ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_mgn5h"]
+[ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_gbppn"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_t7ave"]
+[ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_regqk"]
+[ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="5_uslg4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(19.7813, 15.9747)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wdy8t"]
-shader = ExtResource("3_dcf22")
+shader = ExtResource("3_t7ave")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k168i"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_upqpt"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w67od"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxooo"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mvbou"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_880v7"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2gifp"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_be438"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iu2ub"]
-atlas = ExtResource("4_pvdbo")
+atlas = ExtResource("4_regqk")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
@@ -162,19 +162,18 @@ _data = {
 "RESET": SubResource("Animation_x6so7")
 }
 
-[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
+[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles") groups=["Enemy"]]
 collision_layer = 24
 collision_mask = 4
 motion_mode = 1
-script = ExtResource("1_ojht7")
+script = ExtResource("1_mgn5h")
 _moveStopRange = 75.0
 _playerDetectRange = 200.0
-_shootOffset = 0.2
+_shootOffset = 0.1
 targetMaxOffset = Vector2(50, 50)
-_bullet = ExtResource("2_2g7rm")
+_bullet = ExtResource("2_gbppn")
 _particles = NodePath("CPUParticles2D")
-_speed = 300.0
-_navigationAgent = NodePath("NavigationAgent2D")
+isElite = true
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -202,6 +201,6 @@ libraries = {
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="CPUParticles2D" parent="." instance=ExtResource("5_n7i7l")]
+[node name="CPUParticles2D" parent="." instance=ExtResource("5_uslg4")]
 visible = false
 position = Vector2(0, -3)

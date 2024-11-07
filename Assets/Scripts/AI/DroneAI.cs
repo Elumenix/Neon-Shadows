@@ -39,6 +39,8 @@ public partial class DroneAI : BaseEnemyAI
 	[Export]
 	private CpuParticles2D _particles;
 
+	[Export]
+	public bool isElite;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -235,9 +237,12 @@ public partial class DroneAI : BaseEnemyAI
 	/// </summary>
 	private async void Attack() {
 
-		//_droneState = DroneFSM.Attacking;
-		//show the charging attack particle effect before shoot the bullet
-		_particles.Show();
+		if (isElite) {
+            _droneState = DroneFSM.Attacking;
+        }
+
+        //show the charging attack particle effect before shoot the bullet
+        _particles.Show();
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 		_particles.Hide();
 
