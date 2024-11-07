@@ -11,6 +11,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 	[ExportCategory("Movement")]
 	[Export] protected float _speed;
 	[Export] protected float _maxSpeed;
+	protected bool _knocked;
+	protected Timer _knockbackTimer;
 	[Export] protected NavigationAgent2D _navigationAgent;
 	protected bool _usePathFinding = true;
 	protected bool _shouldMove = true;
@@ -48,7 +50,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 		_detectionRange = 300.0f;
 		if(_maxSpeed <= 0) { _maxSpeed = _speed; }
-
+		_knocked = false;
+		_knockbackTimer = GetNode<Timer>("KnockbackTimer");
+		_knockbackTimer.Timeout += _knockbackTimerOut;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -109,8 +113,15 @@ public partial class BaseEnemyAI : CharacterBody2D
 			//create the direction vector and the collision for enemy
 			Vector2 direction = (targetPosition - GlobalPosition).Normalized();
 			//Position += direction * (float)(_speed * delta);
-			Velocity = direction * _speed;
-			//Velocity = Velocity.LimitLength(_maxSpeed);
+			if (!_knocked)
+			{
+				Velocity += direction * _speed;
+				Velocity = Velocity.LimitLength(_maxSpeed);
+			}
+			else
+			{
+				Velocity = Velocity.Lerp(direction * _speed, 0.1f);
+			}
 			var collision = MoveAndCollide(Velocity * (float)(delta));
 			if(collision != null)
 			{
@@ -196,5 +207,36 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	public void FlashOnDamage() {
 		GetNode<AnimationPlayer>("EnemySprite/FlashAnimation").Play("Flash");
+	}
+	/// <summary>
+	/// Applies a force to the Enemies Velocity
+	/// </summary>
+	/// <param name="force">The force being applied</param>
+	public void ApplyForce(Vector2 force)
+	{
+		Velocity += force;
+	}
+	/// <summary>
+	/// Normalizes a force before applying to the Velocity
+	/// </summary>
+	/// <param name="force"></param>
+	public void ApplyNormalizedForce(Vector2 force)
+	{
+		ApplyForce(force.Normalized());
+	}
+
+	/// <summary>
+	/// Applies a force to the enemy and enables extra knockback related variables
+	/// </summary>
+	/// <param name="knockback">The Force knockingback the enemy</param>
+	public void ApplyKnockback(Vector2 knockback)
+	{
+		ApplyForce(knockback);
+		_knocked = true;
+		_knockbackTimer.Start(0.5);
+	}
+	protected void _knockbackTimerOut()
+	{
+		_knocked = false;
 	}
 }

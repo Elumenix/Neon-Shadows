@@ -218,3 +218,4 @@ stream = ExtResource("6_yfkbb")
 autoplay = true
 max_distance = 400.0
 attenuation = 2.0
+[node name="KnockbackTimer" type="Timer" parent="."]

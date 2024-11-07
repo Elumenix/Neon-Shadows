@@ -621,19 +621,19 @@ public partial class Player : CharacterBody2D
 		Vector2 unscaledVelocity = _VectorFromRotation(slash.RotationDegrees);
 		// Scale by Knockback Amount
 		// Change Slash's linear velocity to new scaled vector;
-		slash.ConstantLinearVelocity = unscaledVelocity * 22000f;
+		//slash.ConstantLinearVelocity = unscaledVelocity * 22000f;
 
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) 
 		{ 
 			slash.Modulate = Colors.Blue; 
 			slash.GetChild<Sprite2D>(0).FlipV = true;
-			slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 2f;
+			//slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 2f;
 		}
 		else if (_attackCount == 2) { 
 			// End of combo should deal more knockback then normal
 			slash.Modulate = Colors.Red;
-			slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 4f;
+			//slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 4f;
 		}
 		//GD.Print($"Slash Linear Velocity{slash.ConstantLinearVelocity}");
 		AddChild(slash);

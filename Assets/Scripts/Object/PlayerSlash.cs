@@ -56,8 +56,37 @@ public partial class PlayerSlash : StaticBody2D
             if (body is BaseEnemyAI enemy)
             {
                 enemy.TakeDamage(DealDamage());
+                Vector2 knockback = Vector2.Right.Rotated(RotationDegrees);
+                knockback *= 50.0f;
+                enemy.ApplyKnockback(knockback);
             }
         }
         
+    }
+    /// <summary>
+	/// Returns a normalized vector based off the rotation in degrees
+	/// </summary>
+	/// <param name="degrees">Angle of rotation in degrees</param>
+	/// <returns></returns>
+	private Vector2 _vectorFromRotation(float degrees)
+    {
+        // Use a 45 degree offset so it seems more accurate
+        if (degrees >= 315.0f || degrees < 45.0f)
+        {
+            return Vector2.Right;
+        }
+        else if (degrees >= 45.0f && degrees < 135.0f)
+        {
+            return Vector2.Down;
+        }
+        else if (degrees >= 135.0f && degrees < 225.0f)
+        {
+            return Vector2.Left;
+        }
+        else if (degrees >= 225.0f && degrees < 315.0f)
+        {
+            return Vector2.Up;
+        }
+        return Vector2.Zero;
     }
 }
