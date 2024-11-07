@@ -205,3 +205,5 @@ libraries = {
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
 visible = false
 position = Vector2(0, -3)
+
+[node name="KnockbackTimer" type="Timer" parent="."]
