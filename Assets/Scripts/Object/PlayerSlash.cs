@@ -61,6 +61,10 @@ public partial class PlayerSlash : StaticBody2D
                 enemy.ApplyKnockback(knockback);
             }
         }
+        else if(body is Barrel barrel)
+        {
+            barrel._onHit();
+        }
         
     }
     /// <summary>
