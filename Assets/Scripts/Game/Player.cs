@@ -50,6 +50,7 @@ public partial class Player : CharacterBody2D
 
 	// Sound Stuff
 	AudioStreamPlayer2D footstepPlayer;
+	AudioStreamPlayer2D swordSlashAudio;
     int lastFrame = 0;
 
 
@@ -115,6 +116,7 @@ public partial class Player : CharacterBody2D
 
 		// Get Sound Players
 		footstepPlayer = GetNode<AudioStreamPlayer2D>("%FootstepPlayer");
+		swordSlashAudio = GetNode<AudioStreamPlayer2D>("%SwordAudio");
 
 		//init the variables needed for falling off edges mechanic
 
@@ -250,6 +252,8 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("attack_melee") && (!_isAttacking || (_attackCount > 0 && _attackCount < 3)))
 		{
 			_meleeAttack();
+			//playerAudio.Random
+			swordSlashAudio.Play();
 		}
 
 		// Check if we are attacking with ranged
