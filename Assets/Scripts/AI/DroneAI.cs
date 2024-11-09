@@ -152,7 +152,9 @@ public partial class DroneAI : BaseEnemyAI
 				speed += 10;	
 			}
 			// move the drone and handle any collisions
-			var collision = MoveAndCollide(direction * (float)(_speed * delta));
+			Velocity += direction * (float)speed;
+			Velocity = Velocity.LimitLength(_maxSpeed);
+			var collision = MoveAndCollide(Velocity * (float)(delta));
 			if (collision != null)
 			{
 
