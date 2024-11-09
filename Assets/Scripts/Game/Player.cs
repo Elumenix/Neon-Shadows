@@ -48,8 +48,13 @@ public partial class Player : CharacterBody2D
 	private Timer _rangedTimer;
 	private bool _isShooting;
 
-	//falling off edges
-	private bool _isFalling = false;
+	// Sound Stuff
+	AudioStreamPlayer2D footstepPlayer;
+    int lastFrame = 0;
+
+
+    //falling off edges
+    private bool _isFalling = false;
 	private Vector2 _safePosition; 
 	private Timer _safePositionTimer;
 	private Vector2 _direction;
@@ -107,6 +112,9 @@ public partial class Player : CharacterBody2D
 		_isShooting = false;
 		_rangedTimer = GetNode<Timer>("ShootTimer");
 
+
+		// Get Sound Players
+		footstepPlayer = GetNode<AudioStreamPlayer2D>("%FootstepPlayer");
 
 		//init the variables needed for falling off edges mechanic
 
@@ -532,12 +540,20 @@ public partial class Player : CharacterBody2D
 					_animatedSprite.Play("default");
 					break;
 				}
+
 		}
 		if (!_hasMoved)// && !_lastMoved)
 		{
 			_animatedSprite.Stop();
 			_animatedSprite.Frame = 1;
 		}
+
+		// Play footstep sound on step frame
+		if (_animatedSprite.IsPlaying() && _animatedSprite.Frame == 1 && lastFrame != 1) {
+			footstepPlayer.Play();
+		}
+
+		lastFrame = _animatedSprite.Frame; 
 	}
 	/// <summary>
 	/// Changes the attack animation after updateFacing

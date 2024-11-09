@@ -12,7 +12,7 @@
 [ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="8_ymn75"]
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="10_4g51h"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
-[ext_resource type="PackedScene" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
+[ext_resource type="PackedScene" uid="uid://0egr1gjx5wny" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]

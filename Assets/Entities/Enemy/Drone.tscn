@@ -215,7 +215,9 @@ stream = SubResource("AudioStreamRandomizer_rgyqe")
 
 [node name="ConstantWhine" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_yfkbb")
+volume_db = -8.475
 autoplay = true
-max_distance = 400.0
+max_distance = 300.0
 attenuation = 2.0
+
 [node name="KnockbackTimer" type="Timer" parent="."]
