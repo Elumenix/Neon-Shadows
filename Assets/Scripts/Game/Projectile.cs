@@ -35,10 +35,12 @@ public partial class Projectile : RigidBody2D
 			}
 			// If it collides with anything other than the player delete itself
 			// Line could be changed since it no longer has a collision layer in common with player
-			if (collision.GetCollider() is Barrel || collision.GetCollider() is PhysicsBody2D)
+			if(collision.GetCollider() is Barrel)
 			{
-                QueueFree();
-            }
+				Barrel temp = (Barrel)collision.GetCollider();
+				temp._onHit();
+			}
+			QueueFree();
 		}
     }
 

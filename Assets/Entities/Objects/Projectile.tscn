@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr0aaiinjk62s"]
+[gd_scene load_steps=4 format=3 uid="uid://cr0aaiinjk62s"]
 
+[ext_resource type="Script" path="res://Assets/Scripts/Game/Projectile.cs" id="1_nm1f1"]
 [ext_resource type="Texture2D" uid="uid://3gtlue1wstrl" path="res://Assets/Sprites/Object/vecteezy_element-abstract-retro-style-80s-90s-pixel-art-8-bit_34556587.png" id="2_hiavs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_57lw4"]
@@ -7,7 +8,8 @@ radius = 7.07107
 
 [node name="Projectile" type="Area2D"]
 collision_layer = 12
-collision_mask = 12
+collision_mask = 14
+script = ExtResource("1_nm1f1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.003, 0.003)
