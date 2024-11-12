@@ -692,6 +692,7 @@ public partial class Player : CharacterBody2D
 	{
 		_dead = true;
 		_animatedSprite.Visible = false;
+		_animationPlayer.Stop();
 	}
 
 	/// <summary>
