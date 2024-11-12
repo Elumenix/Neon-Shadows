@@ -25,7 +25,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	protected AnimatedSprite2D _animatedSprite;
 
-	public override async void _Ready()
+
+    public override async void _Ready()
 	{
 		currentHealth = MaxHealth;
 
@@ -53,7 +54,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 		_knocked = false;
 		_knockbackTimer = GetNode<Timer>("KnockbackTimer");
 		_knockbackTimer.Timeout += _knockbackTimerOut;
-	}
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -175,7 +176,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	private void HandleDeath()
 	{
-		QueueFree();
+        GameManager.Instance.EnemyDefeated();
+        QueueFree();
 	}
 
 	// This function will be called when a collision with the player happens

@@ -12,6 +12,8 @@ public partial class GameManager : Node
 	public bool gamePaused;
     public int currentLevel;
 
+    public int TotalEnemies { get; set; }
+    private int _defeatedEnemies;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -34,6 +36,23 @@ public partial class GameManager : Node
 			PauseGame();
 		}
 	}
+
+    public void EnemyDefeated()
+    {
+        _defeatedEnemies++;
+        GD.Print("Enemy defeated. Total defeated: ", _defeatedEnemies);
+        CheckIfAllEnemiesDefeated();
+    }
+
+    private void CheckIfAllEnemiesDefeated()
+    {
+        GD.Print("_defeatedEnemies" + _defeatedEnemies + "TotalEnemies" + TotalEnemies);
+        if (_defeatedEnemies >= TotalEnemies)
+        {
+            GD.Print("All enemies defeated!");
+        }
+    }
+
 
     /// <summary>
     /// pause the game and open the pause menu

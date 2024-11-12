@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://0egr1gjx5wny"]
+[gd_scene load_steps=4 format=3 uid="uid://dgyibo87gulk3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/EnemySpawner.cs" id="1_gc12i"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_lmxu3"]
