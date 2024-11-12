@@ -283,6 +283,7 @@ mass = 1000.0
 
 [node name="Player" parent="TileMap/Objects&Entities" instance=ExtResource("1_qr48g")]
 position = Vector2(1248, 1649)
+_fallSpeed = 15.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="TileMap/Objects&Entities/Player"]
 remote_path = NodePath("../../Camera2D")
