@@ -24,10 +24,12 @@ public partial class BaseEnemyAI : CharacterBody2D
 	protected float _detectionRange;
 
 	protected AnimatedSprite2D _animatedSprite;
-
+	
+	public bool isDead;
 
 	public override async void _Ready()
 	{
+		isDead = false;
 		currentHealth = MaxHealth;
 
 		// Small delay for initialization
@@ -176,6 +178,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	private void HandleDeath()
 	{
+		isDead = true;
 		GameManager.Instance.EnemyDefeated();
 		QueueFree();
 	}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://dwkt1vaemwg87"]
+[gd_scene load_steps=20 format=4 uid="uid://dwkt1vaemwg87"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="3_f4wub"]
 [ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="4_w85dn"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="5_pvo04"]
-[ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="6_l1mao"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="6_vsxus"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="8_eppbb"]
-[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="8_ymn75"]
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="10_4g51h"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
 [ext_resource type="PackedScene" uid="uid://0egr1gjx5wny" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
@@ -285,6 +283,7 @@ mass = 1000.0
 
 [node name="Player" parent="TileMap/Objects&Entities" instance=ExtResource("1_qr48g")]
 position = Vector2(1248, 1649)
+_fallSpeed = 15.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="TileMap/Objects&Entities/Player"]
 remote_path = NodePath("../../Camera2D")
@@ -303,18 +302,6 @@ unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_iqsei")
 
 [node name="HUD" parent="." instance=ExtResource("5_pvo04")]
-
-[node name="TempButton" type="Button" parent="HUD"]
-custom_minimum_size = Vector2(70.245, 20.33)
-offset_left = 507.0
-offset_top = 11.0
-offset_right = 586.0
-offset_bottom = 42.0
-theme_override_fonts/font = ExtResource("8_ymn75")
-theme_override_font_sizes/font_size = 10
-text = "To Menu
-"
-script = ExtResource("6_l1mao")
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
 modulate = Color(1, 1, 1, 0.501961)
@@ -386,7 +373,7 @@ autoplay = true
 
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("13_gu5ln")]
 position = Vector2(1166, 1716)
-maxSpawnNum = 2
+maxSpawnNum = 4
 
 [node name="EnemiesContainer" type="Node" parent="."]
 
@@ -394,5 +381,3 @@ maxSpawnNum = 2
 position = Vector2(690, 1423)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
-
-[connection signal="pressed" from="HUD/TempButton" to="HUD/TempButton" method="_on_leave"]
