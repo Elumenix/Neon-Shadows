@@ -29,6 +29,8 @@ public partial class GameManager : Node
 	{
 		_instance = this;
 		currentGate = 1;
+		_defeatedEnemies= 0;
+		TotalEnemies = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

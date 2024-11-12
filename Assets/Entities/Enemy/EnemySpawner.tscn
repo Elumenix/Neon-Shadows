@@ -12,3 +12,4 @@ spawnCooldown = 1.0
 maxSpawnNum = 10
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
+one_shot = true
