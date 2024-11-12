@@ -38,6 +38,8 @@ Player=""
 Enemy=""
 PauseMenu=""
 PlatformArea=""
+Gate=""
+EnemySpawner=""
 
 [input]
 
