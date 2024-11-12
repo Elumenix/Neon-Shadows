@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://dwkt1vaemwg87"]
+[gd_scene load_steps=24 format=4 uid="uid://dwkt1vaemwg87"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -14,6 +14,16 @@
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
 [ext_resource type="PackedScene" uid="uid://0egr1gjx5wny" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
+[ext_resource type="Shader" path="res://Assets/Scenes/Bloom.gdshader" id="15_da5rf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rfc0q"]
+shader = ExtResource("15_da5rf")
+shader_parameter/bloomRadius = 1.0
+shader_parameter/bloomThreshold = 1.0
+shader_parameter/bloomIntensity = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2w27v"]
+viewport_path = NodePath("SubViewportContainer/SubViewport")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -257,6 +267,22 @@ agent_radius = 5.0
 [node name="GameTest2" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(341, 217)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_left = 922.0
+offset_top = 1467.0
+offset_right = 1569.0
+offset_bottom = 1832.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+
+[node name="Bloom" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_rfc0q")
+offset_left = 1090.0
+offset_top = 1565.0
+offset_right = 1501.0
+offset_bottom = 1825.0
+texture = SubResource("ViewportTexture_2w27v")
 
 [node name="TileMap" type="Node2D" parent="."]
 
