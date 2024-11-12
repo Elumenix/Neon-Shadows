@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c82tjhmkq5hnt"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Object/Gate.cs" id="1_c1d7w"]
+[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_77x8y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6l5c"]
+size = Vector2(121, 127)
+
+[node name="Gate" type="StaticBody2D"]
+collision_layer = 255
+collision_mask = 255
+script = ExtResource("1_c1d7w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_j6l5c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_77x8y")

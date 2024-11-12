@@ -51,11 +51,11 @@ public partial class Player : CharacterBody2D
 	// Sound Stuff
 	AudioStreamPlayer2D footstepPlayer;
 	AudioStreamPlayer2D swordSlashAudio;
-    int lastFrame = 0;
+	int lastFrame = 0;
 
 
-    //falling off edges
-    private bool _isFalling = false;
+	//falling off edges
+	private bool _isFalling = false;
 	private Vector2 _safePosition; 
 	private Timer _safePositionTimer;
 	private Vector2 _direction;

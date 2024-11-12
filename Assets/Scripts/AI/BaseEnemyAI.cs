@@ -25,6 +25,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	protected AnimatedSprite2D _animatedSprite;
 
+
 	public override async void _Ready()
 	{
 		currentHealth = MaxHealth;
@@ -175,6 +176,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	private void HandleDeath()
 	{
+		GameManager.Instance.EnemyDefeated();
 		QueueFree();
 	}
 
