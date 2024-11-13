@@ -55,10 +55,13 @@ public partial class PlayerSlash : StaticBody2D
         {
             if (body is BaseEnemyAI enemy)
             {
+                Vector2 knockback = new Vector2(MathF.Cos(Rotation), MathF.Sin(Rotation));
+                knockback *= 10.0f;
+                if (!enemy.IsInvulnerable())
+                {
+                    enemy.ApplyKnockback(knockback);
+                }
                 enemy.TakeDamage(DealDamage());
-                Vector2 knockback = Vector2.Right.Rotated(RotationDegrees);
-                knockback *= 80.0f;
-                enemy.ApplyKnockback(knockback);
             }
         }
         else if(body is Barrel barrel)
