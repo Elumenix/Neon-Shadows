@@ -236,12 +236,17 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// <param name="knockback">The Force knockingback the enemy</param>
 	public void ApplyKnockback(Vector2 knockback)
 	{
-		Velocity = knockback;
+		Position += knockback;
 		_knocked = true;
 		_knockbackTimer.Start(0.5);
 	}
 	protected void _knockbackTimerOut()
 	{
 		_knocked = false;
+	}
+
+	public bool IsInvulnerable()
+	{
+		return _iFrames > 0.0f;
 	}
 }
