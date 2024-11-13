@@ -56,7 +56,7 @@ public partial class PlayerSlash : StaticBody2D
             if (body is BaseEnemyAI enemy)
             {
                 Vector2 knockback = new Vector2(MathF.Cos(Rotation), MathF.Sin(Rotation));
-                knockback *= 25.0f;
+                knockback *= 100.0f;
                 if (!enemy.IsInvulnerable())
                 {
                     enemy.ApplyKnockback(knockback);
