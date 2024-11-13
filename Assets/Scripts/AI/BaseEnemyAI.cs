@@ -17,7 +17,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	protected bool _usePathFinding = true;
 	protected bool _shouldMove = true;
 
-	protected float _iFrames = 0.3f;
+	protected float _iFrames = 0.25f;
 
 	protected Node2D _player;
 
