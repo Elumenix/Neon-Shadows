@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c56j57dopopcp"]
+[gd_scene load_steps=5 format=3 uid="uid://c56j57dopopcp"]
 
 [ext_resource type="Texture2D" uid="uid://blka11sss30wb" path="res://Assets/Sprites/Menu/TempMenuBackground.jpg" id="1_6d3ub"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="2_pph0l"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="2_qj7re"]
+[ext_resource type="AudioStream" uid="uid://df513p0tqjtlu" path="res://Assets/Sounds/deep-space-garage-band-20148.mp3" id="4_104pw"]
 
 [node name="MainMenu" type="Node2D"]
 
@@ -37,5 +38,9 @@ theme_override_fonts/font = ExtResource("2_qj7re")
 theme_override_font_sizes/font_size = 24
 text = "Play"
 script = ExtResource("2_pph0l")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_104pw")
+autoplay = true
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

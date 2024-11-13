@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://di7sqrj73qtt1"]
+[gd_scene load_steps=4 format=3 uid="uid://di7sqrj73qtt1"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/LevelSelect.cs" id="1_6gxph"]
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_xk8ig"]
+[ext_resource type="AudioStream" uid="uid://dlifsm4hbrms2" path="res://Assets/Sounds/cyberpunk-beat-64649.mp3" id="3_ho7jm"]
 
 [node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_levelOneDescriptionPanel", "_levelTwoDescriptionPanel", "_quitConfirmPanel")]
 script = ExtResource("1_6gxph")
@@ -176,6 +177,10 @@ grow_horizontal = 2
 text = "Are you sure you want to quit?"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ho7jm")
+autoplay = true
 
 [connection signal="pressed" from="Panel/VBoxContainer/Level1" to="." method="OnLevelOnePressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Level1/LevelInfoPanel/Start" to="." method="OnLevelOneStartPressed"]
