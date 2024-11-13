@@ -238,7 +238,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	{
 		Velocity = knockback;
 		_knocked = true;
-		_knockbackTimer.Start(0.5);
+		_knockbackTimer.Start(0.1);
 	}
 	protected void _knockbackTimerOut()
 	{
