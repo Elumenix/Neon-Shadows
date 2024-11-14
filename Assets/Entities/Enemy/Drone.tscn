@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=24 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="3_pwhas"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
+[ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
@@ -164,6 +165,10 @@ _data = {
 }
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rgyqe"]
+random_pitch = 2.02
+random_volume_offset_db = 4.1
+streams_count = 1
+stream_0/stream = ExtResource("6_fjoqr")
 
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
 collision_layer = 24
@@ -209,7 +214,8 @@ libraries = {
 visible = false
 position = Vector2(0, -3)
 
-[node name="DoneAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="DroneHit" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
 visible = false
 stream = SubResource("AudioStreamRandomizer_rgyqe")
 
