@@ -3,12 +3,13 @@ using System;
 
 public partial class OozeAi : BaseEnemyAI
 {
-	 [Export] private float _lungeSpeed = 200.0f;
+	[Export] private float _lungeSpeed = 200.0f;
 	[Export] private float _lungeRange = 100.0f;
 	[Export] private float _lungeDuration = 0.5f;
 	private Timer _lungeTimer;
 	private Timer _lungeCooldownTimer;
 	private bool _isLunging = false;
+	private bool _isLungeCooldown = false;
 
 	public override void _Ready()
 	{
@@ -26,15 +27,16 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
-	}
+		_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+        _animatedSprite.Play("Walk");
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if(IsOnPlatform()){
-			if (_player != null && !_isLunging && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
+			if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
 			{
 				StartLunge();
-				GD.Print("LungeStart");
 			}
 			else
 			{
@@ -61,9 +63,9 @@ public partial class OozeAi : BaseEnemyAI
         }
         else{
 			GD.Print("Fall and die");
-			
-		}
+        }
 	}
+
 	
 	private bool IsOnPlatform()
 	{
@@ -73,7 +75,8 @@ public partial class OozeAi : BaseEnemyAI
 	private void StartLunge()
 	{
 		_isLunging = true;
-		_usePathFinding = false;
+		_isLungeCooldown = true;
+        _usePathFinding = false;
 		_shouldMove = true;
 		
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
@@ -81,7 +84,8 @@ public partial class OozeAi : BaseEnemyAI
 		
 		_iFrames = _lungeDuration;
 		_lungeTimer.Start();
-	}
+        _animatedSprite.Play("Lunge");
+    }
 
 	private void EndLunge()
 	{
@@ -89,13 +93,15 @@ public partial class OozeAi : BaseEnemyAI
 		_iFrames = 0;
 		Velocity = Vector2.Zero;
 		_lungeCooldownTimer.Start();
-		GD.Print("Lunge End");
-	}
+		_animatedSprite.Play("Walk");
+
+        _isLunging = false;
+    }
 
 	private void EndCooldown() {
-		_isLunging = false;
-		GD.Print("Cooldown over");
-	}
+        _isLungeCooldown = false;
+
+    }
 
 	public override void TakeDamage(int damageAmount)
 	{
