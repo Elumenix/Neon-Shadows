@@ -39,18 +39,22 @@ public partial class DroneAI : BaseEnemyAI
 	[Export]
 	private CpuParticles2D _particles;
 
+	private AudioStreamPlayer2D droneHit;
+
 	public override void _Ready()
 	{
 		base._Ready();
 		_usePathFinding = false;
 		currentShootCooldown = shootCooldown;
 		_aggroDetectRange = _playerDetectRange * 3;
+
+		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
 	}
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-		DetermineDrongState();
+		DetermineDroneState();
 		DroneLogic(delta);
 
 		currentShootCooldown -= delta;
@@ -190,7 +194,7 @@ public partial class DroneAI : BaseEnemyAI
 	/// <summary>
 	/// determine which state the drone will currently be
 	/// </summary>
-	private void DetermineDrongState()
+	private void DetermineDroneState()
 	{
 		DetectPlayer();
 		if (_droneState != DroneFSM.AttackCharging) {
@@ -306,6 +310,7 @@ public partial class DroneAI : BaseEnemyAI
 
 	public override void TakeDamage(int damageAmount) { 
 		base.TakeDamage(damageAmount);
+		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;
 	}
 
