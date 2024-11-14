@@ -9,6 +9,7 @@ public partial class OozeAi : BaseEnemyAI
 	private Timer _lungeTimer;
 	private Timer _lungeCooldownTimer;
 	private bool _isLunging = false;
+	private bool _isLungeCooldown = false;
 
 	public override void _Ready()
 	{
@@ -33,7 +34,7 @@ public partial class OozeAi : BaseEnemyAI
 	public override void _PhysicsProcess(double delta)
 	{
 		if(IsOnPlatform()){
-			if (_player != null && !_isLunging && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
+			if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
 			{
 				StartLunge();
 			}
@@ -62,8 +63,9 @@ public partial class OozeAi : BaseEnemyAI
         }
         else{
 			GD.Print("Fall and die");
-		}
+        }
 	}
+
 	
 	private bool IsOnPlatform()
 	{
@@ -73,7 +75,8 @@ public partial class OozeAi : BaseEnemyAI
 	private void StartLunge()
 	{
 		_isLunging = true;
-		_usePathFinding = false;
+		_isLungeCooldown = true;
+        _usePathFinding = false;
 		_shouldMove = true;
 		
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
@@ -91,11 +94,14 @@ public partial class OozeAi : BaseEnemyAI
 		Velocity = Vector2.Zero;
 		_lungeCooldownTimer.Start();
 		_animatedSprite.Play("Walk");
-	}
+
+        _isLunging = false;
+    }
 
 	private void EndCooldown() {
-		_isLunging = false;
-	}
+        _isLungeCooldown = false;
+
+    }
 
 	public override void TakeDamage(int damageAmount)
 	{

@@ -180,7 +180,7 @@ _detectionRange = 300.0
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
 animation = &"Lunge"
-frame_progress = 0.398658
+frame_progress = 0.975351
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("")
