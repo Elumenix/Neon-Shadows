@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cptok5ekveik0"]
+
+[ext_resource type="Shader" path="res://Assets/Shader/Bloom.gdshader" id="1_syrut"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y8tut"]
+shader = ExtResource("1_syrut")
+shader_parameter/bloomRadius = 1.0
+shader_parameter/bloomThreshold = 1.0
+shader_parameter/bloomIntensity = 1.0
+
+[node name="Bloom" type="TextureRect"]
+material = SubResource("ShaderMaterial_y8tut")
