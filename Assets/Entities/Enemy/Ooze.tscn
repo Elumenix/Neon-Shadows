@@ -1,7 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://b1cw62olhn7q3"]
+[gd_scene load_steps=23 format=3 uid="uid://b1cw62olhn7q3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/OozeAi.cs" id="1_msgnd"]
 [ext_resource type="Texture2D" uid="uid://cg7jmcawnspqf" path="res://Assets/Sprites/Enemy/Temp/slime-Sheet.png" id="1_x67ru"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_hpgp3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_esoql"]
+shader = ExtResource("2_hpgp3")
+shader_parameter/flash_color = null
+shader_parameter/flash_value = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ehv2"]
 atlas = ExtResource("1_x67ru")
@@ -156,13 +162,13 @@ _maxSpeed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
 _detectionRange = 300.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
 animation = &"Walk"
-frame = 1
-frame_progress = 0.336018
+frame_progress = 0.42604
 
-[node name="FlashAnimation" type="AnimationPlayer" parent="AnimatedSprite2D"]
+[node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_cfmod")

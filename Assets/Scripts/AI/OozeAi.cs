@@ -3,7 +3,7 @@ using System;
 
 public partial class OozeAi : BaseEnemyAI
 {
-	 [Export] private float _lungeSpeed = 200.0f;
+	[Export] private float _lungeSpeed = 200.0f;
 	[Export] private float _lungeRange = 100.0f;
 	[Export] private float _lungeDuration = 0.5f;
 	private Timer _lungeTimer;
@@ -26,7 +26,7 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
-	}
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -34,7 +34,6 @@ public partial class OozeAi : BaseEnemyAI
 			if (_player != null && !_isLunging && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
 			{
 				StartLunge();
-				GD.Print("LungeStart");
 			}
 			else
 			{
@@ -89,12 +88,10 @@ public partial class OozeAi : BaseEnemyAI
 		_iFrames = 0;
 		Velocity = Vector2.Zero;
 		_lungeCooldownTimer.Start();
-		GD.Print("Lunge End");
 	}
 
 	private void EndCooldown() {
 		_isLunging = false;
-		GD.Print("Cooldown over");
 	}
 
 	public override void TakeDamage(int damageAmount)
