@@ -790,7 +790,7 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// Respawn player at the last safe position
 	/// </summary>
-	private void RespawnPlayer()
+	public void RespawnPlayer()
 	{
 		_zIndexTimer.Stop();
 		_isFalling = false;
