@@ -21,7 +21,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 	protected Node2D _player;
 
-	protected float _detectionRange;
+	[Export] protected float _detectionRange;
 
 	protected AnimatedSprite2D _animatedSprite;
 	
@@ -52,7 +52,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 		}
 
 		_detectionRange = 300.0f;
-		if(_maxSpeed <= 0) { _maxSpeed = _speed; }
 		_knocked = false;
 		_knockbackTimer = GetNode<Timer>("KnockbackTimer");
 		_knockbackTimer.Timeout += _knockbackTimerOut;
@@ -96,7 +95,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// <summary>
 	/// update the target position of the enemy pathfinding
 	/// </summary>
-	private void UpdateNavigationTarget()
+	protected void UpdateNavigationTarget()
 	{
 		if (_player != null)
 		{
@@ -109,7 +108,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	/// <param name="targetPosition">the position enemy is targeting</param>
 	/// <param name="delta">the delta time</param>
-	private void MoveTowardsTarget(Vector2 targetPosition, double delta)
+	protected void MoveTowardsTarget(Vector2 targetPosition, double delta)
 	{
 		//only use base enemy pathfinding if usePathFinding and shouldMove are true
 		if (_usePathFinding && _shouldMove) { 
