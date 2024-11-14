@@ -26,6 +26,8 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
+		_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+        _animatedSprite.Play("Walk");
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -60,7 +62,6 @@ public partial class OozeAi : BaseEnemyAI
         }
         else{
 			GD.Print("Fall and die");
-			
 		}
 	}
 	
@@ -80,7 +81,8 @@ public partial class OozeAi : BaseEnemyAI
 		
 		_iFrames = _lungeDuration;
 		_lungeTimer.Start();
-	}
+        _animatedSprite.Play("Lunge");
+    }
 
 	private void EndLunge()
 	{
@@ -88,6 +90,7 @@ public partial class OozeAi : BaseEnemyAI
 		_iFrames = 0;
 		Velocity = Vector2.Zero;
 		_lungeCooldownTimer.Start();
+		_animatedSprite.Play("Walk");
 	}
 
 	private void EndCooldown() {
