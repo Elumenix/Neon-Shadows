@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://dokg4kcelova4"]
+[gd_scene load_steps=21 format=4 uid="uid://dokg4kcelova4"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
 [ext_resource type="PackedScene" uid="uid://dgyibo87gulk3" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
+[ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
@@ -374,6 +375,7 @@ autoplay = true
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("13_gu5ln")]
 position = Vector2(1166, 1716)
 maxSpawnNum = 4
+EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="EnemiesContainer" type="Node" parent="."]
 
@@ -381,3 +383,7 @@ maxSpawnNum = 4
 position = Vector2(690, 1423)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
+
+[node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
+position = Vector2(1283, 1603)
+_detectionRange = 400.0
