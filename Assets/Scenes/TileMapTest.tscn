@@ -385,6 +385,7 @@ EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
 position = Vector2(1283, 1603)
-lungeDuration = 1.0
-_speed = 20.0
-_maxSpeed = 80.0
+_lungeSpeed = 300.0
+_lungeRange = 400.0
+_lungeDuration = 0.25
+_detectionRange = 400.0

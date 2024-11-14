@@ -3,49 +3,66 @@ using System;
 
 public partial class OozeAi : BaseEnemyAI
 {
-	 [Export] private float lungeSpeed = 200.0f;
-	[Export] private float lungeRange = 100.0f;
-	[Export] private float lungeDuration = 0.5f;
-	private Timer lungeTimer;
-	private bool isLunging = false;
+	 [Export] private float _lungeSpeed = 200.0f;
+	[Export] private float _lungeRange = 100.0f;
+	[Export] private float _lungeDuration = 0.5f;
+	private Timer _lungeTimer;
+	private Timer _lungeCooldownTimer;
+	private bool _isLunging = false;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		float randomScale = (float)GD.RandRange(0.9, 1.1);
+
+        float randomScale = (float)GD.RandRange(0.9, 1.1);
 		Scale = new Vector2(randomScale, randomScale);
 		Modulate = new Color(0, 0, (float)GD.RandRange(0.3, 0.7));
 
-		lungeTimer = new Timer();
-		AddChild(lungeTimer);
-		lungeTimer.WaitTime = lungeDuration;
-		lungeTimer.OneShot = true;
-		lungeTimer.Timeout += EndLunge;
-
-		if (_speed <= 0) _speed = 50.0f;
-		if (_maxSpeed <= 0) _maxSpeed = 100.0f;
+		_lungeCooldownTimer = GetNode<Timer>("LungeCooldownTimer");
+		_lungeCooldownTimer.Start();
+		_lungeCooldownTimer.Timeout += EndCooldown;
+		_lungeTimer = new Timer();
+		AddChild(_lungeTimer);
+		_lungeTimer.WaitTime = _lungeDuration;
+		_lungeTimer.OneShot = true;
+		_lungeTimer.Timeout += EndLunge;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if(IsOnPlatform()){
-			if (_player != null && !isLunging && Position.DistanceTo(_player.Position) < lungeRange)
+			if (_player != null && !_isLunging && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
 			{
 				StartLunge();
+				GD.Print("LungeStart");
 			}
-			else if (!isLunging)
+			else
 			{
-				base._PhysicsProcess(delta);
-			}
+                UpdateNavigationTarget();
+                Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+                if (_navigationAgent.DistanceToTarget() < _detectionRange)
+                {
+                    _shouldMove = true;
+                }
+                else
+                {
+                    _shouldMove = false;
+                }
+
+                if (_navigationAgent.IsNavigationFinished())
+                {
+                    nextPathPosition = GlobalPosition;
+                }
+
+                MoveTowardsTarget(nextPathPosition, delta);
+            }
 			
 			MoveAndSlide();
-		}else{
+        }
+        else{
 			GD.Print("Fall and die");
 			
 		}
-		
-		
-		
 	}
 	
 	private bool IsOnPlatform()
@@ -55,28 +72,34 @@ public partial class OozeAi : BaseEnemyAI
 	
 	private void StartLunge()
 	{
-		isLunging = true;
+		_isLunging = true;
 		_usePathFinding = false;
 		_shouldMove = true;
 		
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
-		Velocity = direction * lungeSpeed;
+		Velocity = direction * _lungeSpeed;
 		
-		_iFrames = lungeDuration;
-		lungeTimer.Start();
+		_iFrames = _lungeDuration;
+		_lungeTimer.Start();
 	}
 
 	private void EndLunge()
 	{
-		isLunging = false;
 		_usePathFinding = true;
 		_iFrames = 0;
 		Velocity = Vector2.Zero;
+		_lungeCooldownTimer.Start();
+		GD.Print("Lunge End");
+	}
+
+	private void EndCooldown() {
+		_isLunging = false;
+		GD.Print("Cooldown over");
 	}
 
 	public override void TakeDamage(int damageAmount)
 	{
-		if (!isLunging)
+		if (!_isLunging)
 		{
 			base.TakeDamage(damageAmount);
 		}
