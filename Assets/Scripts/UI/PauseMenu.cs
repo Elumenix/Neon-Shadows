@@ -64,7 +64,8 @@ public partial class PauseMenu : CanvasLayer
 	/// </summary>
 	public void OnQuitYesPressed() {
 		GameManager.Instance._Ready();
-		GD.Print("quit yes pressed");
+        (GameManager.Instance.player as Player).RespawnPlayer();
+        GD.Print("quit yes pressed");
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
 	}
 
@@ -82,7 +83,8 @@ public partial class PauseMenu : CanvasLayer
 	public void OnRestartYesPressed()
 	{
 		GameManager.Instance._Ready();
-		GD.Print("restart yes pressed");
+		(GameManager.Instance.player as Player).RespawnPlayer();
+        GD.Print("restart yes pressed");
 		GetTree().ReloadCurrentScene();
 
 	}
