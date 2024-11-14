@@ -28,18 +28,31 @@ public partial class OozeAi : BaseEnemyAI
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (_player != null && !isLunging && Position.DistanceTo(_player.Position) < lungeRange)
-		{
-			StartLunge();
+		if(IsOnPlatform()){
+			if (_player != null && !isLunging && Position.DistanceTo(_player.Position) < lungeRange)
+			{
+				StartLunge();
+			}
+			else if (!isLunging)
+			{
+				base._PhysicsProcess(delta);
+			}
+			
+			MoveAndSlide();
+		}else{
+			GD.Print("Fall and die");
+			
 		}
-		else if (!isLunging)
-		{
-			base._PhysicsProcess(delta);
-		}
-
-		MoveAndSlide();
+		
+		
+		
 	}
-
+	
+	private bool IsOnPlatform()
+	{
+		return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
+	}
+	
 	private void StartLunge()
 	{
 		isLunging = true;
