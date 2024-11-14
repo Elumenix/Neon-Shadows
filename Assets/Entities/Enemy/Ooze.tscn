@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b1cw62olhn7q3"]
+[gd_scene load_steps=26 format=3 uid="uid://b1cw62olhn7q3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/OozeAi.cs" id="1_msgnd"]
 [ext_resource type="Texture2D" uid="uid://cg7jmcawnspqf" path="res://Assets/Sprites/Enemy/Temp/slime-Sheet.png" id="1_x67ru"]
@@ -150,9 +150,37 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemySprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_d15e0"]
+resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cfmod"]
 _data = {
+"Fall": SubResource("Animation_d15e0"),
 "Flash": SubResource("Animation_rthyb"),
 "RESET": SubResource("Animation_x6so7")
 }
@@ -163,13 +191,14 @@ size = Vector2(19.5, 11)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fryue"]
 size = Vector2(5, 3)
 
-[node name="Ooze" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
+[node name="Ooze" type="CharacterBody2D" node_paths=PackedStringArray("_animationPlayer", "_navigationAgent")]
 collision_layer = 24
 collision_mask = 4
 script = ExtResource("1_msgnd")
 _lungeSpeed = 250.0
 _lungeRange = 400.0
 _lungeDuration = 0.4
+_animationPlayer = NodePath("EnemySprite/FlashAnimation")
 MaxHealth = 500
 _speed = 10.0
 _maxSpeed = 10.0
@@ -180,10 +209,10 @@ _detectionRange = 300.0
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
 animation = &"Lunge"
-frame_progress = 0.975351
+frame_progress = 0.753123
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
-root_node = NodePath("")
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_cfmod")
 }
@@ -212,4 +241,8 @@ position = Vector2(-0.5, 8.5)
 shape = SubResource("RectangleShape2D_fryue")
 
 [node name="LungeCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ZIndexTimer" type="Timer" parent="."]
+wait_time = 0.3
 one_shot = true
