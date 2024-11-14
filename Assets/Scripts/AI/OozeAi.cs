@@ -12,7 +12,6 @@ public partial class OozeAi : BaseEnemyAI
 	public override void _Ready()
 	{
 		base._Ready();
-
 		float randomScale = (float)GD.RandRange(0.9, 1.1);
 		Scale = new Vector2(randomScale, randomScale);
 		Modulate = new Color(0, 0, (float)GD.RandRange(0.3, 0.7));
@@ -22,6 +21,9 @@ public partial class OozeAi : BaseEnemyAI
 		lungeTimer.WaitTime = lungeDuration;
 		lungeTimer.OneShot = true;
 		lungeTimer.Timeout += EndLunge;
+
+		if (_speed <= 0) _speed = 50.0f;
+		if (_maxSpeed <= 0) _maxSpeed = 100.0f;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -34,6 +36,8 @@ public partial class OozeAi : BaseEnemyAI
 		{
 			base._PhysicsProcess(delta);
 		}
+
+		MoveAndSlide();
 	}
 
 	private void StartLunge()
@@ -41,7 +45,10 @@ public partial class OozeAi : BaseEnemyAI
 		isLunging = true;
 		_usePathFinding = false;
 		_shouldMove = true;
-		Velocity = (GlobalPosition.DirectionTo(_player.GlobalPosition) * lungeSpeed);
+		
+		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+		Velocity = direction * lungeSpeed;
+		
 		_iFrames = lungeDuration;
 		lungeTimer.Start();
 	}
