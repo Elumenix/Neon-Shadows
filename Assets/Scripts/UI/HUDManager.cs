@@ -49,6 +49,6 @@ public partial class HUDManager : Control
 	private void _updateAmmo()
 	{
 		Player temp = (Player)player;
-		_ammoCount.Text = temp.Ammo.ToString();
+		_ammoCount.Text = $"{temp.Ammo}/{temp.MaxAmmo}";
 	}
 }
