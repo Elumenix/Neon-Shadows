@@ -10,6 +10,8 @@ public partial class OozeAi : BaseEnemyAI
 	private Timer _lungeCooldownTimer;
 	private bool _isLunging = false;
 	private bool _isLungeCooldown = false;
+	[Export] private AnimationPlayer _animationPlayer;
+	private Timer _ZIndexTimer;
 
 	public override void _Ready()
 	{
@@ -27,19 +29,22 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
-		_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+		_ZIndexTimer.Timeout += ChangeZIndex;
+
+		GD.Print("sd: "+_animationPlayer);
+
         _animatedSprite.Play("Walk");
     }
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(IsOnPlatform()){
-			if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
-			{
-				StartLunge();
-			}
-			else
-			{
+		if (IsOnPlatform()) {
+            if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
+            {
+                StartLunge();
+            }
+            else
+            {
                 UpdateNavigationTarget();
                 Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
                 if (_navigationAgent.DistanceToTarget() < _detectionRange)
@@ -58,12 +63,11 @@ public partial class OozeAi : BaseEnemyAI
 
                 MoveTowardsTarget(nextPathPosition, delta);
             }
-			
-			MoveAndSlide();
+
+            MoveAndSlide();
         }
-        else{
-			GD.Print("Fall and die");
-        }
+		
+        
 	}
 
 	
@@ -96,9 +100,21 @@ public partial class OozeAi : BaseEnemyAI
 		_animatedSprite.Play("Walk");
 
         _isLunging = false;
+
+		if (!IsOnPlatform())
+		{
+            _animationPlayer.Play("Fall");
+            GetNode<Timer>("ZIndexTimer").Start();
+        }
+    
     }
 
-	private void EndCooldown() {
+	private void ChangeZIndex() {
+		ZIndex = -1;
+	}
+
+
+    private void EndCooldown() {
         _isLungeCooldown = false;
 
     }
@@ -111,3 +127,4 @@ public partial class OozeAi : BaseEnemyAI
 		}
 	}
 }
+
