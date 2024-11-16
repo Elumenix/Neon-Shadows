@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dgyibo87gulk3" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
 [ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_6vx20"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
+[ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
@@ -384,5 +385,6 @@ position = Vector2(690, 1423)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 
-[node name="Ooze" parent="." instance=ExtResource("14_6vx20")]
-position = Vector2(1169, 1673)
+[node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
+position = Vector2(1283, 1603)
+_detectionRange = 400.0
