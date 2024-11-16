@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="10_4g51h"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
 [ext_resource type="PackedScene" uid="uid://dgyibo87gulk3" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
-[ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_6vx20"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
 [ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
@@ -387,4 +386,7 @@ EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
 position = Vector2(1283, 1603)
-_detectionRange = 400.0
+_lungeSpeed = 200.0
+_lungeRange = 100.0
+_lungeDuration = 0.5
+_detectionRange = 0.0

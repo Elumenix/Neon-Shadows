@@ -11,6 +11,7 @@ public partial class OozeAi : BaseEnemyAI
 	private bool _isLunging = false;
 	private bool _isLungeCooldown = false;
 	[Export] private AnimationPlayer _animationPlayer;
+	private Timer _ZIndexTimer;
 
 	public override void _Ready()
 	{
@@ -28,11 +29,11 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
+		_ZIndexTimer.Timeout += ChangeZIndex;
 
 		GD.Print("sd: "+_animationPlayer);
 
         _animatedSprite.Play("Walk");
-
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -108,7 +109,12 @@ public partial class OozeAi : BaseEnemyAI
     
     }
 
-	private void EndCooldown() {
+	private void ChangeZIndex() {
+		ZIndex = -1;
+	}
+
+
+    private void EndCooldown() {
         _isLungeCooldown = false;
 
     }

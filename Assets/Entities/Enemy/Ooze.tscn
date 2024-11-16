@@ -120,6 +120,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_d15e0"]
+resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_rthyb"]
 resource_name = "Flash"
 length = 0.4
@@ -163,21 +178,6 @@ tracks/1/keys = {
 "values": [Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_d15e0"]
-resource_name = "Fall"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EnemySprite:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cfmod"]
 _data = {
 "Fall": SubResource("Animation_d15e0"),
@@ -191,19 +191,16 @@ size = Vector2(19.5, 11)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fryue"]
 size = Vector2(5, 3)
 
-[node name="Ooze" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
+[node name="Ooze" type="CharacterBody2D" node_paths=PackedStringArray("_animationPlayer", "_navigationAgent") groups=["Enemy"]]
 collision_layer = 24
 collision_mask = 4
 script = ExtResource("1_msgnd")
-_lungeSpeed = 250.0
-_lungeRange = 400.0
-_lungeDuration = 0.4
+_lungeDuration = 0.75
 _animationPlayer = NodePath("EnemySprite/FlashAnimation")
 MaxHealth = 500
 _speed = 10.0
 _maxSpeed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
-_detectionRange = 300.0
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_esoql")
