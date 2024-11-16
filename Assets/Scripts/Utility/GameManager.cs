@@ -55,11 +55,20 @@ public partial class GameManager : Node
 		{
 			GD.Print("All enemies defeated!");
 			foreach(var gate in GetTree().GetNodesInGroup("Gate")){
-				(gate as Gate).OpenGate();
+
+				if ((gate as Gate).GateNum == currentGate)
+                {
+                    (gate as Gate).OpenGate();
+                    TotalEnemies = 0;
+                }
+				if ((gate as Gate).GateNum == currentGate + 1) {
+					(gate as Gate).StartGate();
+                    return;
+				}
 			}
-			TotalEnemies = 0;
-			currentGate++;
-		}
+
+            currentGate++;
+        }
 	}
 
 
