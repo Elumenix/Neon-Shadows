@@ -89,7 +89,7 @@ text = "Start"
 
 [node name="Level2" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "Level2"
+text = "Arena"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level2"]
 layout_mode = 0

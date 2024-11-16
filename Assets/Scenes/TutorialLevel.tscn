@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://b2c8460yoh2bf"]
-
-[node name="TutorialLevel" type="Node2D"]
-
-[node name="TileMap" type="Node2D" parent="."]
-
-[node name="TileMapLayer" type="TileMapLayer" parent="TileMap"]

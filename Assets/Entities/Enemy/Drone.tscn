@@ -177,6 +177,7 @@ targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 _particles = NodePath("CPUParticles2D")
 _speed = 300.0
+_maxSpeed = 300.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="Area2D" type="Area2D" parent="."]
