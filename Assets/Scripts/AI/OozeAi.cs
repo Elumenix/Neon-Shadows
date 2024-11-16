@@ -29,12 +29,9 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
-		_ZIndexTimer.GetNode<Timer>("ZIndexTimer");
+		
+		_ZIndexTimer = GetNode<Timer>("ZIndexTimer");
 		_ZIndexTimer.Timeout += ChangeZIndex;
-
-		GD.Print("sd: "+_animationPlayer);
-
-        _animatedSprite.Play("Walk");
     }
 
 	public override void _PhysicsProcess(double delta)
