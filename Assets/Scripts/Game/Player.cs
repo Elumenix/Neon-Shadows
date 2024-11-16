@@ -140,6 +140,8 @@ public partial class Player : CharacterBody2D
 		//foot step
 		_lastStepPosition = GlobalPosition;
 		_playerSpriteSize = _animatedSprite.SpriteFrames.GetFrameTexture("default", 0).GetSize();
+
+		GameManager.Instance.player = this;
 	}
 
 	public override void _PhysicsProcess(double delta)
