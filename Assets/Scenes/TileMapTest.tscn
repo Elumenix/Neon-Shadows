@@ -374,6 +374,7 @@ autoplay = true
 
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("13_gu5ln")]
 position = Vector2(1166, 1716)
+GateNum = 1
 maxSpawnNum = 4
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 
