@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dsemext8ptddh"]
+[gd_scene load_steps=14 format=4 uid="uid://dsemext8ptddh"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_bq7lm"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_miam1"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="4_ibgcf"]
 [ext_resource type="Texture2D" uid="uid://1ivso1gl51cm" path="res://Assets/Sprites/Object/level-1-tiles.png" id="5_m68i8"]
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="6_scdlr"]
+[ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="7_bt3jr"]
+[ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="8_hwngl"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_bq7lm")
@@ -291,3 +293,8 @@ polygon = PackedVector2Array(1037, 1139, 429, 835, -371, 1235, 237, 1539)
 [node name="NavMesh" type="NavigationRegion2D" parent="."]
 unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_nxaa0")
+
+[node name="PauseMenu" parent="." instance=ExtResource("7_bt3jr")]
+visible = false
+
+[node name="HUD" parent="." instance=ExtResource("8_hwngl")]
