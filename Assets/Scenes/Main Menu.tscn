@@ -10,7 +10,7 @@
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
 offset_right = 23.0
-offset_bottom = 22.0
+offset_bottom = 23.0
 scale = Vector2(28.8, 16.2)
 texture = ExtResource("1_6d3ub")
 expand_mode = 2

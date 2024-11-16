@@ -15,11 +15,13 @@ public partial class PlayButton : Button
 
 	public void _on_pressed()
 	{
+		SoundFx.PlayButtonClicked();
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/LevelSelect.tscn");
 	}
 	
 	public void _on_leave()
 	{
-		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+		SoundFx.PlayButtonClicked();
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
 	}
 }

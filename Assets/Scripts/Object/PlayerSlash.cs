@@ -63,6 +63,14 @@ public partial class PlayerSlash : StaticBody2D
                 }
                 enemy.TakeDamage(DealDamage());
             }
+            else if (body is DroneAI drone)
+            {
+                drone.TakeDamage(DealDamage());
+            }
+            else if (body is OozeAi ooze)
+            {
+                ooze.TakeDamage(DealDamage());
+            }
         }
         else if(body is Barrel barrel)
         {
