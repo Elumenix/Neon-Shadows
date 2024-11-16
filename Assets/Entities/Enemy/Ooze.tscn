@@ -142,6 +142,8 @@ size = Vector2(13.5, 11)
 
 [node name="Ooze" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent")]
 script = ExtResource("1_msgnd")
+_speed = 20.0
+_maxSpeed = 80.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -170,4 +172,7 @@ shape = SubResource("RectangleShape2D_scxti")
 target_desired_distance = 0.1
 
 [node name="KnockbackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LungeTimer" type="Timer" parent="."]
 one_shot = true
