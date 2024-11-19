@@ -18,9 +18,9 @@ public partial class Barrel : RigidBody2D
 	{
 		//Play("default");
 	}
-    public override void _PhysicsProcess(double delta)
-    {
-        var collision = MoveAndCollide(Vector2.Zero, true);
+	public override void _PhysicsProcess(double delta)
+	{
+		var collision = MoveAndCollide(Vector2.Zero, true);
 		if(collision != null)
 		{
 			if(collision.GetCollider() is PlayerSlash || collision.GetCollider() is Projectile)
@@ -28,8 +28,8 @@ public partial class Barrel : RigidBody2D
 				_onHit();
 			}
 		}
-    }
-    public void _onHit()
+	}
+	public void _onHit()
 	{
 		if (_wasHit)
 		{
@@ -39,13 +39,13 @@ public partial class Barrel : RigidBody2D
 		// play explosion animation
 		_sprite.Play("default");
 
-        // Spawn explosion
+		// Spawn explosion
 		Explosion temp = (Explosion)_explosion.Instantiate();
 		temp.Position = this.Position * this.Transform;
 		AddChild(temp);
-    }
+	}
 
-    public void ExplosionEnd()
+	public void ExplosionEnd()
 	{
 		QueueFree();
 	}
