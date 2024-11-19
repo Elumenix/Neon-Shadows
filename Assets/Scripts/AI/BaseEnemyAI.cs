@@ -15,7 +15,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	protected Timer _knockbackTimer;
 	[Export] protected NavigationAgent2D _navigationAgent;
 	protected bool _usePathFinding = true;
-	protected bool _shouldMove = true;
+	protected bool _shouldMove = false;
 
 	protected float _iFrames = 0.25f;
 
@@ -27,7 +27,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 	
 	public bool isDead;
 
-	public override async void _Ready()
+    protected Timer _spawnTimer;
+
+    public override async void _Ready()
 	{
 		isDead = false;
 		currentHealth = MaxHealth;
@@ -42,7 +44,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
 		UpdateNavigationTarget();
 
-		_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+        _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+
 		//create the shader for enemy if there are none
 		if (_animatedSprite.Material != null && _animatedSprite.Material is ShaderMaterial)
 		{
@@ -55,9 +58,10 @@ public partial class BaseEnemyAI : CharacterBody2D
 		_knocked = false;
 		_knockbackTimer = GetNode<Timer>("KnockbackTimer");
 		_knockbackTimer.Timeout += _knockbackTimerOut;
-	}
+    }
 
-	public override void _PhysicsProcess(double delta)
+
+    public override void _PhysicsProcess(double delta)
 	{
 		//update the target position and exit if there are none
 		UpdateNavigationTarget();
@@ -91,11 +95,19 @@ public partial class BaseEnemyAI : CharacterBody2D
 			}
 		}
 	}
+    protected void Spawn()
+    {
+		if(_animatedSprite == null)
+            _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
 
-	/// <summary>
-	/// update the target position of the enemy pathfinding
-	/// </summary>
-	protected void UpdateNavigationTarget()
+		_spawnTimer.Start();
+        _animatedSprite.Play("Spawn");
+    }
+
+    /// <summary>
+    /// update the target position of the enemy pathfinding
+    /// </summary>
+    protected void UpdateNavigationTarget()
 	{
 		if (_player != null)
 		{
