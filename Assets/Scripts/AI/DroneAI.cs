@@ -49,7 +49,11 @@ public partial class DroneAI : BaseEnemyAI
 		_aggroDetectRange = _playerDetectRange * 3;
 
 		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
-	}
+
+		_spawnTimer = GetNode<Timer>("SpawnTimer");
+		_spawnTimer.Timeout += OnSpawnFinished;
+        Spawn();
+    }
 
 	public override void _Process(double delta)
 	{
@@ -93,7 +97,16 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-	public void DroneLogic(double delta) {
+    public void OnSpawnFinished()
+    {
+        if (_animatedSprite.Animation == "Spawn")
+        {
+            _shouldMove = true;
+            _animatedSprite.Play("Forward");
+        }
+    }
+
+    public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
 			//new movement logic
 			//Attack();
