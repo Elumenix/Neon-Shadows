@@ -16,6 +16,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	[Export] protected NavigationAgent2D _navigationAgent;
 	protected bool _usePathFinding = true;
 	protected bool _shouldMove = true;
+	public bool ShouldMove { get { return _shouldMove; } set { _shouldMove = value; } }
 
 	protected float _iFrames = 0.25f;
 

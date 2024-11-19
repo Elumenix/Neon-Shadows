@@ -14,6 +14,7 @@ public partial class GameManager : Node
 
 	public int TotalEnemies { get; set; }
 	private int _defeatedEnemies;
+	public int DefeatedEnemies { get { return _defeatedEnemies; } }
 	public int currentGate;
 
 	private static GameManager _instance;

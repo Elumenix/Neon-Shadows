@@ -13,42 +13,54 @@ public partial class FirstLedge : Area2D
 	// Dash Rich Text
 	[Export] private RichTextLabel _dashText;
 
-	private bool _enemyDead = false;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_walkText.Visible = true;
+		_enemyWarningText.Visible = false;
+		_enemy.Visible = false;
+		_enemy.ShouldMove = false;
+		_dashText.Visible = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
-	public void OnEnter(Node collide)
+	public void OnEnter(Node2D collide)
 	{
 		if (collide == null) return;
-		if (collide is Player player)
+		if (collide is Player)
 		{
-			if (!_enemyDead)
+			if (GameManager.Instance.DefeatedEnemies < 1)
 			{
-				// Display Enemy Warning Text
+				// Move the text over the player's head
+				//_enemyWarningText.GlobalPosition = tempPosition;
+				
+                // Display Enemy Warning Text
+                _enemyWarningText.Show();
+				_enemy.Show();
+				_enemy.ShouldMove = true;
 			}
 			else
 			{
 				// Display Dash Text
+				_dashText.Show();
 			}
 		}
 	}
 
-	public void OnExit(Node collide)
+	public void OnExit(Node2D collide)
 	{
 		if (collide == null) return;
 		if(collide is Player player)
 		{
 			// if Warning text is up hide that
-
+			_enemyWarningText.Hide();
 			// if Dash Text is up hide that
+			_dashText.Hide();
 		}
 	}
 }
