@@ -1,11 +1,79 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtfm6fu55cubd"]
+[gd_scene load_steps=9 format=3 uid="uid://dtfm6fu55cubd"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Object/Explosion.cs" id="1_gra11"]
-[ext_resource type="Texture2D" uid="uid://dm31rtodfqa48" path="res://Assets/Sprites/Object/08b0ca83b3bd433.png" id="1_hvq8e"]
 [ext_resource type="AudioStream" uid="uid://1ka35nadb6hu" path="res://Assets/Sounds/medium-explosion-40472.mp3" id="3_88yuj"]
+[ext_resource type="Shader" path="res://Assets/Shader/ShockWave.gdshader" id="3_comoq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iotil"]
+shader = ExtResource("3_comoq")
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/force = 0.5
+shader_parameter/size = 0.37
+shader_parameter/thickness = 0.005
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pikrn"]
 radius = 96.0052
+
+[sub_resource type="Animation" id="Animation_gxkku"]
+resource_name = "Explode"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.65]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:material:shader_parameter/thickness")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(4.92458, 1),
+"update": 0,
+"values": [0.005, 0.1]
+}
+
+[sub_resource type="Animation" id="Animation_bkxba"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.37]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:material:shader_parameter/thickness")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.005]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sv8ts"]
+_data = {
+"Explode": SubResource("Animation_gxkku"),
+"RESET": SubResource("Animation_bkxba")
+}
 
 [node name="Explosion" type="RigidBody2D"]
 disable_mode = 2
@@ -14,12 +82,16 @@ collision_mask = 16
 freeze = true
 script = ExtResource("1_gra11")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(25, 0)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_hvq8e")
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_iotil")
+offset_left = -169.0
+offset_top = -96.0
+offset_right = -139.0
+offset_bottom = 19.0
+scale = Vector2(11.285, 1.67893)
 
 [node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 0.75
 one_shot = true
 autostart = true
@@ -30,6 +102,12 @@ shape = SubResource("CircleShape2D_pikrn")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_88yuj")
 autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_sv8ts")
+}
 
 [connection signal="body_entered" from="." to="." method="InExplosion"]
 [connection signal="timeout" from="Timer" to="." method="ExplosionEnd"]

@@ -49,7 +49,11 @@ public partial class DroneAI : BaseEnemyAI
 		_aggroDetectRange = _playerDetectRange * 3;
 
 		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
-	}
+
+        _oneSecTimer = GetNode<Timer>("OneSecTimer");
+        _oneSecTimer.Timeout += OnSpawnFinished;
+        Spawn();
+    }
 
 	public override void _Process(double delta)
 	{
@@ -93,7 +97,20 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-	public void DroneLogic(double delta) {
+    public void OnSpawnFinished()
+    {
+        if (_animatedSprite.Animation == "Spawn")
+        {
+            _shouldMove = true;
+            _animatedSprite.Play("Forward");
+        }
+        else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
+        {
+            QueueFree();
+        }
+    }
+
+    public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
 			//new movement logic
 			//Attack();
@@ -307,8 +324,53 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
+    private void PlayDeathAnimation(Vector2 direction)
+    {
+        direction = direction.Normalized();
+        if (direction.Y < -0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Death_UpRight");
+        }
+        else if (direction.Y < -0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Death_UpLeft");
+        }
+        else if (direction.Y > 0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Death_DownRight");
+        }
+        else if (direction.Y > 0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Death_DownLeft");
+        }
+        else if (direction.Y < -0.5f)
+        {
+            _animatedSprite.Play("Death_Up");
+        }
+        else if (direction.Y > 0.5f)
+        {
+            _animatedSprite.Play("Death_Down");
+        }
+        else if (direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Death_Left");
+        }
+        else if (direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Death_Right");
+        }
+    }
 
-	public override void TakeDamage(int damageAmount) { 
+    protected override void HandleDeath()
+    {
+        isDead = true;
+        GameManager.Instance.EnemyDefeated();
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        PlayDeathAnimation(direction);
+        _shouldMove = false;
+    }
+
+    public override void TakeDamage(int damageAmount) { 
 		base.TakeDamage(damageAmount);
 		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;

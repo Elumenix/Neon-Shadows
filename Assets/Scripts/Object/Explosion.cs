@@ -5,10 +5,13 @@ using System.Collections.Generic;
 public partial class Explosion : RigidBody2D
 {
 	private Timer _timer;
+	private AnimationPlayer _player;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_timer = GetNode<Timer>("Timer");
+		_timer = GetNode<Timer>("%Timer");
+		_player = GetNode<AnimationPlayer>("%AnimationPlayer");
+		_player.Play("Explode");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,30 +19,30 @@ public partial class Explosion : RigidBody2D
 	{
 		
 	}
-    public override void _PhysicsProcess(double delta)
-    {
+	public override void _PhysicsProcess(double delta)
+	{
 		var collision = MoveAndCollide(Vector2.Zero, true);
 		if (collision != null)
 		{
-            if (collision.GetCollider() is Player)
-            {
-                Player player = (Player)collision.GetCollider();
-                player.takeDamage(1);
-                HUDManager.Instance.DecreasePlayerHp();
-            }
-            else if (collision.GetCollider() is BaseEnemyAI)
-            {
-                BaseEnemyAI enemyAI = (BaseEnemyAI)collision.GetCollider();
-                enemyAI.TakeDamage(100);
-            }
-            else if (collision.GetCollider() is DroneAI)
-            {
-                DroneAI enemy = (DroneAI)collision.GetCollider();
-                enemy.TakeDamage(100);
-            }
-        }
-    }
-    public void InExplosion(Node collider)
+			if (collision.GetCollider() is Player)
+			{
+				Player player = (Player)collision.GetCollider();
+				player.takeDamage(1);
+				HUDManager.Instance.DecreasePlayerHp();
+			}
+			else if (collision.GetCollider() is BaseEnemyAI)
+			{
+				BaseEnemyAI enemyAI = (BaseEnemyAI)collision.GetCollider();
+				enemyAI.TakeDamage(100);
+			}
+			else if (collision.GetCollider() is DroneAI)
+			{
+				DroneAI enemy = (DroneAI)collision.GetCollider();
+				enemy.TakeDamage(100);
+			}
+		}
+	}
+	public void InExplosion(Node collider)
 	{
 		GD.Print("Inside Explosion");
 		if(collider is Player)
