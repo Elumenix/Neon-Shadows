@@ -27,7 +27,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	
 	public bool isDead;
 
-    protected Timer _spawnTimer;
+    protected Timer _oneSecTimer;
 
     public override async void _Ready()
 	{
@@ -100,7 +100,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 		if(_animatedSprite == null)
             _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
 
-		_spawnTimer.Start();
+		_oneSecTimer.Start();
         _animatedSprite.Play("Spawn");
     }
 
@@ -187,7 +187,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// <summary>
 	/// Handle enemy death
 	/// </summary>
-	private void HandleDeath()
+	protected virtual void HandleDeath()
 	{
 		isDead = true;
 		GameManager.Instance.EnemyDefeated();

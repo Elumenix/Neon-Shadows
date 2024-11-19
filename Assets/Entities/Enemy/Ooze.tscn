@@ -1,7 +1,8 @@
-[gd_scene load_steps=66 format=3 uid="uid://b1cw62olhn7q3"]
+[gd_scene load_steps=91 format=3 uid="uid://b1cw62olhn7q3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/OozeAi.cs" id="1_msgnd"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_hpgp3"]
+[ext_resource type="Texture2D" uid="uid://cy2ddh8ebok2s" path="res://Assets/Sprites/Enemy/ooze-death.png" id="3_5n64y"]
 [ext_resource type="Texture2D" uid="uid://bgxdkrhy2v3se" path="res://Assets/Sprites/Enemy/ooze-attack.png" id="3_ibs0e"]
 [ext_resource type="Texture2D" uid="uid://csbk6yo2pdwv1" path="res://Assets/Sprites/Enemy/ooze.png" id="4_0u2wp"]
 [ext_resource type="Texture2D" uid="uid://dk7lh24hnb5tb" path="res://Assets/Sprites/Enemy/ooze-spawn.png" id="4_4gnv3"]
@@ -10,6 +11,102 @@
 shader = ExtResource("2_hpgp3")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xb14"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mndp7"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujnjw"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rimix"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypryi"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36wqh"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc5nq"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sj5q4"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n40c"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dymob"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwil0"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4ca5"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cxvc"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30mok"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykygd"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04u0i"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5woa3"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(112, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kio22"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(112, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le4dt"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qge4"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(96, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blcxf"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(96, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e36tt"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_popis"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkvmf"]
+atlas = ExtResource("3_5n64y")
+region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yt026"]
 atlas = ExtResource("3_ibs0e")
@@ -221,37 +318,162 @@ region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eg41k"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xb14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mndp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujnjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujnjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujnjw")
+}],
+"loop": true,
+"name": &"Death_Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rimix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypryi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36wqh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36wqh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36wqh")
+}],
 "loop": true,
 "name": &"Death_DownLeft",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc5nq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sj5q4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n40c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n40c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n40c")
+}],
 "loop": true,
 "name": &"Death_DownRight",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dymob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwil0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4ca5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4ca5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4ca5")
+}],
 "loop": true,
 "name": &"Death_Left",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cxvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30mok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykygd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykygd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykygd")
+}],
 "loop": true,
 "name": &"Death_Right",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04u0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5woa3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kio22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kio22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kio22")
+}],
 "loop": true,
 "name": &"Death_Up",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le4dt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qge4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blcxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blcxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blcxf")
+}],
 "loop": true,
 "name": &"Death_UpLeft",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e36tt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_popis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkvmf")
+}],
 "loop": true,
 "name": &"Death_UpRight",
 "speed": 5.0
@@ -589,8 +811,7 @@ _navigationAgent = NodePath("NavigationAgent2D")
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
-animation = &"Spawn"
-frame_progress = 0.989009
+animation = &"Death_UpRight"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("../..")
@@ -628,5 +849,5 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
-[node name="SpawnTimer" type="Timer" parent="."]
+[node name="OneSecTimer" type="Timer" parent="."]
 one_shot = true

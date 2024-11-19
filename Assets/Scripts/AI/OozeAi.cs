@@ -32,8 +32,8 @@ public partial class OozeAi : BaseEnemyAI
 		_ZIndexTimer = GetNode<Timer>("ZIndexTimer");
 		_ZIndexTimer.Timeout += ChangeZIndex;
 
-        _spawnTimer = GetNode<Timer>("SpawnTimer");
-        _spawnTimer.Timeout += OnSpawnFinished;
+        _oneSecTimer = GetNode<Timer>("OneSecTimer");
+        _oneSecTimer.Timeout += OnOneSecTimerFinished;
         Spawn();
     }
 
@@ -73,13 +73,16 @@ public partial class OozeAi : BaseEnemyAI
 
     }
 
-    public void OnSpawnFinished()
+    public void OnOneSecTimerFinished()
     {
         if (_animatedSprite.Animation == "Spawn")
         {
             _shouldMove = true;
             _animatedSprite.Play("Walk_Down");
             _lungeCooldownTimer.Start();
+        }
+        else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death") {
+            QueueFree();
         }
     }
 
@@ -248,6 +251,15 @@ public partial class OozeAi : BaseEnemyAI
         {
             _animatedSprite.Play("Death_Right");
         }
+    }
+
+    protected override void HandleDeath() {
+        isDead = true;
+        GameManager.Instance.EnemyDefeated();
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        PlayDeathAnimation(direction);
+        _shouldMove = false;
+        _oneSecTimer.Start();
     }
 }
 

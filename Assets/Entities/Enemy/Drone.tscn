@@ -90,6 +90,46 @@ animations = [{
 "name": &"Backward-Rightward",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"Death_Down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_DownLeft",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_DownRight",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_Left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_Right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_Up",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_UpLeft",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death_UpRight",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sxooo")
@@ -237,7 +277,7 @@ material = ExtResource("3_lju7x")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Spawn"
+animation = &"Death_Left"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
@@ -264,5 +304,5 @@ attenuation = 2.0
 
 [node name="KnockbackTimer" type="Timer" parent="."]
 
-[node name="SpawnTimer" type="Timer" parent="."]
+[node name="OneSecTimer" type="Timer" parent="."]
 one_shot = true
