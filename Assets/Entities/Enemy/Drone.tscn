@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=28 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
+[ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 
@@ -42,6 +43,22 @@ region = Rect2(48, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_be438"]
 atlas = ExtResource("4_ca8cm")
 region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0iop"]
+atlas = ExtResource("5_31rkc")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpybu"]
+atlas = ExtResource("5_31rkc")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kboja"]
+atlas = ExtResource("5_31rkc")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ue1ns"]
+atlas = ExtResource("5_31rkc")
+region = Rect2(48, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iu2ub"]
 atlas = ExtResource("4_ca8cm")
@@ -112,6 +129,29 @@ animations = [{
 "loop": true,
 "name": &"Rightward",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0iop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpybu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kboja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue1ns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue1ns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue1ns")
+}],
+"loop": true,
+"name": &"Spawn",
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -197,7 +237,7 @@ material = ExtResource("3_lju7x")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Backward"
+animation = &"Spawn"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
@@ -223,3 +263,6 @@ max_distance = 300.0
 attenuation = 2.0
 
 [node name="KnockbackTimer" type="Timer" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+one_shot = true

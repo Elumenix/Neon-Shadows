@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dx50r3tdnt0wo"]
+[gd_scene load_steps=22 format=3 uid="uid://dx50r3tdnt0wo"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/BaseEnemyAI.cs" id="1_7mvx3"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_p1078"]
@@ -11,6 +11,10 @@ size = Vector2(13.5, 11)
 shader = ExtResource("2_p1078")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr5xf"]
+atlas = ExtResource("2_xcxxb")
+region = Rect2(0, 0, 16, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk0lu"]
 atlas = ExtResource("2_xcxxb")
@@ -58,6 +62,14 @@ region = Rect2(160, 0, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr5xf")
+}],
+"loop": true,
+"name": &"Spawn",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jk0lu")
@@ -157,7 +169,7 @@ shape = SubResource("RectangleShape2D_ejd0x")
 material = SubResource("ShaderMaterial_yfphp")
 position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Walk"
+animation = &"Spawn"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
@@ -168,4 +180,8 @@ libraries = {
 target_desired_distance = 0.1
 
 [node name="KnockbackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
