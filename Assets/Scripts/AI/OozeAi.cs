@@ -136,7 +136,10 @@ public partial class OozeAi : BaseEnemyAI
 
 	public override void TakeDamage(int damageAmount)
 	{
-		if (!_isLunging)
+        if (isDead)
+            return;
+        
+        if (!_isLunging)
 		{
 			base.TakeDamage(damageAmount);
 		}

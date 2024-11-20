@@ -403,23 +403,9 @@ GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1283, 1603)
+position = Vector2(1070, 1632)
 _lungeDuration = 0.5
-
-[node name="Ooze2" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1313, 1603)
-
-[node name="Ooze3" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1317, 1621)
-
-[node name="Ooze4" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1282, 1620)
-
-[node name="Ooze5" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1317, 1638)
-
-[node name="Ooze6" parent="." instance=ExtResource("14_uo11y")]
-position = Vector2(1279, 1642)
+MaxHealth = 100
 
 [node name="Explosion" parent="." instance=ExtResource("16_62bxu")]
 position = Vector2(1299, 1623)
