@@ -326,6 +326,12 @@ animations = [{
 "texture": SubResource("AtlasTexture_mndp7")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_mndp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujnjw")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ujnjw")
 }, {
 "duration": 1.0,
@@ -341,6 +347,9 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rimix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypryi")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ypryi")
@@ -366,6 +375,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_sj5q4")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_sj5q4")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_4n40c")
 }, {
 "duration": 1.0,
@@ -381,6 +393,9 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dymob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwil0")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cwil0")
@@ -406,6 +421,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_30mok")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_30mok")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ykygd")
 }, {
 "duration": 1.0,
@@ -421,6 +439,9 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_04u0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5woa3")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5woa3")
@@ -446,6 +467,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_8qge4")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_8qge4")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_blcxf")
 }, {
 "duration": 1.0,
@@ -464,6 +488,15 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_popis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_popis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkvmf")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xkvmf")
@@ -811,7 +844,8 @@ _navigationAgent = NodePath("NavigationAgent2D")
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
-animation = &"Death_UpRight"
+animation = &"Death_Down"
+frame_progress = 0.712497
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("../..")
