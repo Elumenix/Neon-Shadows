@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://dokg4kcelova4"]
+[gd_scene load_steps=23 format=4 uid="uid://dokg4kcelova4"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -13,7 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="12_3527r"]
 [ext_resource type="PackedScene" uid="uid://dgyibo87gulk3" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="13_gu5ln"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
+[ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
+[ext_resource type="PackedScene" uid="uid://dtfm6fu55cubd" path="res://Assets/Entities/Objects/Explosion.tscn" id="16_62bxu"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -399,4 +401,16 @@ EnemiesContainerPath = NodePath("../EnemiesContainer")
 position = Vector2(690, 1423)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
-InitEnemiesNum = 3
+
+[node name="Ooze" parent="." instance=ExtResource("14_uo11y")]
+position = Vector2(1070, 1632)
+_lungeDuration = 0.5
+MaxHealth = 100
+
+[node name="Explosion" parent="." instance=ExtResource("16_62bxu")]
+position = Vector2(1299, 1623)
+
+[node name="Drone" parent="." instance=ExtResource("3_f4wub")]
+position = Vector2(1057, 1689)
+
+[editable path="Explosion"]
