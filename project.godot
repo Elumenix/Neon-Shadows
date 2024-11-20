@@ -41,6 +41,7 @@ PauseMenu=""
 PlatformArea=""
 Gate=""
 EnemySpawner=""
+GameOverMenu=""
 
 [input]
 
