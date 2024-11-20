@@ -52,6 +52,7 @@ public partial class DroneAI : BaseEnemyAI
 
         _oneSecTimer = GetNode<Timer>("OneSecTimer");
         _oneSecTimer.Timeout += OnOneSecTimerFinished;
+        _shouldMove = false;
         Spawn();
     }
 
@@ -361,6 +362,15 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_animatedSprite.Play("Death_Right");
 		}
+    }
+
+    protected void Spawn()
+    {
+        if (_animatedSprite == null)
+            _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+
+        _oneSecTimer.Start();
+        _animatedSprite.Play("Spawn");
     }
 
     protected override void HandleDeath()

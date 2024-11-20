@@ -410,4 +410,7 @@ MaxHealth = 100
 [node name="Explosion" parent="." instance=ExtResource("16_62bxu")]
 position = Vector2(1299, 1623)
 
+[node name="Drone" parent="." instance=ExtResource("3_f4wub")]
+position = Vector2(1057, 1689)
+
 [editable path="Explosion"]
