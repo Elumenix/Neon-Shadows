@@ -246,6 +246,7 @@ streams_count = 1
 stream_0/stream = ExtResource("6_fjoqr")
 
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
+material = ExtResource("3_lju7x")
 collision_layer = 24
 collision_mask = 4
 motion_mode = 1

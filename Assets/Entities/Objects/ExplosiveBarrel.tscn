@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3dgrm1h8cdpi"]
+[gd_scene load_steps=10 format=3 uid="uid://b3dgrm1h8cdpi"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Object/Barrel.cs" id="1_ga5tf"]
+[ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="2_bu36w"]
 [ext_resource type="Texture2D" uid="uid://dee4v4cn05dvl" path="res://Assets/Sprites/Object/barrel.png" id="2_n37ag"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mc2qd"]
@@ -51,8 +52,11 @@ freeze = true
 script = ExtResource("1_ga5tf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = ExtResource("2_bu36w")
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_req2s")
+frame = 3
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = -1
