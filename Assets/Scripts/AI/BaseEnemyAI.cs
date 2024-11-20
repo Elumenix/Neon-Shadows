@@ -96,14 +96,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 			}
 		}
 	}
-    protected void Spawn()
-    {
-		if(_animatedSprite == null)
-            _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
-
-		_oneSecTimer.Start();
-        _animatedSprite.Play("Spawn");
-    }
 
     /// <summary>
     /// update the target position of the enemy pathfinding

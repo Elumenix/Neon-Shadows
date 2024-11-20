@@ -35,15 +35,16 @@ public partial class HUDManager : Control
 
 	public void IncreasePlayerHp() {
 		foreach (TextureRect image in HealthIconList) {
-			if (!image.Visible) { 
-				image.Visible = true;
+			if (image.Texture.ResourcePath == "res://Assets/Sprites/Menu/heart-empty.png") {
+				image.Texture = GD.Load<Texture2D>("res://Assets/Sprites/Menu/heart.png");
 				return;
 			}
 		}
 	}
 	public void DecreasePlayerHp()
 	{
-		HealthIconList[(player as Player).GetPlayerHealth()].Visible = false;
+		//HealthIconList[(player as Player).GetPlayerHealth()].Visible = false;
+		HealthIconList[(player as Player).GetPlayerHealth()].Texture = GD.Load<Texture2D>("res://Assets/Sprites/Menu/heart-empty.png");
 	}
 
 	private void _updateAmmo()

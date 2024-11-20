@@ -34,6 +34,7 @@ public partial class OozeAi : BaseEnemyAI
 
         _oneSecTimer = GetNode<Timer>("OneSecTimer");
         _oneSecTimer.Timeout += OnOneSecTimerFinished;
+        _shouldMove = false;
         Spawn();
     }
 
@@ -136,7 +137,10 @@ public partial class OozeAi : BaseEnemyAI
 
 	public override void TakeDamage(int damageAmount)
 	{
-		if (!_isLunging)
+        if (isDead)
+            return;
+        
+        if (!_isLunging)
 		{
 			base.TakeDamage(damageAmount);
 		}
@@ -260,6 +264,15 @@ public partial class OozeAi : BaseEnemyAI
         PlayDeathAnimation(direction);
         _shouldMove = false;
         _oneSecTimer.Start();
+    }
+
+    protected void Spawn()
+    {
+        if (_animatedSprite == null)
+            _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+
+        _oneSecTimer.Start();
+        _animatedSprite.Play("Spawn");
     }
 }
 
