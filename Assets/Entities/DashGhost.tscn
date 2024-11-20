@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cl787d7405uq2"]
+[gd_scene load_steps=4 format=3 uid="uid://cl787d7405uq2"]
 
+[ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="1_oj7fp"]
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_2iddk"]
 [ext_resource type="Script" path="res://Assets/Scripts/Game/DashGhost.cs" id="2_7c4wh"]
 
 [node name="DashGhost" type="Sprite2D"]
+material = ExtResource("1_oj7fp")
 texture = ExtResource("2_2iddk")
 script = ExtResource("2_7c4wh")

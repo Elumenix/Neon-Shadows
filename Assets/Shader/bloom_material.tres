@@ -5,5 +5,5 @@
 [resource]
 shader = ExtResource("1_jfprm")
 shader_parameter/bloomRadius = 2.0
-shader_parameter/bloomThreshold = 0.4
-shader_parameter/bloomIntensity = 1.5
+shader_parameter/bloomThreshold = 0.3
+shader_parameter/bloomIntensity = 3.0
