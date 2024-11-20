@@ -4,10 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_xk8ig"]
 [ext_resource type="AudioStream" uid="uid://dlifsm4hbrms2" path="res://Assets/Sounds/cyberpunk-beat-64649.mp3" id="3_ho7jm"]
 
-[node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_levelOneDescriptionPanel", "_levelTwoDescriptionPanel", "_quitConfirmPanel")]
+[node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_tutorialDescriptionPanel", "_levelOneDescriptionPanel", "_arenaDescriptionPanel", "_quitConfirmPanel")]
 script = ExtResource("1_6gxph")
+_tutorialDescriptionPanel = NodePath("Panel/VBoxContainer/Tutorial/LevelInfoPanel")
 _levelOneDescriptionPanel = NodePath("Panel/VBoxContainer/Level1/LevelInfoPanel")
-_levelTwoDescriptionPanel = NodePath("Panel/VBoxContainer/Level2/LevelInfoPanel")
+_arenaDescriptionPanel = NodePath("Panel/VBoxContainer/Arena/LevelInfoPanel")
 _quitConfirmPanel = NodePath("Panel/VBoxContainer/Quit/Confirm Quit")
 
 [node name="Panel" type="Panel" parent="."]
@@ -38,6 +39,56 @@ offset_bottom = 210.0
 scale = Vector2(1.85, 1.85)
 alignment = 1
 
+[node name="Tutorial" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Tutorial"
+
+[node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Tutorial"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = -41.0
+offset_right = 314.0
+offset_bottom = 153.0
+
+[node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
+layout_mode = 0
+offset_left = 41.6216
+offset_top = 3.78378
+offset_right = 169.622
+offset_bottom = 131.784
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_xk8ig")
+
+[node name="Level" type="Label" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
+layout_mode = 0
+offset_left = 7.02703
+offset_top = 105.405
+offset_right = 65.027
+offset_bottom = 128.405
+scale = Vector2(0.5, 0.5)
+text = "Tutorial:"
+
+[node name="Description" type="Label" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
+layout_mode = 0
+offset_left = 7.56757
+offset_top = 118.378
+offset_right = 351.598
+offset_bottom = 219.378
+scale = Vector2(0.5, 0.5)
+text = "Description: 
+Learn the basics before you jump into the game.
+Not currently completely finished"
+autowrap_mode = 3
+
+[node name="Start" type="Button" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
+layout_mode = 0
+offset_left = 72.1081
+offset_top = 169.73
+offset_right = 161.108
+offset_bottom = 210.73
+scale = Vector2(0.5, 0.5)
+text = "Start"
+
 [node name="Level1" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Level1"
@@ -45,9 +96,9 @@ text = "Level1"
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level1"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = -57.0
+offset_top = -75.0
 offset_right = 314.0
-offset_bottom = 137.0
+offset_bottom = 119.0
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
 layout_mode = 0
@@ -87,18 +138,18 @@ offset_bottom = 210.73
 scale = Vector2(0.5, 0.5)
 text = "Start"
 
-[node name="Level2" type="Button" parent="Panel/VBoxContainer"]
+[node name="Arena" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Arena"
 
-[node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level2"]
+[node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Arena"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = -92.0
+offset_top = -110.0
 offset_right = 314.0
-offset_bottom = 102.0
+offset_bottom = 84.0
 
-[node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
+[node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
 offset_left = 41.6216
 offset_top = 3.78378
@@ -107,16 +158,16 @@ offset_bottom = 131.784
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_xk8ig")
 
-[node name="Level" type="Label" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
+[node name="Level" type="Label" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
 offset_left = 7.02703
 offset_top = 105.405
 offset_right = 65.027
 offset_bottom = 128.405
 scale = Vector2(0.5, 0.5)
-text = "Level 2"
+text = "Arena"
 
-[node name="Description" type="Label" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
+[node name="Description" type="Label" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
 offset_left = 7.56757
 offset_top = 118.378
@@ -127,7 +178,7 @@ text = "Description:
 Not Implemented!"
 autowrap_mode = 3
 
-[node name="Start" type="Button" parent="Panel/VBoxContainer/Level2/LevelInfoPanel"]
+[node name="Start" type="Button" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
 offset_left = 72.1081
 offset_top = 169.73
@@ -141,12 +192,11 @@ layout_mode = 2
 text = "Quit"
 
 [node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
-visible = false
 layout_mode = 0
 offset_left = 116.0
-offset_top = -127.0
+offset_top = -145.0
 offset_right = 315.0
-offset_bottom = 68.0
+offset_bottom = 50.0
 
 [node name="Yes" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
 layout_mode = 0
@@ -182,10 +232,12 @@ autowrap_mode = 2
 stream = ExtResource("3_ho7jm")
 autoplay = true
 
+[connection signal="pressed" from="Panel/VBoxContainer/Tutorial" to="." method="OnTutorialPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Tutorial/LevelInfoPanel/Start" to="." method="OnTutorialStartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Level1" to="." method="OnLevelOnePressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Level1/LevelInfoPanel/Start" to="." method="OnLevelOneStartPressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Level2" to="." method="OnLevelTwoPressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Level2/LevelInfoPanel/Start" to="." method="OnLevelTwoStartPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Arena" to="." method="OnLevelTwoPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Arena/LevelInfoPanel/Start" to="." method="OnLevelTwoStartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="OnQuitPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/Yes" to="." method="OnConfirmQuit"]
 [connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/No" to="." method="OnRejectQuit"]
