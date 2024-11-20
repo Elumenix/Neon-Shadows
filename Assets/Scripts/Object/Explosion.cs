@@ -21,6 +21,11 @@ public partial class Explosion : RigidBody2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		// Object is kept here until sound effect ends
+		if(!_player.PlaybackActive) ExplosionEnd();
+		
+		// Timer signifies how long the hit box is active
+		if (_timer.TimeLeft == 0) return;
 		var collision = MoveAndCollide(Vector2.Zero, true);
 		if (collision != null)
 		{
@@ -63,7 +68,7 @@ public partial class Explosion : RigidBody2D
 		}
 	}
 	/// <summary>
-	/// Called when the timer ends. Deletes the Explosion from the scene
+	/// Called when the sound effect ends. Deletes the Explosion from the scene
 	/// </summary>
 	public void ExplosionEnd()
 	{
