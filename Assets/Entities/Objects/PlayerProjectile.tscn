@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bko5w8bo1ul3x"]
+[gd_scene load_steps=5 format=3 uid="uid://bko5w8bo1ul3x"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Projectile.cs" id="1_a041j"]
 [ext_resource type="Texture2D" uid="uid://db4aobb5jab05" path="res://Assets/Sprites/Object/playerbullet.png" id="2_1h7hx"]
+[ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="2_cpqvm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xllda"]
 radius = 6.0
@@ -13,6 +14,7 @@ gravity_scale = 0.0
 script = ExtResource("1_a041j")
 
 [node name="Playerbullet" type="Sprite2D" parent="."]
+material = ExtResource("2_cpqvm")
 texture = ExtResource("2_1h7hx")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
