@@ -12,8 +12,8 @@ public partial class OozeAi : BaseEnemyAI
 	private bool _isLungeCooldown = false;
 	[Export] private AnimationPlayer _animationPlayer;
 	private Timer _ZIndexTimer;
-
-	public override void _Ready()
+    private bool _isSpawning;
+    public override void _Ready()
 	{
 		base._Ready();
 
@@ -35,12 +35,13 @@ public partial class OozeAi : BaseEnemyAI
         _oneSecTimer = GetNode<Timer>("OneSecTimer");
         _oneSecTimer.Timeout += OnOneSecTimerFinished;
         _shouldMove = false;
+        _isSpawning = true;
         Spawn();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (IsOnPlatform() && _shouldMove)
+        if (IsOnPlatform()&&!_isSpawning)
         {
             if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
             {
@@ -81,6 +82,7 @@ public partial class OozeAi : BaseEnemyAI
             _shouldMove = true;
             _animatedSprite.Play("Walk_Down");
             _lungeCooldownTimer.Start();
+            _isSpawning = false;
         }
         else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death") {
             QueueFree();

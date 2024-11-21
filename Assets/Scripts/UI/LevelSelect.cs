@@ -18,7 +18,7 @@ public partial class LevelSelect : CanvasLayer
 		_quitConfirmPanel.Hide();
 		_arenaDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Hide();
-		_tutorialDescriptionPanel.Show();
+		_tutorialDescriptionPanel.Hide();
 	}
 	
 	public void OnTutorialPressed()

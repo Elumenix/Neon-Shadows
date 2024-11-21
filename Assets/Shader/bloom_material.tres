@@ -1,8 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b7dddu8ji626a"]
 
-[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="1_t0187"]
+[ext_resource type="Shader" path="res://Assets/Shader/Bloom.gdshader" id="1_62seh"]
 
 [resource]
-shader = ExtResource("1_t0187")
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_value = 0.0
+shader = ExtResource("1_62seh")
+shader_parameter/bloomRadius = 3.0
+shader_parameter/bloomThreshold = 0.3
+shader_parameter/bloomIntensity = 2.0
