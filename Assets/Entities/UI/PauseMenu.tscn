@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://df6ksbgtlj4f2"]
+[gd_scene load_steps=7 format=3 uid="uid://df6ksbgtlj4f2"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PauseMenu.cs" id="1_lix15"]
 [ext_resource type="Shader" path="res://Assets/Shader/PauseMenu.gdshader" id="1_v5f0y"]
+[ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="3_nxwfx"]
+[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="4_l4ygw"]
+[ext_resource type="Theme" uid="uid://dmrcphllqb0po" path="res://Assets/Sprites/UI/gravity-10.tres" id="5_ipimc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cewhh"]
 shader = ExtResource("1_v5f0y")
@@ -30,12 +33,14 @@ grow_vertical = 2
 
 [node name="Setting" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 76.0
-offset_top = 3.0
-offset_right = 131.0
-offset_bottom = 26.0
+offset_left = 31.0
+offset_top = 16.0
+offset_right = 139.0
+offset_bottom = 39.0
 scale = Vector2(2, 2)
-text = "Setting"
+theme_override_fonts/font = ExtResource("3_nxwfx")
+theme_override_font_sizes/font_size = 0
+text = "Settings"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
@@ -49,10 +54,15 @@ alignment = 1
 
 [node name="Resume" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_l4ygw")
+theme_override_font_sizes/font_size = 10
 text = "Resume"
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ipimc")
+theme_override_fonts/font = ExtResource("4_l4ygw")
+theme_override_font_sizes/font_size = 10
 text = "Option"
 
 [node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
@@ -65,6 +75,7 @@ offset_bottom = 108.054
 
 [node name="Restart" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ipimc")
 text = "Restart"
 
 [node name="Confirm Restart" type="Panel" parent="Panel/VBoxContainer/Restart"]
@@ -107,6 +118,7 @@ autowrap_mode = 2
 
 [node name="Quit" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ipimc")
 text = "Quit"
 
 [node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
