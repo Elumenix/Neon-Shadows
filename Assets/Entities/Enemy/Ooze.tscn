@@ -836,7 +836,7 @@ collision_mask = 4
 script = ExtResource("1_msgnd")
 _lungeDuration = 0.75
 _animationPlayer = NodePath("EnemySprite/FlashAnimation")
-MaxHealth = 500
+MaxHealth = 300
 _speed = 10.0
 _maxSpeed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
@@ -845,7 +845,7 @@ _navigationAgent = NodePath("NavigationAgent2D")
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
 animation = &"Death_Down"
-frame_progress = 0.0243591
+frame_progress = 0.904742
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("../..")
@@ -865,7 +865,6 @@ shape = SubResource("RectangleShape2D_scxti")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 0.1
-debug_enabled = true
 
 [node name="KnockbackTimer" type="Timer" parent="."]
 one_shot = true
