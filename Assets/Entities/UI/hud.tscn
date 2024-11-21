@@ -17,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_27bwa")
 HealthIconList = [NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect2"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect3")]
-AmmoIconList = []
+AmmoIconList = [NodePath("Panel/HBoxContainer/TextureRect"), NodePath("Panel/HBoxContainer/TextureRect2"), NodePath("Panel/HBoxContainer/TextureRect3"), NodePath("Panel/HBoxContainer/TextureRect4"), NodePath("Panel/HBoxContainer/TextureRect5")]
 _fpsLabel = NodePath("Panel/FPSCounter")
 _ammoCount = NodePath("Panel/AmmoCount")
 
