@@ -1,0 +1,140 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt4wadnuv2pla"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/UI/PauseMenu.cs" id="1_fvfgc"]
+[ext_resource type="Shader" path="res://Assets/Shader/PauseMenu.gdshader" id="2_jyalj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cewhh"]
+shader = ExtResource("2_jyalj")
+shader_parameter/amount = 1.0
+
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_quitConfirmPanel", "_restartConfirmPanel", "_OptionsPanel") groups=["GameOverMenu"]]
+script = ExtResource("1_fvfgc")
+_quitConfirmPanel = NodePath("Panel/VBoxContainer/Quit/Confirm Quit")
+_restartConfirmPanel = NodePath("Panel/VBoxContainer/Restart/Confirm Restart")
+_OptionsPanel = NodePath("")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_cewhh")
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(16.0121, 9.01416)
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -177.0
+offset_right = 641.8
+offset_bottom = 180.0
+grow_vertical = 2
+
+[node name="Game Over" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 8.0
+offset_right = 331.0
+offset_bottom = 47.0
+scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 28
+text = "You Died Game Over!"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 84.0
+offset_right = 327.0
+offset_bottom = 220.0
+scale = Vector2(1.85, 1.85)
+alignment = 1
+
+[node name="Restart" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Confirm Restart" type="Panel" parent="Panel/VBoxContainer/Restart"]
+visible = false
+layout_mode = 0
+offset_left = 116.216
+offset_top = -96.486
+offset_right = 305.216
+offset_bottom = 72.514
+
+[node name="Yes" type="Button" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 0
+offset_left = 41.3784
+offset_top = 87.3784
+offset_right = 76.3784
+offset_bottom = 118.378
+text = "Yes"
+
+[node name="No" type="Button" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 0
+offset_left = 110.027
+offset_top = 87.9189
+offset_right = 141.027
+offset_bottom = 118.919
+text = "No"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Restart/Confirm Restart"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.7433
+offset_top = 10.0811
+offset_right = 75.2567
+offset_bottom = 59.0811
+grow_horizontal = 2
+text = "Are you sure you want to restart?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
+visible = false
+layout_mode = 0
+offset_left = 116.216
+offset_top = -130.946
+offset_right = 305.216
+offset_bottom = 38.054
+
+[node name="Yes" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 0
+offset_left = 41.3784
+offset_top = 87.3784
+offset_right = 76.3784
+offset_bottom = 118.378
+text = "Yes"
+
+[node name="No" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 0
+offset_left = 110.027
+offset_top = 87.9189
+offset_right = 141.027
+offset_bottom = 118.919
+text = "No"
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.7433
+offset_top = 10.0811
+offset_right = 75.2567
+offset_bottom = 59.0811
+grow_horizontal = 2
+text = "Are you sure you want to quit?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="OnGameOverRestart"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/Yes" to="." method="OnRestartYesPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/No" to="." method="OnRestartNoPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="OnGameOverQuit"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/Yes" to="." method="OnQuitYesPressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Quit/Confirm Quit/No" to="." method="OnQuitNoPressed"]

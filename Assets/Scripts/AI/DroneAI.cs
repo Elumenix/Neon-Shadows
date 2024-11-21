@@ -375,10 +375,13 @@ public partial class DroneAI : BaseEnemyAI
 
     protected override void HandleDeath()
     {
-        isDead = true;
-		
-        GameManager.Instance.EnemyDefeated();
         Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        if (isDead) {
+            PlayDeathAnimation(direction);
+            return;
+        }
+        isDead = true;
+        GameManager.Instance.EnemyDefeated();
         PlayDeathAnimation(direction);
         _shouldMove = false;
         _oneSecTimer.Start();
@@ -387,7 +390,7 @@ public partial class DroneAI : BaseEnemyAI
     public override void TakeDamage(int damageAmount) {
 		if (isDead)
 			return;
-		base.TakeDamage(damageAmount);
+        base.TakeDamage(damageAmount);
 		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;
 	}

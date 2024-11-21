@@ -97,4 +97,19 @@ public partial class PauseMenu : CanvasLayer
 		GD.Print("on restart no pressed");
 		_restartConfirmPanel.Hide();
 	}
+
+	public void OnGameOverRestart()
+	{
+        GameManager.Instance._Ready();
+        (GameManager.Instance.player as Player).RespawnPlayer();
+        GetTree().ReloadCurrentScene();
+
+    }
+
+	public void OnGameOverQuit() {
+
+        GameManager.Instance._Ready();
+        (GameManager.Instance.player as Player).RespawnPlayer();
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+    }
 }
