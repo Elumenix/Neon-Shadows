@@ -4,7 +4,8 @@ using System;
 public enum EnemyType
 {
 	BaseEnemy,
-	Drone
+	Drone,
+	Ooze
 }
 
 public partial class EnemySpawner : Node2D
@@ -12,6 +13,7 @@ public partial class EnemySpawner : Node2D
 	[Export] public int GateNum;
 	[Export] private PackedScene _baseEnemy;
 	[Export] private PackedScene _drone;
+	[Export] private PackedScene _ooze;
 	[Export] public float spawnCooldown;
 	[Export] public int maxSpawnNum;
 	[Export] public EnemyType enemySpawnType = EnemyType.BaseEnemy;
@@ -60,6 +62,9 @@ public partial class EnemySpawner : Node2D
 					break;
 				case EnemyType.Drone:
 					node = _drone.Instantiate();
+					break;
+				case EnemyType.Ooze:
+					node = _ooze.Instantiate();
 					break;
 				default:
 					node = _baseEnemy.Instantiate();

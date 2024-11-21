@@ -488,6 +488,7 @@ _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 _particles = NodePath("CPUParticles2D")
+MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
 _navigationAgent = NodePath("NavigationAgent2D")
