@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=16 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="7_2va86"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="8_hdfwm"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/FirstLedge.cs" id="9_ygt6s"]
+[ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="10_7jtif"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_kpb6d")
@@ -242,9 +243,9 @@ sources/0 = SubResource("TileSetScenesCollectionSource_ajvvt")
 sources/2 = SubResource("TileSetAtlasSource_jgt7l")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nxaa0"]
-vertices = PackedVector2Array(564.82, 16, -224, 410.406, -820.82, 112, -32, -282.406)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-224, 416, 576, 16, -32, -288, -832, 112)])
+vertices = PackedVector2Array(723.828, 766.953, 511.023, 872.398, 206.961, 717.961, 415.008, 610.609, 928.063, 356.609, 1240.72, 511.977, 832.039, 713.398, 802.844, 422.742, 524.828, 555.93, 648.133, 490.844, 767.852, 401.742, 629.094, 475.813, 564.82, 16, -224, 410.406, -820.82, 112, -32, -282.406, 1309.67, 319.18, 1203.94, 373.398, 1113.15, 328.891, 1217.09, 275.563)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(6, 8, 9, 7), PackedInt32Array(10, 7, 9, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(16, 17, 18, 19)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-224, 416, 576, 16, -32, -288, -832, 112), PackedVector2Array(620, 475, 639, 490, 514, 556, 832, 719, 1252, 512, 928, 351, 803, 417, 768, 396), PackedVector2Array(415, 605, 735, 767, 511, 878, 196, 718), PackedVector2Array(1102, 329, 1204, 379, 1321, 319, 1217, 270)])
 agent_radius = 5.0
 
 [node name="ArenaScene" type="Node2D"]
@@ -263,7 +264,7 @@ collision_enabled = false
 
 [node name="Objects&Entities" type="TileMapLayer" parent="TileMap"]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAD1/xEAAgAAAAkAAAD1/xAAAgAAAAkAAAD1/w8AAgAAAAkAAAD1/w4AAgACAAkAABD1/w0AAgAAAAkAAAD1/wwAAgACAAkAAAD1/wsAAgAAAAkAAAD1/woAAgAAAAkAAAD1/wkAAgAAAAkAAAD1/wgAAgACAAkAAAD1/wcAAgACAAkAABD1/wYAAgAAAAkAAAD1/wUAAgAAAAkAAAD1/wQAAgAAAAkAAAD1/wMAAgAAAAkAAAD1/wIAAgAAAAkAAAD1/wEAAgACAAkAABD1/wAAAgAAAAkAAAD1////AgAAAAkAAAD1//7/AgAAAAkAAAD1//3/AgAAAAkAAAD1//z/AgAAAAkAAAD1//v/AgAAAAkAAAD1//r/AgACAAkAAAD1//n/AgAAAAkAAAD1//j/AgAAAAkAAAD1//f/AgAAAAkAAAD2//f/AgAAAAkAAAD3//f/AgACAAkAABD4//f/AgAAAAkAAAD5//f/AgAAAAkAAAD6//f/AgAAAAkAAAD7//f/AgAAAAkAAAD8//f/AgACAAkAAAD9//f/AgACAAkAABD+//f/AgAAAAkAAAD///f/AgACAAkAAAAAAPf/AgAAAAkAAAABAPf/AgAAAAkAAAACAPf/AgAAAAkAAAADAPf/AgAAAAkAAAAEAPf/AgACAAkAABAFAPf/AgAAAAkAAAAGAPf/AgACAAkAAAAHAPf/AgAAAAkAAAAIAPf/AgAAAAkAAAAIABEAAgAAAAkAAAAHABEAAgAAAAkAAAAGABEAAgACAAkAAAAFABEAAgAAAAkAAAAEABEAAgACAAkAAAADABEAAgAAAAkAAAACABEAAgACAAkAABABABEAAgAAAAkAAAAAABEAAgACAAkAABD//xEAAgAAAAkAAAD+/xEAAgAAAAkAAAD9/xEAAgAAAAkAAAD8/xEAAgAAAAkAAAD7/xEAAgAAAAkAAAD6/xEAAgACAAkAABD5/xEAAgACAAkAAAD4/xEAAgAAAAkAAAD3/xEAAgAAAAkAAAD2/xEAAgACAAkAABA=")
+tile_map_data = PackedByteArray("AAD1/xEAAgAAAAkAAAD1/xAAAgAAAAkAAAD1/w8AAgAAAAkAAAD1/w4AAgACAAkAABD1/w0AAgAAAAkAAAD1/wwAAgACAAkAAAD1/wsAAgAAAAkAAAD1/woAAgAAAAkAAAD1/wkAAgAAAAkAAAD1/wgAAgACAAkAAAD1/wcAAgACAAkAABD1/wYAAgAAAAkAAAD1/wUAAgAAAAkAAAD1/wQAAgAAAAkAAAD1/wMAAgAAAAkAAAD1/wIAAgAAAAkAAAD1/wEAAgACAAkAABD1/wAAAgAAAAkAAAD1////AgAAAAkAAAD1//7/AgAAAAkAAAD1//3/AgAAAAkAAAD1//z/AgAAAAkAAAD1//v/AgAAAAkAAAD1//r/AgACAAkAAAD1//n/AgAAAAkAAAD1//j/AgAAAAkAAAD1//f/AgAAAAkAAAD2//f/AgAAAAkAAAD3//f/AgACAAkAABD4//f/AgAAAAkAAAD5//f/AgAAAAkAAAD6//f/AgAAAAkAAAD7//f/AgAAAAkAAAD8//f/AgACAAkAAAD9//f/AgACAAkAABD+//f/AgAAAAkAAAD///f/AgACAAkAAAAAAPf/AgAAAAkAAAABAPf/AgAAAAkAAAACAPf/AgAAAAkAAAADAPf/AgAAAAkAAAAEAPf/AgACAAkAABAFAPf/AgAAAAkAAAAGAPf/AgACAAkAAAAHAPf/AgAAAAkAAAAIAPf/AgAAAAkAAAAIABEAAgAAAAkAAAAHABEAAgAAAAkAAAAGABEAAgACAAkAAAAFABEAAgAAAAkAAAAEABEAAgACAAkAAAADABEAAgAAAAkAAAACABEAAgACAAkAABABABEAAgAAAAkAAAAAABEAAgACAAkAABD//xEAAgAAAAkAAAD+/xEAAgAAAAkAAAD9/xEAAgAAAAkAAAD8/xEAAgAAAAkAAAD7/xEAAgAAAAkAAAD6/xEAAgACAAkAABD5/xEAAgACAAkAAAD4/xEAAgAAAAkAAAD3/xEAAgAAAAkAAAD2/xEAAgACAAkAABAbAA4AAAAAAAAAAgAgAA4AAAAAAAAAAgAbABEAAAAAAAAAAgAhABEAAAAAAAAAAgAdAA8AAAAAAAAAAgAbAPj/AAAAAAAAAgAcAPf/AAAAAAAAAgA=")
 tile_set = SubResource("TileSet_qveot")
 
 [node name="Player" parent="TileMap/Objects&Entities" instance=ExtResource("1_kpb6d")]
@@ -361,6 +362,9 @@ _dashText = NodePath("../Tutorial Text/DashText")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="First Ledge Text Collider"]
 modulate = Color(1.15514e-06, 0.729142, 0.608976, 0.439216)
 polygon = PackedVector2Array(-276, 383, -194, 433, 609, 32, 531, -9)
+
+[node name="ExplosiveBarrel" parent="." instance=ExtResource("10_7jtif")]
+position = Vector2(1185, 318)
 
 [connection signal="body_entered" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnEnter"]
 [connection signal="body_exited" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnExit"]
