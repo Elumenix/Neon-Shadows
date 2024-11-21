@@ -95,6 +95,7 @@ public partial class Dash : Node2D
 
 	public void StartTimer(float duration)
 	{
+		_canDash = false;
 		_timer.WaitTime = duration;
 		_timer.Start();
 	}
