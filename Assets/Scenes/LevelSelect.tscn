@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://di7sqrj73qtt1"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/LevelSelect.cs" id="1_6gxph"]
-[ext_resource type="Theme" uid="uid://cnrjccknkhvl4" path="res://Assets/Sprites/UI/gravity-8.tres" id="2_i46hr"]
+[ext_resource type="Theme" path="res://Assets/Sprites/UI/gravity-8.tres" id="2_i46hr"]
 [ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_xk8ig"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="3_6tgq0"]
 [ext_resource type="AudioStream" uid="uid://dlifsm4hbrms2" path="res://Assets/Sounds/cyberpunk-beat-64649.mp3" id="3_ho7jm"]
-[ext_resource type="Theme" uid="uid://dmrcphllqb0po" path="res://Assets/Sprites/UI/gravity-10.tres" id="4_e6r2t"]
+[ext_resource type="Theme" path="res://Assets/Sprites/UI/gravity-10.tres" id="4_e6r2t"]
 
 [node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_tutorialDescriptionPanel", "_levelOneDescriptionPanel", "_arenaDescriptionPanel", "_quitConfirmPanel")]
 script = ExtResource("1_6gxph")
@@ -53,10 +53,10 @@ text = "Tutorial"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Tutorial"]
 layout_mode = 0
-offset_left = 116.0
-offset_top = -69.1081
-offset_right = 314.0
-offset_bottom = 124.892
+offset_left = 115.676
+offset_top = -70.0
+offset_right = 313.676
+offset_bottom = 124.0
 theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
