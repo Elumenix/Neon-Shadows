@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bllft4767kdgs"]
+[gd_scene load_steps=6 format=3 uid="uid://bllft4767kdgs"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/HUDManager.cs" id="1_27bwa"]
 [ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="2_iwfe4"]
 [ext_resource type="Texture2D" uid="uid://deej4bpwpouad" path="res://Assets/Sprites/playersolo.png" id="3_cchpg"]
 [ext_resource type="Texture2D" uid="uid://bvmbbexacwpnw" path="res://Assets/Sprites/Menu/heart.png" id="4_r76r4"]
+[ext_resource type="Texture2D" uid="uid://cifd4c3vfh510" path="res://Assets/Sprites/Menu/ammo-full.png" id="5_k7dtm"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("HealthIconList", "_fpsLabel", "_ammoCount")]
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("HealthIconList", "AmmoIconList", "_fpsLabel", "_ammoCount")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_27bwa")
 HealthIconList = [NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect2"), NodePath("Panel/CanvasGroup/HBoxContainer/TextureRect3")]
+AmmoIconList = [NodePath("Panel/HBoxContainer/TextureRect"), NodePath("Panel/HBoxContainer/TextureRect2"), NodePath("Panel/HBoxContainer/TextureRect3"), NodePath("Panel/HBoxContainer/TextureRect4"), NodePath("Panel/HBoxContainer/TextureRect5")]
 _fpsLabel = NodePath("Panel/FPSCounter")
 _ammoCount = NodePath("Panel/AmmoCount")
 
@@ -95,6 +97,7 @@ theme_override_font_sizes/font_size = 10
 text = "Ammo:"
 
 [node name="AmmoCount" type="Label" parent="HUD/Panel"]
+visible = false
 layout_mode = 0
 offset_left = 440.0
 offset_top = 16.0
@@ -103,3 +106,35 @@ offset_bottom = 39.0
 theme_override_fonts/font = ExtResource("2_iwfe4")
 theme_override_font_sizes/font_size = 10
 text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -193.0
+offset_top = 3.0
+offset_right = 11.0
+offset_bottom = 43.0
+grow_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_k7dtm")
+
+[node name="TextureRect2" type="TextureRect" parent="HUD/Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_k7dtm")
+
+[node name="TextureRect3" type="TextureRect" parent="HUD/Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_k7dtm")
+
+[node name="TextureRect4" type="TextureRect" parent="HUD/Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_k7dtm")
+
+[node name="TextureRect5" type="TextureRect" parent="HUD/Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_k7dtm")

@@ -732,6 +732,7 @@ public partial class Player : CharacterBody2D
 
 		GetParent().AddChild(projectile);
 		_ammo--;
+		HUDManager.Instance.DecreaseAmmo();
 	}
 	/// <summary>
 	/// "Reloads" the player's ammo
@@ -742,6 +743,7 @@ public partial class Player : CharacterBody2D
 		if(_ammo < _MaxAmmo)
 		{
 			_ammo++;
+			HUDManager.Instance.IncreaseAmmo();
 		}
 	}
 
