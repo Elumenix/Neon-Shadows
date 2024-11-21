@@ -503,7 +503,7 @@ material = ExtResource("3_lju7x")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Death_UpRight"
+animation = &"Backward-Rightward"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
