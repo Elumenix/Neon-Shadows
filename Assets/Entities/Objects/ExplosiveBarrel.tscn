@@ -55,8 +55,6 @@ script = ExtResource("1_ga5tf")
 material = ExtResource("2_bu36w")
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_req2s")
-frame = 3
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = -1
