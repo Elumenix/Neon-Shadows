@@ -798,6 +798,7 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	public void RespawnPlayer()
 	{
+		_dash.StartTimer(0.5f);
 		_zIndexTimer.Stop();
 		_isFalling = false;
 		ZIndex = 0;

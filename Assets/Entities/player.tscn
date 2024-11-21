@@ -1,10 +1,10 @@
-[gd_scene load_steps=80 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=81 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="PackedScene" uid="uid://b7n5ul88o2x42" path="res://Assets/Entities/ParticleEffect/FootStep.tscn" id="2_p3t5q"]
 [ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="4_bb74h"]
-[ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="5_krjjd"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_winvi"]
 [ext_resource type="PackedScene" uid="uid://b6dfh432kt4s1" path="res://Assets/Entities/ParticleEffect/Wind.tscn" id="6_nkt72"]
 [ext_resource type="Texture2D" uid="uid://bmwxv3itsi8pn" path="res://Assets/Sprites/player-attack.png" id="6_ptsyf"]
 [ext_resource type="AudioStream" uid="uid://v5251vhudgvx" path="res://Assets/Sounds/metal_01_a.wav" id="9_lyx7k"]
@@ -81,6 +81,11 @@ _data = {
 "Flash": SubResource("Animation_rthyb"),
 "RESET": SubResource("Animation_x6so7")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkkse"]
+shader = ExtResource("4_winvi")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fqdh5"]
 atlas = ExtResource("6_ptsyf")
@@ -635,7 +640,7 @@ libraries = {
 }
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = ExtResource("5_krjjd")
+material = SubResource("ShaderMaterial_xkkse")
 sprite_frames = SubResource("SpriteFrames_0vbwd")
 animation = &"walk_down"
 
