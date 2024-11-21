@@ -294,7 +294,7 @@ polygon = PackedVector2Array(1037, 1139, 429, 835, -371, 1235, 237, 1539)
 unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_nxaa0")
 
+[node name="HUD" parent="." instance=ExtResource("8_hwngl")]
+
 [node name="PauseMenu" parent="." instance=ExtResource("7_bt3jr")]
 visible = false
-
-[node name="HUD" parent="." instance=ExtResource("8_hwngl")]
