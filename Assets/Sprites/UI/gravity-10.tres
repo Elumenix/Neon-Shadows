@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dmrcphllqb0po"]
+
+[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="1_og8ox"]
+
+[resource]
+default_font = ExtResource("1_og8ox")
+default_font_size = 10
