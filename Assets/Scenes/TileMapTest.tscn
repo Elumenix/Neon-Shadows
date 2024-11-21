@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dokg4kcelova4"]
+[gd_scene load_steps=23 format=4 uid="uid://dokg4kcelova4"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
