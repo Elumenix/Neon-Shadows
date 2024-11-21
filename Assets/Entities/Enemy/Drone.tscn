@@ -1,10 +1,11 @@
-[gd_scene load_steps=61 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=63 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
+[ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
 [ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
@@ -12,6 +13,11 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(19.7813, 15.9747)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58aay"]
+shader = ExtResource("4_pfj42")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k168i"]
 atlas = ExtResource("4_ca8cm")
@@ -499,7 +505,7 @@ position = Vector2(0.21875, -8.01264)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
-material = ExtResource("3_lju7x")
+material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
