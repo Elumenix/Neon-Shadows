@@ -92,4 +92,10 @@ public partial class Dash : Node2D
 	public override void _Process(double delta)
 	{
 	}
+
+	public void StartTimer(float duration)
+	{
+		_timer.WaitTime = duration;
+		_timer.Start();
+	}
 }
