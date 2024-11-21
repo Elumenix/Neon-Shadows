@@ -32,8 +32,9 @@ offset_bottom = 47.0
 scale = Vector2(2, 2)
 theme = ExtResource("2_i46hr")
 theme_override_fonts/font = ExtResource("3_6tgq0")
-theme_override_font_sizes/font_size = 8
-text = "Level Select"
+theme_override_font_sizes/font_size = 16
+text = "Level 
+Select"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
@@ -43,6 +44,7 @@ offset_top = 74.0
 offset_right = 140.0
 offset_bottom = 210.0
 scale = Vector2(1.85, 1.85)
+theme = ExtResource("2_i46hr")
 alignment = 1
 
 [node name="Tutorial" type="Button" parent="Panel/VBoxContainer"]
@@ -52,9 +54,9 @@ text = "Tutorial"
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Tutorial"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = -41.0
+offset_top = -69.1081
 offset_right = 314.0
-offset_bottom = 153.0
+offset_bottom = 124.892
 theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
@@ -102,10 +104,10 @@ text = "Level1"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Level1"]
 layout_mode = 0
-offset_left = 116.0
-offset_top = -75.0
-offset_right = 314.0
-offset_bottom = 119.0
+offset_left = 115.676
+offset_top = -90.0
+offset_right = 313.676
+offset_bottom = 104.0
 theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
@@ -151,7 +153,6 @@ layout_mode = 2
 text = "Arena"
 
 [node name="LevelInfoPanel" type="Panel" parent="Panel/VBoxContainer/Arena"]
-visible = false
 layout_mode = 0
 offset_left = 116.0
 offset_top = -110.0
@@ -202,12 +203,11 @@ layout_mode = 2
 text = "Quit"
 
 [node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
-visible = false
 layout_mode = 0
 offset_left = 116.0
-offset_top = -145.0
+offset_top = -131.487
 offset_right = 315.0
-offset_bottom = 50.0
+offset_bottom = 63.5135
 theme = ExtResource("4_e6r2t")
 
 [node name="Yes" type="Button" parent="Panel/VBoxContainer/Quit/Confirm Quit"]
