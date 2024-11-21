@@ -32,7 +32,7 @@ public partial class GameManager : Node
 		currentGate = 1;
 		_defeatedEnemies= 0;
 		TotalEnemies = 0;
-	}
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
