@@ -8,7 +8,8 @@ public partial class Dash : Node2D
 	private Timer _ghostTimer;
 	private bool _canDash = true;
 	public bool CanDash { get { return _canDash; } }
-    public bool IsDashing {  get { return !_timer.IsStopped(); } }
+	private bool _isDash = false;
+    public bool IsDashing {  get { return _isDash; } }
 
 	private PackedScene _ghostScene = GD.Load<PackedScene>("res://Assets/Entities/DashGhost.tscn");
 	private Sprite2D _sprite;
@@ -29,6 +30,7 @@ public partial class Dash : Node2D
 
 	public void StartDash(FACING_DIRECTION facing, float duration)
 	{
+		_isDash = true;
 		_facing = facing;
 		_timer.WaitTime = duration;
 		_timer.Start();
@@ -75,6 +77,7 @@ public partial class Dash : Node2D
 	}
     public async void EndDash()
 	{
+		_isDash = false;
 		// double check that the timer stopped
 		if (!_timer.IsStopped())
 		{
