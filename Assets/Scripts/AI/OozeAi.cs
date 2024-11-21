@@ -137,17 +137,6 @@ public partial class OozeAi : BaseEnemyAI
 
     }
 
-	public override void TakeDamage(int damageAmount)
-	{
-        if (isDead)
-            return;
-        
-        if (!_isLunging)
-		{
-			base.TakeDamage(damageAmount);
-		}
-	}
-
 
 	private void PlayLungeAnimation(Vector2 direction) {
         direction = direction.Normalized();
@@ -259,13 +248,33 @@ public partial class OozeAi : BaseEnemyAI
         }
     }
 
-    protected override void HandleDeath() {
+    protected override void HandleDeath()
+    {
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        if (isDead)
+        {
+            PlayDeathAnimation(direction);
+            return;
+        }
         isDead = true;
         GameManager.Instance.EnemyDefeated();
-        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
         PlayDeathAnimation(direction);
         _shouldMove = false;
+        _isSpawning = true;
         _oneSecTimer.Start();
+    }
+
+
+    public override void TakeDamage(int damageAmount)
+    {
+        if (isDead)
+            return;
+
+        _shouldMove = false;
+        if (!_isLunging)
+        {
+            base.TakeDamage(damageAmount);
+        }
     }
 
     protected void Spawn()
@@ -276,5 +285,6 @@ public partial class OozeAi : BaseEnemyAI
         _oneSecTimer.Start();
         _animatedSprite.Play("Spawn");
     }
+
 }
 
