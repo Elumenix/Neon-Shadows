@@ -845,7 +845,7 @@ _navigationAgent = NodePath("NavigationAgent2D")
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
 animation = &"Death_Down"
-frame_progress = 0.904742
+frame_progress = 0.358274
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("../..")

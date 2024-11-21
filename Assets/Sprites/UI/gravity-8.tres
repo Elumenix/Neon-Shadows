@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cnrjccknkhvl4"]
+
+[ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="1_wsxvj"]
+
+[resource]
+default_font = ExtResource("1_wsxvj")
+default_font_size = 8

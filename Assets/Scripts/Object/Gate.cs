@@ -12,7 +12,15 @@ public partial class Gate : Node
 	[Export]
 	public int InitEnemiesNum;
 
-	public void OpenGate()
+    public override void _Ready() {
+		if (GameManager.Instance.currentGate == GateNum) {
+            StartGate();
+		}
+
+    }
+
+
+    public void OpenGate()
 	{
 		GD.Print("Gate opening");
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;

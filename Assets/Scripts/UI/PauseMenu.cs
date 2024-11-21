@@ -100,16 +100,16 @@ public partial class PauseMenu : CanvasLayer
 
 	public void OnGameOverRestart()
 	{
-        GameManager.Instance._Ready();
-        (GameManager.Instance.player as Player).RespawnPlayer();
-        GetTree().ReloadCurrentScene();
+		GameManager.Instance._Ready();
+		(GameManager.Instance.player as Player).RespawnPlayer();
+		GetTree().ReloadCurrentScene();
 
-    }
+	}
 
 	public void OnGameOverQuit() {
 
-        GameManager.Instance._Ready();
-        (GameManager.Instance.player as Player).RespawnPlayer();
-        GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
-    }
+		GameManager.Instance._Ready();
+		(GameManager.Instance.player as Player).RespawnPlayer();
+		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+	}
 }

@@ -1,17 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt4wadnuv2pla"]
+[gd_scene load_steps=6 format=3 uid="uid://dt4wadnuv2pla"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PauseMenu.cs" id="1_fvfgc"]
 [ext_resource type="Shader" path="res://Assets/Shader/PauseMenu.gdshader" id="2_jyalj"]
+[ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="3_calph"]
+[ext_resource type="FontFile" uid="uid://b8jyedi1u0a3q" path="res://Assets/Sprites/UI/GravityRegular5.ttf" id="4_4sh7x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cewhh"]
 shader = ExtResource("2_jyalj")
 shader_parameter/amount = 1.0
 
-[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_quitConfirmPanel", "_restartConfirmPanel", "_OptionsPanel") groups=["GameOverMenu"]]
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_quitConfirmPanel", "_restartConfirmPanel") groups=["GameOverMenu"]]
 script = ExtResource("1_fvfgc")
 _quitConfirmPanel = NodePath("Panel/VBoxContainer/Quit/Confirm Quit")
 _restartConfirmPanel = NodePath("Panel/VBoxContainer/Restart/Confirm Restart")
-_OptionsPanel = NodePath("")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_cewhh")
@@ -31,11 +32,12 @@ grow_vertical = 2
 [node name="Game Over" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 43.0
-offset_top = 8.0
+offset_top = 27.0
 offset_right = 331.0
-offset_bottom = 47.0
+offset_bottom = 66.0
 scale = Vector2(2, 2)
-theme_override_font_sizes/font_size = 28
+theme_override_fonts/font = ExtResource("3_calph")
+theme_override_font_sizes/font_size = 16
 text = "You Died Game Over!"
 horizontal_alignment = 1
 
@@ -50,6 +52,8 @@ alignment = 1
 
 [node name="Restart" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4sh7x")
+theme_override_font_sizes/font_size = 10
 text = "Restart"
 
 [node name="Confirm Restart" type="Panel" parent="Panel/VBoxContainer/Restart"]
@@ -92,6 +96,8 @@ autowrap_mode = 2
 
 [node name="Quit" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4sh7x")
+theme_override_font_sizes/font_size = 10
 text = "Quit"
 
 [node name="Confirm Quit" type="Panel" parent="Panel/VBoxContainer/Quit"]
