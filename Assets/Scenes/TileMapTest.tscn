@@ -16,7 +16,6 @@
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
 [ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
-[ext_resource type="PackedScene" uid="uid://dtfm6fu55cubd" path="res://Assets/Entities/Objects/Explosion.tscn" id="16_62bxu"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -411,10 +410,5 @@ position = Vector2(1070, 1632)
 _lungeDuration = 0.5
 MaxHealth = 100
 
-[node name="Explosion" parent="." instance=ExtResource("16_62bxu")]
-position = Vector2(1299, 1623)
-
 [node name="Drone" parent="." instance=ExtResource("3_f4wub")]
 position = Vector2(1057, 1689)
-
-[editable path="Explosion"]
