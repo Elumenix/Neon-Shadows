@@ -79,8 +79,6 @@ public partial class Player : CharacterBody2D
 	private Vector2 _footStepEffectSpawnPosition;
 	private Vector2 _playerSpriteSize;
 
-	[Export] PackedScene test;
-
 	public int GetPlayerHealth() {
 		return _health;
 	}
@@ -696,7 +694,10 @@ public partial class Player : CharacterBody2D
 		_dead = true;
 		_animatedSprite.Visible = false;
 		_animationPlayer.Stop();
-	}
+        Engine.TimeScale = 0;
+		GameManager.Instance.gamePaused = true;
+        (GetTree().GetNodesInGroup("GameOverMenu")[0] as CanvasLayer).Visible = true;
+    }
 
 	/// <summary>
 	/// Enables/Disables the Player's Collision with enemies, used exclusively for dash as of (10/08)

@@ -471,6 +471,7 @@ streams_count = 1
 stream_0/stream = ExtResource("6_fjoqr")
 
 [node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
+material = ExtResource("3_lju7x")
 collision_layer = 24
 collision_mask = 4
 motion_mode = 1
@@ -502,7 +503,7 @@ material = ExtResource("3_lju7x")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Death_UpRight"
+animation = &"Backward-Rightward"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {

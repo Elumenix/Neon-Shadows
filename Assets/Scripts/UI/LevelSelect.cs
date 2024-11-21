@@ -4,9 +4,11 @@ using System;
 public partial class LevelSelect : CanvasLayer
 {
 	[Export]
+	private Panel _tutorialDescriptionPanel;
+	[Export]
 	private Panel _levelOneDescriptionPanel;
 	[Export]
-	private Panel _levelTwoDescriptionPanel;
+	private Panel _arenaDescriptionPanel;
 
 	[Export]
 	private Panel _quitConfirmPanel;
@@ -14,8 +16,18 @@ public partial class LevelSelect : CanvasLayer
 	public override void _Ready()
 	{
 		_quitConfirmPanel.Hide();
-		_levelTwoDescriptionPanel.Hide();
-		_levelOneDescriptionPanel.Show();
+		_arenaDescriptionPanel.Hide();
+		_levelOneDescriptionPanel.Hide();
+		_tutorialDescriptionPanel.Show();
+	}
+	
+	public void OnTutorialPressed()
+	{
+		GD.Print("tutorial");
+		_tutorialDescriptionPanel.Show();
+		_levelOneDescriptionPanel.Hide();
+		_arenaDescriptionPanel.Hide();
+		_quitConfirmPanel.Hide();
 	}
 	
 	/// <summary>
@@ -24,8 +36,9 @@ public partial class LevelSelect : CanvasLayer
 	public void OnLevelOnePressed() 
 	{
 		GD.Print("level 1");
+		_tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Show();
-		_levelTwoDescriptionPanel.Hide();
+		_arenaDescriptionPanel.Hide();
 		_quitConfirmPanel.Hide();
 	}
 
@@ -34,10 +47,10 @@ public partial class LevelSelect : CanvasLayer
 	/// </summary>
 	public void OnLevelTwoPressed() 
 	{
-
 		GD.Print("level 2");
+		_tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Hide();
-		_levelTwoDescriptionPanel.Show();
+		_arenaDescriptionPanel.Show();
 		_quitConfirmPanel.Hide();
 	}
 
@@ -47,11 +60,19 @@ public partial class LevelSelect : CanvasLayer
 	public void OnQuitPressed()
 	{
 		GD.Print("quit");
+		_tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Hide();
-		_levelTwoDescriptionPanel.Hide();
+		_arenaDescriptionPanel.Hide();
 		_quitConfirmPanel.Show();
 	}
 
+
+	public void OnTutorialStartPressed()
+	{
+		GD.Print("tutorial start");
+		GetTree().ChangeSceneToFile("res://Assets/Scenes/Tutorial.tscn");
+	}
+	
 	/// <summary>
 	/// start level 1
 	/// </summary>
