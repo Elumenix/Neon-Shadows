@@ -105,7 +105,6 @@ public partial class OozeAi : BaseEnemyAI
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
 		Velocity = direction * _lungeSpeed;
 		
-		_iFrames = _lungeDuration;
 		_lungeTimer.Start();
 		PlayLungeAnimation(direction);
 	}
@@ -113,7 +112,6 @@ public partial class OozeAi : BaseEnemyAI
 	private void EndLunge()
 	{
 		_usePathFinding = true;
-		_iFrames = 0;
 		Velocity = Vector2.Zero;
 		_lungeCooldownTimer.Start();
 
@@ -273,10 +271,7 @@ public partial class OozeAi : BaseEnemyAI
 			return;
 
 		_shouldMove = false;
-		if (!_isLunging)
-		{
-			base.TakeDamage(damageAmount);
-		}
+		base.TakeDamage(damageAmount);
 	}
 
 	protected void Spawn()

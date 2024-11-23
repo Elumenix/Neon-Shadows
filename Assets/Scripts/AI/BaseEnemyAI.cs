@@ -175,7 +175,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 			currentHealth = 0;
 			HandleDeath();
 		}
-	}
+
+    }
 
 	/// <summary>
 	/// Handle enemy death
