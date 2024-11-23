@@ -258,6 +258,7 @@ public partial class OozeAi : BaseEnemyAI
 			return;
 		}
 		isDead = true;
+		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		GameManager.Instance.EnemyDefeated();
 		PlayDeathAnimation(direction);
 		_shouldMove = false;
