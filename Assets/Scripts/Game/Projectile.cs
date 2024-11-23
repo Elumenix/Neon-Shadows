@@ -6,13 +6,15 @@ public partial class Projectile : RigidBody2D
 	private int _damage;
 	private float _speed;
 	public Vector2 Heading;
+	private Area2D _area;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_damage = 50;
 		_speed = 200.0f;
-		Heading = Vector2.Zero; 
+		Heading = Vector2.Zero;
+		_area = GetNode<Area2D>("Area2D");
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -22,24 +24,6 @@ public partial class Projectile : RigidBody2D
 		// Checks for collisions and handles them
 		if(collision != null)
 		{
-			// Deals damage if the collision is with an enemy
-			if (collision.GetCollider() is BaseEnemyAI)
-			{
-				BaseEnemyAI temp = (BaseEnemyAI)collision.GetCollider();
-				temp.TakeDamage(_damage);
-            }
-			else if(collision.GetCollider() is DroneAI)
-			{
-				DroneAI temp = (DroneAI)collision.GetCollider();
-				temp.TakeDamage(_damage);
-			}
-			// If it collides with anything other than the player delete itself
-			// Line could be changed since it no longer has a collision layer in common with player
-			if(collision.GetCollider() is Barrel)
-			{
-				Barrel temp = (Barrel)collision.GetCollider();
-				temp._onHit();
-			}
 			QueueFree();
 		}
     }
@@ -56,4 +40,32 @@ public partial class Projectile : RigidBody2D
 	{
 		QueueFree();
 	}
+
+	public void OnCollision(Node2D collider)
+	{
+        // Deals damage if the collision is with an enemy
+        if (collider is BaseEnemyAI temp)
+        {
+            temp.TakeDamage(_damage);
+            QueueFree();
+        }
+        else if (collider is DroneAI drone)
+        {
+            drone.TakeDamage(_damage);
+            QueueFree();
+        }
+		else if(collider is OozeAi Ooze)
+		{
+			Ooze.TakeDamage(_damage);
+            QueueFree();
+        }
+        // If it collides with anything other than the player delete itself
+        // Line could be changed since it no longer has a collision layer in common with player
+        if (collider is Barrel barrel)
+        {
+            barrel._onHit();
+            QueueFree();
+        }
+        
+    }
 }
