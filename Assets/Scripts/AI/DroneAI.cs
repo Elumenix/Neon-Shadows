@@ -76,6 +76,10 @@ public partial class DroneAI : BaseEnemyAI
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (isDead)
+		{
+			return;
+		}
 		//base._PhysicsProcess(delta);
 
 		//check collision with player short range attack
@@ -292,6 +296,8 @@ public partial class DroneAI : BaseEnemyAI
 
 	private void UpdateAnimation(Vector2 direction)
 	{
+		if (isDead) return;
+
 		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
@@ -329,6 +335,7 @@ public partial class DroneAI : BaseEnemyAI
 
 	private void PlayDeathAnimation(Vector2 direction)
 	{
+		if (isDead) return;
 		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
@@ -379,11 +386,14 @@ public partial class DroneAI : BaseEnemyAI
 		if (!isDead) {
 			GameManager.Instance.EnemyDefeated();
 		}
+
+		PlayDeathAnimation(direction);
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		isDead = true;
-		PlayDeathAnimation(direction);
 		_shouldMove = false;
-		_oneSecTimer.Start();
+
+		if (_oneSecTimer.TimeLeft == 0)
+			_oneSecTimer.Start();
 	}
 
 	public override void TakeDamage(int damageAmount) {

@@ -26,9 +26,12 @@ shape = SubResource("CircleShape2D_xllda")
 one_way_collision = true
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 12
+collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_xllda")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="OnCollision"]

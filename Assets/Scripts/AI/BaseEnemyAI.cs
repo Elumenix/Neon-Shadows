@@ -64,8 +64,9 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
 	{
-		//update the target position and exit if there are none
-		UpdateNavigationTarget();
+
+        //update the target position and exit if there are none
+        UpdateNavigationTarget();
 		Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
 		if (_navigationAgent.DistanceToTarget() < _detectionRange)
 		{
@@ -86,8 +87,13 @@ public partial class BaseEnemyAI : CharacterBody2D
 
 
 	public override void _Process(double delta)
-	{
-		if(_iFrames > 0)
+    {
+        if (isDead)
+        {
+			HandleDeath();
+            return;
+        }
+        if (_iFrames > 0)
 		{
 			_iFrames -= (float)delta;
 			if(_iFrames < 0)
@@ -95,6 +101,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 				_iFrames = 0;
 			}
 		}
+
 	}
 
     /// <summary>

@@ -85,6 +85,7 @@ public partial class GameManager : Node
         //get player and pause menu panel
         _pauseMenu = GetTree().GetNodesInGroup("PauseMenu")[0] as CanvasLayer;
 
+		if (_pauseMenu == null) return;
 		//toggle pause menu and disable player controls
 		_pauseMenu.Visible = !_pauseMenu.Visible;
 		gamePaused = _pauseMenu.Visible;

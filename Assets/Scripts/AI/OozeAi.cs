@@ -12,7 +12,7 @@ public partial class OozeAi : BaseEnemyAI
 	private bool _isLunging = false;
 	private bool _isLungeCooldown = false;
 	private bool _isCharging = false;
-    [Export] private AnimationPlayer _animationPlayer;
+	[Export] private AnimationPlayer _animationPlayer;
 	private Timer _ZIndexTimer;
 	private bool _isSpawning;
 
@@ -48,8 +48,17 @@ public partial class OozeAi : BaseEnemyAI
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (isDead)
+		{
+			return;
+		}
 
-        Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+
+        if (_isCharging)
+        {
+            PlayWalkAnimation(GlobalPosition.DirectionTo(_player.GlobalPosition));
+			return;
+        }
 
         if (IsOnPlatform() && !_isSpawning)
 		{
@@ -57,11 +66,12 @@ public partial class OozeAi : BaseEnemyAI
 			{
 				StartChargeLunge();
 				Velocity = new Vector2(0,0);
-            }
+			}
 			else if (!_isCharging && !_isLunging)
 			{
 				UpdateNavigationTarget();
-				if (_navigationAgent.DistanceToTarget() < _detectionRange)
+                Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+                if (_navigationAgent.DistanceToTarget() < _detectionRange)
 				{
 					_shouldMove = true;
 				}
@@ -73,16 +83,13 @@ public partial class OozeAi : BaseEnemyAI
 				if (_navigationAgent.IsNavigationFinished())
 				{
 					nextPathPosition = GlobalPosition;
-                }
+				}
 
-                PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
-                MoveTowardsTarget(nextPathPosition, delta);
+				PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
+				MoveTowardsTarget(nextPathPosition, delta);
 			}
-			else {
-                PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
-            }
 
-            MoveAndSlide();
+			MoveAndSlide();
 		}
 
 
@@ -90,7 +97,7 @@ public partial class OozeAi : BaseEnemyAI
 
 	private void OnChargeFinished()
 	{
-        _isCharging = false;
+		_isCharging = false;
 
 		StartLunge();
 	}
@@ -116,7 +123,7 @@ public partial class OozeAi : BaseEnemyAI
 	}
 
 	public void StartChargeLunge() {
-        _isCharging = true;
+		_isCharging = true;
 
 		_usePathFinding = false;
 		_shouldMove = false;
@@ -126,10 +133,10 @@ public partial class OozeAi : BaseEnemyAI
 	private void StartLunge()
 	{
 
-        _shouldMove = true;
-        _isLunging = true;
-        _isLungeCooldown = true;
-        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+		_shouldMove = true;
+		_isLunging = true;
+		_isLungeCooldown = true;
+		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
 		Velocity = direction * _lungeSpeed;
 		
 		_lungeTimer.Start();
@@ -165,6 +172,10 @@ public partial class OozeAi : BaseEnemyAI
 
 
 	private void PlayLungeAnimation(Vector2 direction) {
+		if (isDead)
+		{
+			return;
+		}
 		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
@@ -202,6 +213,10 @@ public partial class OozeAi : BaseEnemyAI
 
 	private void PlayWalkAnimation(Vector2 direction)
 	{
+		if (isDead)
+		{
+			return;
+		}
 		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
@@ -239,7 +254,11 @@ public partial class OozeAi : BaseEnemyAI
 
 	private void PlayDeathAnimation(Vector2 direction)
 	{
-		direction = direction.Normalized();
+        if (isDead)
+        {
+            return;
+        }
+        direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
 			_animatedSprite.Play("Death_UpRight");
@@ -277,16 +296,17 @@ public partial class OozeAi : BaseEnemyAI
 	protected override void HandleDeath()
 	{
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
-        if (!isDead)
-        {
-            GameManager.Instance.EnemyDefeated();
+		if (!isDead)
+		{
+			GameManager.Instance.EnemyDefeated();
         }
+        PlayDeathAnimation(direction);
         isDead = true;
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-		PlayDeathAnimation(direction);
 		_shouldMove = false;
 		_isSpawning = true;
-		_oneSecTimer.Start();
+		if(_oneSecTimer.TimeLeft==0)
+			_oneSecTimer.Start();
 	}
 
 
