@@ -834,8 +834,8 @@ size = Vector2(5, 3)
 collision_layer = 24
 collision_mask = 4
 script = ExtResource("1_msgnd")
-_lungeDuration = 0.75
 _animationPlayer = NodePath("EnemySprite/FlashAnimation")
+MaxHealth = 150
 _speed = 10.0
 _maxSpeed = 10.0
 _navigationAgent = NodePath("NavigationAgent2D")
@@ -843,8 +843,7 @@ _navigationAgent = NodePath("NavigationAgent2D")
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_esoql")
 sprite_frames = SubResource("SpriteFrames_eg41k")
-animation = &"Death_Down"
-frame_progress = 0.358274
+animation = &"Lunge_Left"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 root_node = NodePath("../..")
@@ -875,6 +874,7 @@ position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_fryue")
 
 [node name="LungeCooldownTimer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 
 [node name="ZIndexTimer" type="Timer" parent="."]
@@ -882,4 +882,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="OneSecTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LungeChargeTimer" type="Timer" parent="."]
 one_shot = true
