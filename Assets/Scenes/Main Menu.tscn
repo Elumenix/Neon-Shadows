@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://c56j57dopopcp"]
+[gd_scene load_steps=6 format=3 uid="uid://c56j57dopopcp"]
 
 [ext_resource type="Texture2D" uid="uid://blka11sss30wb" path="res://Assets/Sprites/Menu/TempMenuBackground.jpg" id="1_6d3ub"]
+[ext_resource type="Script" path="res://Assets/Scripts/UI/MainMenuStart.cs" id="1_dlniu"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="2_pph0l"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="2_qj7re"]
 [ext_resource type="AudioStream" uid="uid://df513p0tqjtlu" path="res://Assets/Sounds/deep-space-garage-band-20148.mp3" id="4_104pw"]
 
 [node name="MainMenu" type="Node2D"]
+script = ExtResource("1_dlniu")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1

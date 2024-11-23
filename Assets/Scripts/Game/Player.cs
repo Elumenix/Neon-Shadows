@@ -697,6 +697,7 @@ public partial class Player : CharacterBody2D
         await ToSignal(GetTree().CreateTimer(1f), "timeout");
         Engine.TimeScale = 0;
         GameManager.Instance.gamePaused = true;
+        Input.SetCustomMouseCursor(GameManager.Instance.cursor);
 
         (GetTree().GetNodesInGroup("GameOverMenu")[0] as CanvasLayer).Visible = true;
     }

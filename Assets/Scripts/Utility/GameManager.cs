@@ -6,10 +6,13 @@ public partial class GameManager : Node
 
 	private CanvasLayer _pauseMenu;
 	public Node2D player;
-	
+	public Resource cursor = ResourceLoader.Load("res://Assets/Sprites/Menu/cursor.png");
+    public Resource reticle = ResourceLoader.Load("res://Assets/Sprites/Menu/cursor-reticle.png");
 
-	//game states
-	public bool gamePaused;
+
+
+    //game states
+    public bool gamePaused;
 	public int currentLevel;
 
 	public int TotalEnemies { get; set; }
@@ -32,6 +35,7 @@ public partial class GameManager : Node
 		currentGate = 1;
 		_defeatedEnemies= 0;
 		TotalEnemies = 0;
+		Input.SetCustomMouseCursor(reticle);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,10 +93,12 @@ public partial class GameManager : Node
 		if (_pauseMenu.Visible)
 		{
 			Engine.TimeScale = 0;
-		}
-		else
+			Input.SetCustomMouseCursor(cursor);
+        }
+        else
 		{
 			Engine.TimeScale = 1;
-		}
-	}
+            Input.SetCustomMouseCursor(reticle);
+        }
+    }
 }
