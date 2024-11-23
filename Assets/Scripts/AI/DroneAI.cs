@@ -376,13 +376,11 @@ public partial class DroneAI : BaseEnemyAI
 	protected override void HandleDeath()
 	{
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
-		if (isDead) {
-			PlayDeathAnimation(direction);
-			return;
+		if (!isDead) {
+			GameManager.Instance.EnemyDefeated();
 		}
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		isDead = true;
-		GameManager.Instance.EnemyDefeated();
 		PlayDeathAnimation(direction);
 		_shouldMove = false;
 		_oneSecTimer.Start();

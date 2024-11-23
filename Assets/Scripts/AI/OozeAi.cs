@@ -277,14 +277,12 @@ public partial class OozeAi : BaseEnemyAI
 	protected override void HandleDeath()
 	{
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
-		if (isDead)
-		{
-			PlayDeathAnimation(direction);
-			return;
-		}
-		isDead = true;
+        if (!isDead)
+        {
+            GameManager.Instance.EnemyDefeated();
+        }
+        isDead = true;
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-		GameManager.Instance.EnemyDefeated();
 		PlayDeathAnimation(direction);
 		_shouldMove = false;
 		_isSpawning = true;
