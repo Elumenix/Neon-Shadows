@@ -835,9 +835,9 @@ collision_layer = 24
 collision_mask = 4
 script = ExtResource("1_msgnd")
 _lungeDuration = 0.75
+_animationPlayer = NodePath("EnemySprite/FlashAnimation")
 _speed = 10.0
 _maxSpeed = 10.0
-_animationPlayer = NodePath("EnemySprite/FlashAnimation")
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]

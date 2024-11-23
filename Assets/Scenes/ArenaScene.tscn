@@ -298,3 +298,6 @@ navigation_polygon = SubResource("NavigationPolygon_nxaa0")
 
 [node name="PauseMenu" parent="." instance=ExtResource("7_bt3jr")]
 visible = false
+
+[node name="Drone" parent="." instance=ExtResource("3_pjw8a")]
+position = Vector2(-126, -3)

@@ -50,11 +50,11 @@ public partial class DroneAI : BaseEnemyAI
 
 		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
 
-        _oneSecTimer = GetNode<Timer>("OneSecTimer");
-        _oneSecTimer.Timeout += OnOneSecTimerFinished;
-        _shouldMove = false;
-        Spawn();
-    }
+		_oneSecTimer = GetNode<Timer>("OneSecTimer");
+		_oneSecTimer.Timeout += OnOneSecTimerFinished;
+		_shouldMove = false;
+		Spawn();
+	}
 
 	public override void _Process(double delta)
 	{
@@ -100,20 +100,20 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-    public void OnOneSecTimerFinished()
-    {
-        if (_animatedSprite.Animation == "Spawn")
-        {
-            _shouldMove = true;
-            _animatedSprite.Play("Forward");
-        }
-        else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
-        {
-            QueueFree();
-        }
-    }
+	public void OnOneSecTimerFinished()
+	{
+		if (_animatedSprite.Animation == "Spawn")
+		{
+			_shouldMove = true;
+			_animatedSprite.Play("Forward");
+		}
+		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
+		{
+			QueueFree();
+		}
+	}
 
-    public void DroneLogic(double delta) {
+	public void DroneLogic(double delta) {
 		if (_droneState == DroneFSM.Attacking) {
 			//new movement logic
 			//Attack();
@@ -327,9 +327,9 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-    private void PlayDeathAnimation(Vector2 direction)
-    {
-        direction = direction.Normalized();
+	private void PlayDeathAnimation(Vector2 direction)
+	{
+		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
 			_animatedSprite.Play("Death_UpRight");
@@ -362,41 +362,42 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_animatedSprite.Play("Death_Right");
 		}
-    }
+	}
 
-    protected void Spawn()
-    {
-        if (_animatedSprite == null)
-            _animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
+	protected void Spawn()
+	{
+		if (_animatedSprite == null)
+			_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
 
-        _oneSecTimer.Start();
-        _animatedSprite.Play("Spawn");
-    }
+		_oneSecTimer.Start();
+		_animatedSprite.Play("Spawn");
+	}
 
-    protected override void HandleDeath()
-    {
-        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
-        if (isDead) {
-            PlayDeathAnimation(direction);
-            return;
-        }
-        isDead = true;
-        GameManager.Instance.EnemyDefeated();
-        PlayDeathAnimation(direction);
-        _shouldMove = false;
-        _oneSecTimer.Start();
-    }
+	protected override void HandleDeath()
+	{
+		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+		if (isDead) {
+			PlayDeathAnimation(direction);
+			return;
+		}
+		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+		isDead = true;
+		GameManager.Instance.EnemyDefeated();
+		PlayDeathAnimation(direction);
+		_shouldMove = false;
+		_oneSecTimer.Start();
+	}
 
-    public override void TakeDamage(int damageAmount) {
+	public override void TakeDamage(int damageAmount) {
 		if (isDead)
 			return;
-        base.TakeDamage(damageAmount);
+		base.TakeDamage(damageAmount);
 		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;
 	}
 
 
-    public override void OnBodyEntered(Node2D body) {
+	public override void OnBodyEntered(Node2D body) {
 		return;
 	}
 }

@@ -403,15 +403,15 @@ autoplay = true
 
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("13_gu5ln")]
 position = Vector2(1151, 1727)
-maxSpawnNum = 2
 GateNum = 1
+maxSpawnNum = 2
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(1405, 638)
-maxSpawnNum = 2
 GateNum = 3
+maxSpawnNum = 2
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer3")
 
@@ -482,32 +482,32 @@ InitEnemiesNum = 5
 
 [node name="EnemySpawner3" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-225, -657)
+GateNum = 5
 spawnCooldown = 1.5
 maxSpawnNum = 3
-GateNum = 5
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer5")
 
 [node name="EnemySpawner4" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-705, -642)
+GateNum = 5
 spawnCooldown = 3.0
 maxSpawnNum = 2
-GateNum = 5
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer5")
 
 [node name="EnemySpawner5" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-1185, -337)
+GateNum = 6
 spawnCooldown = 2.0
 maxSpawnNum = 4
-GateNum = 6
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer6")
 
 [node name="EnemySpawner6" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-1857, -131)
-maxSpawnNum = 2
 GateNum = 6
+maxSpawnNum = 2
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer6")
 
