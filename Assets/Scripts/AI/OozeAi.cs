@@ -7,12 +7,15 @@ public partial class OozeAi : BaseEnemyAI
 	[Export] private float _lungeRange = 100.0f;
 	[Export] private float _lungeDuration = 0.5f;
 	private Timer _lungeTimer;
+	private Timer _lungeChargeTimer;
 	private Timer _lungeCooldownTimer;
 	private bool _isLunging = false;
 	private bool _isLungeCooldown = false;
-	[Export] private AnimationPlayer _animationPlayer;
+	private bool _isCharging = false;
+    [Export] private AnimationPlayer _animationPlayer;
 	private Timer _ZIndexTimer;
 	private bool _isSpawning;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -28,7 +31,7 @@ public partial class OozeAi : BaseEnemyAI
 		_lungeTimer.WaitTime = _lungeDuration;
 		_lungeTimer.OneShot = true;
 		_lungeTimer.Timeout += EndLunge;
-		
+
 		_ZIndexTimer = GetNode<Timer>("ZIndexTimer");
 		_ZIndexTimer.Timeout += ChangeZIndex;
 
@@ -36,21 +39,28 @@ public partial class OozeAi : BaseEnemyAI
 		_oneSecTimer.Timeout += OnOneSecTimerFinished;
 		_shouldMove = false;
 		_isSpawning = true;
+
+		_lungeChargeTimer = GetNode<Timer>("LungeChargeTimer");
+		_lungeChargeTimer.Timeout += OnChargeFinished;
+
 		Spawn();
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (IsOnPlatform()&&!_isSpawning)
+
+        Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+
+        if (IsOnPlatform() && !_isSpawning)
 		{
-			if (_player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
+			if (!_isCharging && _player != null && !_isLungeCooldown && GlobalPosition.DistanceTo(_player.GlobalPosition) < _lungeRange)
 			{
-				StartLunge();
-			}
-			else
+				StartChargeLunge();
+				Velocity = new Vector2(0,0);
+            }
+			else if (!_isCharging && !_isLunging)
 			{
 				UpdateNavigationTarget();
-				Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
 				if (_navigationAgent.DistanceToTarget() < _detectionRange)
 				{
 					_shouldMove = true;
@@ -63,16 +73,26 @@ public partial class OozeAi : BaseEnemyAI
 				if (_navigationAgent.IsNavigationFinished())
 				{
 					nextPathPosition = GlobalPosition;
-				}
+                }
 
-				MoveTowardsTarget(nextPathPosition, delta);
-				PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
+                PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
+                MoveTowardsTarget(nextPathPosition, delta);
 			}
+			else {
+                PlayWalkAnimation(GlobalPosition.DirectionTo(nextPathPosition));
+            }
 
-			MoveAndSlide();
+            MoveAndSlide();
 		}
 
 
+	}
+
+	private void OnChargeFinished()
+	{
+        _isCharging = false;
+
+		StartLunge();
 	}
 
 	public void OnOneSecTimerFinished()
@@ -86,7 +106,7 @@ public partial class OozeAi : BaseEnemyAI
 		}
 		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death") {
 			QueueFree();
-		}
+		} 
 	}
 
 
@@ -94,15 +114,22 @@ public partial class OozeAi : BaseEnemyAI
 	{
 		return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
 	}
+
+	public void StartChargeLunge() {
+        _isCharging = true;
+
+		_usePathFinding = false;
+		_shouldMove = false;
+		_lungeChargeTimer.Start();
+	}
 	
 	private void StartLunge()
 	{
-		_isLunging = true;
-		_isLungeCooldown = true;
-		_usePathFinding = false;
-		_shouldMove = true;
-		
-		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+
+        _shouldMove = true;
+        _isLunging = true;
+        _isLungeCooldown = true;
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
 		Velocity = direction * _lungeSpeed;
 		
 		_lungeTimer.Start();
