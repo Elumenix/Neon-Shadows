@@ -403,15 +403,15 @@ autoplay = true
 
 [node name="EnemySpawner" parent="." groups=["EnemySpawner"] instance=ExtResource("13_gu5ln")]
 position = Vector2(1151, 1727)
-GateNum = 1
 maxSpawnNum = 2
+GateNum = 1
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(1405, 638)
-GateNum = 3
 maxSpawnNum = 2
+GateNum = 3
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer3")
 
@@ -429,7 +429,6 @@ EnemiesContainerPath = NodePath("../EnemiesContainer3")
 
 [node name="Gate" parent="." groups=["Gate"] instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 position = Vector2(690, 1423)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
@@ -437,7 +436,6 @@ InitEnemiesNum = 3
 
 [node name="Gate2" parent="." groups=["Gate"] instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 position = Vector2(1260, 1012)
 rotation = 0.693173
 scale = Vector2(3.70991, 0.395503)
@@ -447,7 +445,6 @@ InitEnemiesNum = 3
 
 [node name="Gate3" parent="." instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 position = Vector2(699, 409)
 rotation = -0.494319
 scale = Vector2(4.76, 0.2)
@@ -457,7 +454,6 @@ InitEnemiesNum = 9
 
 [node name="Gate4" parent="." instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 z_index = 1
 position = Vector2(202, -307)
 rotation = -0.768523
@@ -467,7 +463,6 @@ EnemiesContainerPath = NodePath("../EnemiesContainer4")
 
 [node name="Gate5" parent="." instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 z_index = 1
 position = Vector2(-1114, -540)
 rotation = -2.41953
@@ -478,7 +473,6 @@ InitEnemiesNum = 7
 
 [node name="Gate6" parent="." instance=ExtResource("15_6fqwe")]
 process_mode = 4
-visible = false
 position = Vector2(-1809, 265)
 rotation = -0.620034
 scale = Vector2(3.72, 0.280001)
@@ -488,32 +482,32 @@ InitEnemiesNum = 5
 
 [node name="EnemySpawner3" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-225, -657)
-GateNum = 5
 spawnCooldown = 1.5
 maxSpawnNum = 3
+GateNum = 5
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer5")
 
 [node name="EnemySpawner4" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-705, -642)
-GateNum = 5
 spawnCooldown = 3.0
 maxSpawnNum = 2
+GateNum = 5
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer5")
 
 [node name="EnemySpawner5" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-1185, -337)
-GateNum = 6
 spawnCooldown = 2.0
 maxSpawnNum = 4
+GateNum = 6
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer6")
 
 [node name="EnemySpawner6" parent="." instance=ExtResource("13_gu5ln")]
 position = Vector2(-1857, -131)
-GateNum = 6
 maxSpawnNum = 2
+GateNum = 6
 enemySpawnType = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer6")
 
