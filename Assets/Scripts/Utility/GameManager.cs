@@ -38,7 +38,8 @@ public partial class GameManager : Node
 	public override void _Process(double delta)
 	{
 		if (Input.IsActionJustPressed("pause")) {
-			PauseGame();
+            SoundFx.PlayButtonClicked();
+            PauseGame();
 		}
 	}
 
@@ -77,8 +78,8 @@ public partial class GameManager : Node
 	/// pause the game and open the pause menu
 	/// </summary>
 	public void PauseGame() {
-		//get player and pause menu panel
-		_pauseMenu = GetTree().GetNodesInGroup("PauseMenu")[0] as CanvasLayer;
+        //get player and pause menu panel
+        _pauseMenu = GetTree().GetNodesInGroup("PauseMenu")[0] as CanvasLayer;
 
 		//toggle pause menu and disable player controls
 		_pauseMenu.Visible = !_pauseMenu.Visible;

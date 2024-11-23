@@ -20,6 +20,7 @@ public partial class FirstLedge : Area2D
 		_enemyWarningText.Visible = false;
 		_enemy.Visible = false;
 		_enemy.ShouldMove = false;
+		_enemy.ProcessMode = ProcessModeEnum.Disabled;
 		_dashText.Visible = false;
 	}
 
@@ -39,8 +40,9 @@ public partial class FirstLedge : Area2D
 				// Move the text over the player's head
 				//_enemyWarningText.GlobalPosition = tempPosition;
 				
-                // Display Enemy Warning Text
-                _enemyWarningText.Show();
+				// Display Enemy Warning Text
+				_enemyWarningText.Show();
+				_enemy.ProcessMode = ProcessModeEnum.Inherit;
 				_enemy.Show();
 				_enemy.ShouldMove = true;
 			}
