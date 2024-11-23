@@ -24,7 +24,8 @@ public partial class PauseMenu : CanvasLayer
 	/// </summary>
 	public void OnRestartPressed() {
 		GD.Print("Restart Pressed");
-		_restartConfirmPanel.Show();
+        SoundFx.PlayButtonClicked();
+        _restartConfirmPanel.Show();
 		_OptionsPanel.Hide();
 		_quitConfirmPanel.Hide();
 	}
@@ -34,7 +35,8 @@ public partial class PauseMenu : CanvasLayer
 	/// </summary>
 	public void OnOptionPressed() {
 		GD.Print("Option Pressed");
-		_OptionsPanel.Show();
+        SoundFx.PlayButtonClicked();
+        _OptionsPanel.Show();
 		_quitConfirmPanel.Hide();
 		_restartConfirmPanel.Hide();
 	}
@@ -45,7 +47,8 @@ public partial class PauseMenu : CanvasLayer
 	public void OnQuitPressed()
 	{
 		GD.Print("Quit Pressed");
-		_quitConfirmPanel.Show();
+        SoundFx.PlayButtonClicked();
+        _quitConfirmPanel.Show();
 		_OptionsPanel.Hide();
 		_restartConfirmPanel.Hide();
 	}
@@ -56,14 +59,16 @@ public partial class PauseMenu : CanvasLayer
 	public void OnResumePressed()
 	{
 		GD.Print("Resume Pressed");
-		GameManager.Instance.PauseGame();
+        SoundFx.PlayButtonClicked();
+        GameManager.Instance.PauseGame();
 	}
 
 	/// <summary>
 	/// quit to the main menu 
 	/// </summary>
 	public void OnQuitYesPressed() {
-		GameManager.Instance._Ready();
+        SoundFx.PlayButtonClicked();
+        GameManager.Instance._Ready();
 		(GameManager.Instance.player as Player).RespawnPlayer();
 		GD.Print("quit yes pressed");
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
@@ -74,7 +79,8 @@ public partial class PauseMenu : CanvasLayer
 	/// </summary>
 	public void OnQuitNoPressed() {
 		GD.Print("on quit no pressed");
-		_quitConfirmPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _quitConfirmPanel.Hide();
 	}
 
 	/// <summary>
@@ -82,7 +88,8 @@ public partial class PauseMenu : CanvasLayer
 	/// </summary>
 	public void OnRestartYesPressed()
 	{
-		GameManager.Instance._Ready();
+        SoundFx.PlayButtonClicked();
+        GameManager.Instance._Ready();
 		(GameManager.Instance.player as Player).RespawnPlayer();
 		GD.Print("restart yes pressed");
 		GetTree().ReloadCurrentScene();
@@ -95,20 +102,22 @@ public partial class PauseMenu : CanvasLayer
 	public void OnRestartNoPressed()
 	{
 		GD.Print("on restart no pressed");
-		_restartConfirmPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _restartConfirmPanel.Hide();
 	}
 
 	public void OnGameOverRestart()
 	{
-		GameManager.Instance._Ready();
+        SoundFx.PlayButtonClicked();
+        GameManager.Instance._Ready();
 		(GameManager.Instance.player as Player).RespawnPlayer();
 		GetTree().ReloadCurrentScene();
 
 	}
 
 	public void OnGameOverQuit() {
-
-		GameManager.Instance._Ready();
+        SoundFx.PlayButtonClicked();
+        GameManager.Instance._Ready();
 		(GameManager.Instance.player as Player).RespawnPlayer();
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
 	}
