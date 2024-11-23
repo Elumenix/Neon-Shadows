@@ -689,13 +689,15 @@ public partial class Player : CharacterBody2D
 	/// <summary>
 	/// Resolves the player death, currently (10/08) only changes the dead bool and hides the Player Sprite
 	/// </summary>
-	public void on_Death()
+	public async void on_Death()
 	{
 		_dead = true;
 		_animatedSprite.Visible = false;
 		_animationPlayer.Stop();
+        await ToSignal(GetTree().CreateTimer(1f), "timeout");
         Engine.TimeScale = 0;
-		GameManager.Instance.gamePaused = true;
+        GameManager.Instance.gamePaused = true;
+
         (GetTree().GetNodesInGroup("GameOverMenu")[0] as CanvasLayer).Visible = true;
     }
 

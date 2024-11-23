@@ -21,10 +21,14 @@ public partial class LevelSelect : CanvasLayer
 		_tutorialDescriptionPanel.Hide();
 	}
 	
+	/// <summary>
+	/// open the tutorial panel
+	/// </summary>
 	public void OnTutorialPressed()
 	{
 		GD.Print("tutorial");
-		_tutorialDescriptionPanel.Show();
+        SoundFx.PlayButtonClicked();
+        _tutorialDescriptionPanel.Show();
 		_levelOneDescriptionPanel.Hide();
 		_arenaDescriptionPanel.Hide();
 		_quitConfirmPanel.Hide();
@@ -36,7 +40,8 @@ public partial class LevelSelect : CanvasLayer
 	public void OnLevelOnePressed() 
 	{
 		GD.Print("level 1");
-		_tutorialDescriptionPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Show();
 		_arenaDescriptionPanel.Hide();
 		_quitConfirmPanel.Hide();
@@ -48,7 +53,8 @@ public partial class LevelSelect : CanvasLayer
 	public void OnLevelTwoPressed() 
 	{
 		GD.Print("level 2");
-		_tutorialDescriptionPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Hide();
 		_arenaDescriptionPanel.Show();
 		_quitConfirmPanel.Hide();
@@ -60,16 +66,20 @@ public partial class LevelSelect : CanvasLayer
 	public void OnQuitPressed()
 	{
 		GD.Print("quit");
-		_tutorialDescriptionPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _tutorialDescriptionPanel.Hide();
 		_levelOneDescriptionPanel.Hide();
 		_arenaDescriptionPanel.Hide();
 		_quitConfirmPanel.Show();
 	}
 
-
+	/// <summary>
+	/// start the tutorial
+	/// </summary>
 	public void OnTutorialStartPressed()
 	{
-		GD.Print("tutorial start");
+        SoundFx.PlayButtonClicked();
+        GD.Print("tutorial start");
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/Tutorial.tscn");
 	}
 	
@@ -79,7 +89,8 @@ public partial class LevelSelect : CanvasLayer
 	public void OnLevelOneStartPressed() 
 	{
 		GD.Print("level 1 start");
-		GetTree().ChangeSceneToFile("res://Assets/Scenes/TileMapTest.tscn");
+        SoundFx.PlayButtonClicked();
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/TileMapTest.tscn");
 	}
 
 	/// <summary>
@@ -88,7 +99,8 @@ public partial class LevelSelect : CanvasLayer
 	public void OnLevelTwoStartPressed()
 	{
 		GD.Print("level 2 start");
-		GetTree().ChangeSceneToFile("res://Assets/Scenes/ArenaScene.tscn");
+        SoundFx.PlayButtonClicked();
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/ArenaScene.tscn");
 	}
 
 	/// <summary>
@@ -97,7 +109,8 @@ public partial class LevelSelect : CanvasLayer
 	public void OnConfirmQuit()
 	{
 		GD.Print("Quitting");
-		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+        SoundFx.PlayButtonClicked();
+        GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
 	}
 
 	/// <summary>
@@ -106,6 +119,7 @@ public partial class LevelSelect : CanvasLayer
 	public void OnRejectQuit()
 	{
 		GD.Print("Refuse to quit");
-		_quitConfirmPanel.Hide();
+        SoundFx.PlayButtonClicked();
+        _quitConfirmPanel.Hide();
 	}
 }
