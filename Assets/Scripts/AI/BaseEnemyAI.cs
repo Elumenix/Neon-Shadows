@@ -201,6 +201,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	/// </summary>
 	public void HandlePlayerCollision()
 	{
+		if (isDead) return;
 		Player temp = (Player)_player;
 		// Moving the screen shake before damage means the screen shakes on the last damage
 		if (!temp.IsDead && !temp.IsInvulenerable)
