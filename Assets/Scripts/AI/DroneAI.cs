@@ -388,7 +388,6 @@ public partial class DroneAI : BaseEnemyAI
 		}
 
 		PlayDeathAnimation(direction);
-		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 		isDead = true;
 		_shouldMove = false;
 
