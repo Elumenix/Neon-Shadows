@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dy85nltk1pyon"]
+
+[sub_resource type="Curve" id="Curve_4svok"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0.0280899, -19.7802), 0.0, 0.0, 0, 0, Vector2(0.258427, 2.19781), -2293.66, 0.0, 0, 0, Vector2(0.258427, 2.19781), -2293.66, 0.0, 0, 0, Vector2(0.449438, -6.59341), 6063.74, 6063.74, 0, 0, Vector2(0.516854, 191.209), -5737.73, -5737.73, 0, 0, Vector2(0.640449, -2.19781), -5672.53, -5672.53, 0, 0, Vector2(0.994382, 6.59341), -5672.53, 6063.74, 0, 0]
+point_count = 7
+
+[node name="GPUParticles2D" type="CPUParticles2D"]
+amount = 50
+fixed_fps = 30
+draw_order = 1
+spread = 1.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+tangential_accel_min = 5.0
+tangential_accel_max = 5.0
+tangential_accel_curve = SubResource("Curve_4svok")

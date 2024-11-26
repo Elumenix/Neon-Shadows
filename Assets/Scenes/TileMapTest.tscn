@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://bn6mynelmrsuo"]
+[gd_scene load_steps=24 format=4 uid="uid://bn6mynelmrsuo"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="14_k5t1p"]
 [ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="14_uo11y"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="15_6fqwe"]
+[ext_resource type="PackedScene" uid="uid://dy85nltk1pyon" path="res://Assets/Entities/ParticleEffect/GateParticle.tscn" id="17_w8hli"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -510,3 +511,7 @@ position = Vector2(-2145, 176)
 maxSpawnNum = 2
 enemySpawnType = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer6")
+
+[node name="GPUParticles2D" parent="." instance=ExtResource("17_w8hli")]
+position = Vector2(633, 1507)
+rotation = -0.586419
