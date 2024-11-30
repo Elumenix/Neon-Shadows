@@ -399,11 +399,20 @@ public partial class DroneAI : BaseEnemyAI
 		if (isDead)
 			return;
 		base.TakeDamage(damageAmount);
-		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;
 	}
 
+	public override void PlayDamageSound()
+	{
+		droneHit.Play();
+	}
 
+	public override void PlayDeathSound()
+	{
+		droneHit.Stop();
+		base.PlayDeathSound();
+	}
+	
 	public override void OnBodyEntered(Node2D body) {
 		return;
 	}

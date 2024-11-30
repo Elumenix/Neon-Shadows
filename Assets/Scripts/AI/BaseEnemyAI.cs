@@ -171,6 +171,7 @@ public partial class BaseEnemyAI : CharacterBody2D
 	{
 		if (_iFrames <=0)
 		{
+			PlayDamageSound();
 			FlashOnDamage();
 			currentHealth -= damageAmount;
 			_iFrames = 0.3f;
@@ -180,11 +181,23 @@ public partial class BaseEnemyAI : CharacterBody2D
 		if (currentHealth <= 0)
 		{
 			currentHealth = 0;
+			PlayDeathSound();
 			HandleDeath();
 		}
-
     }
-
+	
+	/// <summary>
+	/// Plays sound for when enemy takes damage
+	/// Primarily intended to be overwritten
+	/// </summary>
+	public virtual void PlayDamageSound() {}
+	
+	/// <summary>
+	/// Plays sound for when enemy dies
+	/// Primarily intended to be overwritten
+	/// </summary>
+	public virtual void PlayDeathSound() {}
+	
 	/// <summary>
 	/// Handle enemy death
 	/// </summary>

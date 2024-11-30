@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgyibo87gulk3"]
+[gd_scene load_steps=7 format=3 uid="uid://dgyibo87gulk3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/EnemySpawner.cs" id="1_gc12i"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_lmxu3"]
 [ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="3_uellc"]
 [ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="4_whi7j"]
+[ext_resource type="AudioStream" uid="uid://015da5uyfb2u" path="res://Assets/Sounds/energy-90321.mp3" id="5_gfafa"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2iph1"]
+random_pitch = 3.0
+random_volume_offset_db = 3.0
+streams_count = 1
+stream_0/stream = ExtResource("5_gfafa")
 
 [node name="EnemySpawner" type="Node2D" groups=["EnemySpawner"]]
 script = ExtResource("1_gc12i")
@@ -15,3 +22,7 @@ maxSpawnNum = 10
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_2iph1")
