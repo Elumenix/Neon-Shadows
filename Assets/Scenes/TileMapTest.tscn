@@ -354,6 +354,7 @@ navigation_polygon = SubResource("NavigationPolygon_iqsei")
 [node name="HUD" parent="." instance=ExtResource("5_pvo04")]
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
+visible = false
 modulate = Color(1, 1, 1, 0.501961)
 offset_top = 292.0
 offset_right = 153.0

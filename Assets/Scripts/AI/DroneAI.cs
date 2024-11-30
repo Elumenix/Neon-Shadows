@@ -292,6 +292,7 @@ public partial class DroneAI : BaseEnemyAI
 		(node as Node2D).Rotation = shootAngle;
 		(node as Bullet).player = _player;
 		GetParent().AddChild(node);
+		PlayBulletSound();
 
 		currentShootCooldown = shootCooldown;
 		_positiveDirection = !_positiveDirection;
@@ -427,5 +428,20 @@ public partial class DroneAI : BaseEnemyAI
 	
 	public override void OnBodyEntered(Node2D body) {
 		return;
+	}
+	
+	private void PlayBulletSound()
+	{
+		var audioPlayer = new AudioStreamPlayer2D
+		{
+			Stream = GameManager.Instance.bulletSoundEffect,
+			Position = GlobalPosition,
+			Autoplay = true,
+			PitchScale = (float)GD.RandRange(1.0, 3.0)
+		};
+		
+		// TODO: AudioPlayer doesn't seem to free itself correctly
+		audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
+		GetTree().Root.AddChild(audioPlayer);
 	}
 }

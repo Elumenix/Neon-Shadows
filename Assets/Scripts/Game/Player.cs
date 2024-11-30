@@ -271,8 +271,8 @@ public partial class Player : CharacterBody2D
 				_rangedTimer.WaitTime = 0.25f;
 				_isShooting = false;
 				CreateProjectile();
+				PlayBulletSound();
 			}
-
 		}
 
 		if (Input.IsActionJustPressed("heal")) {
@@ -947,4 +947,18 @@ public partial class Player : CharacterBody2D
 		return image.GetPixel(x, y);
 	}
 
+	private void PlayBulletSound()
+	{
+		var audioPlayer = new AudioStreamPlayer2D
+		{
+			Stream = GameManager.Instance.bulletSoundEffect,
+			Position = GlobalPosition,
+			Autoplay = true,
+			PitchScale = (float)GD.RandRange(1.0, 3.0)
+		};
+		
+		// TODO: AudioPlayer doesn't seem to free itself correctly
+		audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
+		GetTree().Root.AddChild(audioPlayer);
+	}
 }
