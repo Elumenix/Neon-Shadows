@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=65 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
+[ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(19.7813, 15.9747)
@@ -537,6 +538,10 @@ volume_db = -8.475
 autoplay = true
 max_distance = 300.0
 attenuation = 2.0
+
+[node name="NoticeSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_nutrs")
 
 [node name="KnockbackTimer" type="Timer" parent="."]
 

@@ -38,12 +38,12 @@ public partial class Explosion : RigidBody2D
 			else if (collision.GetCollider() is BaseEnemyAI)
 			{
 				BaseEnemyAI enemyAI = (BaseEnemyAI)collision.GetCollider();
-				enemyAI.TakeDamage(100);
+				enemyAI.TakeDamage(300);
 			}
 			else if (collision.GetCollider() is DroneAI)
 			{
 				DroneAI enemy = (DroneAI)collision.GetCollider();
-				enemy.TakeDamage(100);
+				enemy.TakeDamage(300);
 			}
 		}
 	}

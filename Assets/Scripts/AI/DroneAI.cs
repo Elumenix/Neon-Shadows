@@ -20,6 +20,7 @@ public partial class DroneAI : BaseEnemyAI
 
 	private DroneFSM _droneState;
 	private bool _isPlayerInRange = false;
+	private bool detectedPlayer = false;
 
 	public double shootCooldown = 1;
 	public double currentShootCooldown;
@@ -259,6 +260,12 @@ public partial class DroneAI : BaseEnemyAI
 			return;
 		}
 		_isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
+
+		if (_isPlayerInRange && !detectedPlayer)
+		{
+			detectedPlayer = true;
+			GetNode<AudioStreamPlayer2D>("%NoticeSound").Play();
+		}
 	}
 
 	/// <summary>
