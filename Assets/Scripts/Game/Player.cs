@@ -50,8 +50,10 @@ public partial class Player : CharacterBody2D
 	private bool _isShooting;
 
 	// Sound Stuff
-	AudioStreamPlayer2D footstepPlayer;
-	AudioStreamPlayer2D swordSlashAudio;
+	private AudioStreamPlayer2D footstepPlayer;
+	private AudioStreamPlayer2D swordSlashAudio;
+	private AudioStreamPlayer2D damageSound;
+	[Export] private AudioStream deathSound;
 	int lastFrame = 0;
 
 
@@ -116,6 +118,7 @@ public partial class Player : CharacterBody2D
 		// Get Sound Players
 		footstepPlayer = GetNode<AudioStreamPlayer2D>("%FootstepPlayer");
 		swordSlashAudio = GetNode<AudioStreamPlayer2D>("%SwordAudio");
+		damageSound = GetNode<AudioStreamPlayer2D>("%DamageSound");
 
 		//init the variables needed for falling off edges mechanic
 
@@ -484,6 +487,7 @@ public partial class Player : CharacterBody2D
 		if (_health > 0)
 		{
 			_health -= damage;
+			damageSound.Play();
 			HUDManager.Instance.DecreasePlayerHp();
 			_damageFrames = 1.0f;
 			if (_health <= 0)
@@ -691,6 +695,15 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	public async void on_Death()
 	{
+		GetNode<AudioStreamPlayer>("%MusicPlayer").Stop();
+		damageSound.Stop();
+		footstepPlayer.Stop();
+		swordSlashAudio.Stop();
+
+		// Switching to death sound
+		damageSound.Stream = deathSound;
+		damageSound.Play();
+		
 		_dead = true;
 		_animatedSprite.Visible = false;
 		_animationPlayer.Stop();

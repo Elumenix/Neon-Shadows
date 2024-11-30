@@ -335,7 +335,7 @@ public partial class OozeAi : BaseEnemyAI
 		lungeAudio.Stop();
 		slimeAudio.Stop();
 
-		// Switching the non-randomized lunge audio to carry the sound of death
+		// Switching the lunge audio to carry the sound of death
 		lungeAudio.Stream = deathSound;
 		lungeAudio.PitchScale = 1;
 		

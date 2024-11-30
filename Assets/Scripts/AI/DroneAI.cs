@@ -40,6 +40,7 @@ public partial class DroneAI : BaseEnemyAI
 	private CpuParticles2D _particles;
 
 	private AudioStreamPlayer2D droneHit;
+	[Export] private AudioStream deathSound;
 
 	public override void _Ready()
 	{
@@ -409,7 +410,11 @@ public partial class DroneAI : BaseEnemyAI
 
 	public override void PlayDeathSound()
 	{
+		// Quickly switching any playing tracks and switching to play death sound
 		droneHit.Stop();
+		droneHit.Stream = deathSound;
+		droneHit.Play();
+		
 		base.PlayDeathSound();
 	}
 	
