@@ -203,6 +203,46 @@ region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"Attack_Down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_DownLeft",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_DownRight",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_Left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_Right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_Up",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_UpLeft",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack_UpRight",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k168i")
@@ -513,7 +553,7 @@ material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Backward-Rightward"
+animation = &"Attack_Down"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
