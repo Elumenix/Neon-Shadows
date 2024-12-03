@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ReloadArea : Area2D
+public partial class Reload : Area2D
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -12,11 +12,11 @@ public partial class ReloadArea : Area2D
 	public override void _Process(double delta)
 	{
 	}
-	public void OnEnter(Node2D collision)
+	public void OnEnter(Node2D body)
 	{
-		if(collision is Player)
+		if(body is Player)
 		{
-			Player temp = (Player)GameManager.Instance.player;
+			Player temp = (Player)body;
 			temp.Reload();
 		}
 	}

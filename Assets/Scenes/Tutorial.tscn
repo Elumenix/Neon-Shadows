@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=18 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/FirstLedge.cs" id="9_ygt6s"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="10_7jtif"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/ReloadArea.cs" id="11_fm8fi"]
+[ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/Reload.cs" id="12_sgxqb"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_kpb6d")
@@ -368,15 +369,16 @@ _dashText = NodePath("../Tutorial Text/DashText")
 modulate = Color(1.15514e-06, 0.729142, 0.608976, 0.439216)
 polygon = PackedVector2Array(-276, 383, -194, 433, 609, 32, 531, -9)
 
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("12_sgxqb")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(833, 528, 897, 495, 960, 528, 897, 560)
+
 [node name="ExplosiveBarrel" parent="." instance=ExtResource("10_7jtif")]
 position = Vector2(1185, 318)
 script = ExtResource("11_fm8fi")
 
-[node name="ReloadArea" type="Area2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ReloadArea"]
-polygon = PackedVector2Array(832, 527, 894, 560, 959, 529, 897, 495)
-
 [connection signal="body_entered" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnEnter"]
 [connection signal="body_exited" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnExit"]
-[connection signal="body_entered" from="ReloadArea" to="ReloadArea" method="OnEnter"]
+[connection signal="body_entered" from="Area2D" to="Area2D" method="OnEnter"]
