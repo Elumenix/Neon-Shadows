@@ -1,7 +1,6 @@
-[gd_scene load_steps=96 format=3 uid="uid://b1cw62olhn7q3"]
+[gd_scene load_steps=95 format=3 uid="uid://b1cw62olhn7q3"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/OozeAi.cs" id="1_msgnd"]
-[ext_resource type="AudioStream" uid="uid://4vh3w3ih3r6j" path="res://Assets/Sounds/slime-splat-1-219248.mp3" id="2_cysbu"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="2_hpgp3"]
 [ext_resource type="Texture2D" uid="uid://cy2ddh8ebok2s" path="res://Assets/Sprites/Enemy/ooze-death.png" id="3_5n64y"]
 [ext_resource type="Texture2D" uid="uid://bgxdkrhy2v3se" path="res://Assets/Sprites/Enemy/ooze-attack.png" id="3_ibs0e"]
@@ -850,7 +849,6 @@ collision_layer = 24
 collision_mask = 4
 script = ExtResource("1_msgnd")
 _animationPlayer = NodePath("EnemySprite/FlashAnimation")
-deathSound = ExtResource("2_cysbu")
 MaxHealth = 150
 _speed = 10.0
 _maxSpeed = 10.0
