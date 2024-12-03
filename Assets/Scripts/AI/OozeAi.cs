@@ -1,5 +1,5 @@
 using Godot;
-using System;
+
 
 public partial class OozeAi : BaseEnemyAI
 {
@@ -15,6 +15,9 @@ public partial class OozeAi : BaseEnemyAI
 	[Export] private AnimationPlayer _animationPlayer;
 	private Timer _ZIndexTimer;
 	private bool _isSpawning;
+	private AudioStreamPlayer2D slimeAudio;
+	private AudioStreamPlayer2D lungeAudio;
+	[Export] private AudioStream deathSound;
 
 	public override void _Ready()
 	{
@@ -42,6 +45,9 @@ public partial class OozeAi : BaseEnemyAI
 
 		_lungeChargeTimer = GetNode<Timer>("LungeChargeTimer");
 		_lungeChargeTimer.Timeout += OnChargeFinished;
+
+		slimeAudio = GetNode<AudioStreamPlayer2D>("%SlimeAudio");
+		lungeAudio = GetNode<AudioStreamPlayer2D>("%LungeAudio");
 
 		Spawn();
 	}
@@ -132,7 +138,7 @@ public partial class OozeAi : BaseEnemyAI
 	
 	private void StartLunge()
 	{
-
+		lungeAudio.Play();
 		_shouldMove = true;
 		_isLunging = true;
 		_isLungeCooldown = true;
@@ -316,6 +322,24 @@ public partial class OozeAi : BaseEnemyAI
 
 		_shouldMove = false;
 		base.TakeDamage(damageAmount);
+	}
+
+	public override void PlayDamageSound()
+	{
+		lungeAudio.Stop();
+		slimeAudio.Play();
+	}
+
+	public override void PlayDeathSound()
+	{
+		lungeAudio.Stop();
+		slimeAudio.Stop();
+
+		// Switching the lunge audio to carry the sound of death
+		lungeAudio.Stream = deathSound;
+		lungeAudio.PitchScale = 1;
+		
+		lungeAudio.Play();
 	}
 
 	protected void Spawn()

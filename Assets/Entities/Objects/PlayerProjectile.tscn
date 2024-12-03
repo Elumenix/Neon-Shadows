@@ -1,11 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bko5w8bo1ul3x"]
+[gd_scene load_steps=7 format=3 uid="uid://bko5w8bo1ul3x"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Projectile.cs" id="1_a041j"]
 [ext_resource type="Texture2D" uid="uid://db4aobb5jab05" path="res://Assets/Sprites/Object/playerbullet.png" id="2_1h7hx"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="2_cpqvm"]
+[ext_resource type="AudioStream" uid="uid://d3nv434j6mysw" path="res://Assets/Sounds/laser-gun-81720.mp3" id="4_13hdj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xllda"]
 radius = 6.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rgfbd"]
+random_pitch = 2.0
+random_volume_offset_db = 3.0
+streams_count = 1
+stream_0/stream = ExtResource("4_13hdj")
 
 [node name="PlayerProjectile" type="RigidBody2D"]
 collision_layer = 4
@@ -31,6 +38,11 @@ collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_xllda")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_rgfbd")
+pitch_scale = 2.0
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

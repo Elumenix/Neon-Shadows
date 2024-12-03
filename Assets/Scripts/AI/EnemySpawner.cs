@@ -25,6 +25,7 @@ public partial class EnemySpawner : Node2D
 	private Timer _spawnTimer;
 	private Node _currentEnemy;
 	private bool _startSpawn;
+	private AudioStreamPlayer2D sfx;
 	
 	public override void _Ready()
 	{
@@ -36,6 +37,7 @@ public partial class EnemySpawner : Node2D
 
 		// Get the enemies container node
 		enemiesContainer = GetNode(EnemiesContainerPath);
+		sfx = GetNode<AudioStreamPlayer2D>("%SpawnSound");
 	}
 
 	public override void _Process(double delta){
@@ -53,6 +55,7 @@ public partial class EnemySpawner : Node2D
 	public void SpawnEnemy()
 	{
 		if (_currentSpawnNum < maxSpawnNum){
+			sfx.Play();
 			_currentSpawnNum++;
 			Node node;
 			switch (enemySpawnType)

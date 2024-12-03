@@ -1,8 +1,9 @@
-[gd_scene load_steps=63 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=65 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
+[ext_resource type="AudioStream" uid="uid://1ka35nadb6hu" path="res://Assets/Sounds/medium-explosion-40472.mp3" id="4_0h2ca"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
@@ -10,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
+[ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
 size = Vector2(19.7813, 15.9747)
@@ -488,6 +490,7 @@ _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 _particles = NodePath("CPUParticles2D")
+deathSound = ExtResource("4_0h2ca")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
@@ -529,11 +532,16 @@ visible = false
 stream = SubResource("AudioStreamRandomizer_rgyqe")
 
 [node name="ConstantWhine" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource("6_yfkbb")
 volume_db = -8.475
 autoplay = true
 max_distance = 300.0
 attenuation = 2.0
+
+[node name="NoticeSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_nutrs")
 
 [node name="KnockbackTimer" type="Timer" parent="."]
 

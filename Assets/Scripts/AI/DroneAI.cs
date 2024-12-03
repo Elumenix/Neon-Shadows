@@ -20,6 +20,7 @@ public partial class DroneAI : BaseEnemyAI
 
 	private DroneFSM _droneState;
 	private bool _isPlayerInRange = false;
+	private bool detectedPlayer = false;
 
 	public double shootCooldown = 1;
 	public double currentShootCooldown;
@@ -40,6 +41,7 @@ public partial class DroneAI : BaseEnemyAI
 	private CpuParticles2D _particles;
 
 	private AudioStreamPlayer2D droneHit;
+	[Export] private AudioStream deathSound;
 
 	public override void _Ready()
 	{
@@ -258,6 +260,12 @@ public partial class DroneAI : BaseEnemyAI
 			return;
 		}
 		_isPlayerInRange = new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _playerDetectRange;
+
+		if (_isPlayerInRange && !detectedPlayer)
+		{
+			detectedPlayer = true;
+			GetNode<AudioStreamPlayer2D>("%NoticeSound").Play();
+		}
 	}
 
 	/// <summary>
@@ -284,6 +292,7 @@ public partial class DroneAI : BaseEnemyAI
 		(node as Node2D).Rotation = shootAngle;
 		(node as Bullet).player = _player;
 		GetParent().AddChild(node);
+		PlayBulletSound();
 
 		currentShootCooldown = shootCooldown;
 		_positiveDirection = !_positiveDirection;
@@ -399,12 +408,40 @@ public partial class DroneAI : BaseEnemyAI
 		if (isDead)
 			return;
 		base.TakeDamage(damageAmount);
-		droneHit.Play();
 		_playerDetectRange = _aggroDetectRange;
 	}
 
+	public override void PlayDamageSound()
+	{
+		droneHit.Play();
+	}
 
+	public override void PlayDeathSound()
+	{
+		// Quickly switching any playing tracks and switching to play death sound
+		droneHit.Stop();
+		droneHit.Stream = deathSound;
+		droneHit.Play();
+		
+		base.PlayDeathSound();
+	}
+	
 	public override void OnBodyEntered(Node2D body) {
 		return;
+	}
+	
+	private void PlayBulletSound()
+	{
+		var audioPlayer = new AudioStreamPlayer2D
+		{
+			Stream = GameManager.Instance.bulletSoundEffect,
+			Position = GlobalPosition,
+			Autoplay = true,
+			PitchScale = (float)GD.RandRange(1.0, 3.0)
+		};
+		
+		// TODO: AudioPlayer doesn't seem to free itself correctly
+		audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
+		GetTree().Root.AddChild(audioPlayer);
 	}
 }

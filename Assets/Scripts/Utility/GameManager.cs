@@ -8,7 +8,7 @@ public partial class GameManager : Node
 	public Node2D player;
 	public Resource cursor = ResourceLoader.Load("res://Assets/Sprites/Menu/cursor.png");
     public Resource reticle = ResourceLoader.Load("res://Assets/Sprites/Menu/cursor-reticle.png");
-
+    public AudioStream bulletSoundEffect = ResourceLoader.Load<AudioStream>("res://Assets/Sounds/laser-gun-81720.mp3");
 
 
     //game states
