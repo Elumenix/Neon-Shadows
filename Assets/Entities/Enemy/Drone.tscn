@@ -1,9 +1,8 @@
-[gd_scene load_steps=65 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=64 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
-[ext_resource type="AudioStream" uid="uid://1ka35nadb6hu" path="res://Assets/Sounds/medium-explosion-40472.mp3" id="4_0h2ca"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
 [ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
@@ -14,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejd0x"]
-size = Vector2(19.7813, 15.9747)
+size = Vector2(17, 14.5394)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_58aay"]
 shader = ExtResource("4_pfj42")
@@ -530,7 +529,6 @@ _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 _particles = NodePath("CPUParticles2D")
-deathSound = ExtResource("4_0h2ca")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
@@ -541,19 +539,19 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.109375, -7.82968)
+position = Vector2(2, -5)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.21875, -8.01264)
+position = Vector2(2, -5.26971)
 shape = SubResource("RectangleShape2D_ejd0x")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
-scale = Vector2(2, 2)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Attack_Down"
+animation = &"Forward-Leftward"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
