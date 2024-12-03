@@ -23,7 +23,6 @@ public partial class OozeAi : BaseEnemyAI
 	{
 		base._Ready();
 
-		float randomScale = (float)GD.RandRange(0.8, 2);
 		float randomScale = (float)GD.RandRange(1, 1.8);
 		Scale = new Vector2(randomScale, randomScale);
 		Modulate = new Color(0, 0, (float)GD.RandRange(0.3, 0.7));
@@ -77,8 +76,8 @@ public partial class OozeAi : BaseEnemyAI
 			else if (!_isCharging && !_isLunging)
 			{
 				UpdateNavigationTarget();
-                Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
-                if (_navigationAgent.DistanceToTarget() < _detectionRange)
+				Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();
+				if (_navigationAgent.DistanceToTarget() < _detectionRange)
 				{
 					_shouldMove = true;
 				}
@@ -261,11 +260,11 @@ public partial class OozeAi : BaseEnemyAI
 
 	private void PlayDeathAnimation(Vector2 direction)
 	{
-        if (isDead)
-        {
-            return;
-        }
-        direction = direction.Normalized();
+		if (isDead)
+		{
+			return;
+		}
+		direction = direction.Normalized();
 		if (direction.Y < -0.5f && direction.X > 0.5f)
 		{
 			_animatedSprite.Play("Death_UpRight");
@@ -306,9 +305,9 @@ public partial class OozeAi : BaseEnemyAI
 		if (!isDead)
 		{
 			GameManager.Instance.EnemyDefeated();
-        }
-        PlayDeathAnimation(direction);
-        isDead = true;
+		}
+		PlayDeathAnimation(direction);
+		isDead = true;
 		_shouldMove = false;
 		_isSpawning = true;
 		if(_oneSecTimer.TimeLeft==0)
