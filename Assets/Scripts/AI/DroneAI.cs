@@ -275,9 +275,9 @@ public partial class DroneAI : BaseEnemyAI
 
 		//_droneState = DroneFSM.Attacking;
 		//show the charging attack particle effect before shoot the bullet
-		_particles.Show();
+		PlayAttackAnimation((_player.GlobalPosition - GlobalPosition).Normalized());
+
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-		_particles.Hide();
 
 		//calculate angle
 		Vector2 bulletDirection = _player.Position - Position;
@@ -380,7 +380,45 @@ public partial class DroneAI : BaseEnemyAI
 		}
 	}
 
-	protected void Spawn()
+    private void PlayAttackAnimation(Vector2 direction)
+    {
+        if (isDead) return;
+        direction = direction.Normalized();
+        if (direction.Y < -0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Attack_UpRight");
+        }
+        else if (direction.Y < -0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Attack_UpLeft");
+        }
+        else if (direction.Y > 0.5f && direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Attack_DownRight");
+        }
+        else if (direction.Y > 0.5f && direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Attack_DownLeft");
+        }
+        else if (direction.Y < -0.5f)
+        {
+            _animatedSprite.Play("Attack_Up");
+        }
+        else if (direction.Y > 0.5f)
+        {
+            _animatedSprite.Play("Attack_Down");
+        }
+        else if (direction.X < -0.5f)
+        {
+            _animatedSprite.Play("Attack_Left");
+        }
+        else if (direction.X > 0.5f)
+        {
+            _animatedSprite.Play("Attack_Right");
+        }
+    }
+
+    protected void Spawn()
 	{
 		if (_animatedSprite == null)
 			_animatedSprite = GetNode<AnimatedSprite2D>("EnemySprite");
