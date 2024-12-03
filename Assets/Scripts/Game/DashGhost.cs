@@ -10,7 +10,7 @@ public partial class DashGhost : Sprite2D
 		// Same color, but with an alpha of 0
 		Invisible.A = 0;
 		Tween tween = GetTree().CreateTween();
-		tween.TweenProperty(this, "modulate", Invisible, 0.5).SetTrans(Tween.TransitionType.Quart);
+		tween.TweenProperty(this, "modulate", Invisible, 0.3).SetTrans(Tween.TransitionType.Quart);
 		tween.TweenCallback(Callable.From(this.QueueFree));
 	}
 
