@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=19 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="8_hdfwm"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/FirstLedge.cs" id="9_ygt6s"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="10_7jtif"]
-[ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/ReloadArea.cs" id="11_fm8fi"]
+[ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/SecondLedge.cs" id="12_fojd7"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/Reload.cs" id="12_sgxqb"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
@@ -253,6 +253,32 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(-224, 416, 576, 16, -32, -288, -832, 112), PackedVector2Array(620, 475, 639, 490, 514, 556, 832, 719, 1252, 512, 928, 351, 803, 417, 768, 396), PackedVector2Array(415, 605, 735, 767, 511, 878, 196, 718), PackedVector2Array(1106, 333, 1197, 383, 1318, 321, 1218, 273)])
 agent_radius = 5.0
 
+[sub_resource type="CSharpScript" id="CSharpScript_o4xwm"]
+script/source = "using Godot;
+using System;
+
+public partial class ReloadArea : Area2D
+{
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+	public void OnEnter(Node2D collision)
+	{
+		if(collision is Player)
+		{
+			Player temp = (Player)GameManager.Instance.player;
+			temp.Reload();
+		}
+	}
+}
+"
+
 [node name="ArenaScene" type="Node2D"]
 
 [node name="TileMap" type="Node2D" parent="."]
@@ -354,6 +380,36 @@ bbcode_enabled = true
 text = "You can Dash over Gaps.
 Press [i] SPACE[/i] to dash"
 
+[node name="ReloadText" type="Label" parent="Tutorial Text"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 774.0
+offset_top = 457.0
+offset_right = 1023.0
+offset_bottom = 480.0
+text = "Enter here to reload your ammo"
+
+[node name="FireText" type="RichTextLabel" parent="Tutorial Text"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 575.0
+offset_top = 411.0
+offset_right = 909.0
+offset_bottom = 451.0
+bbcode_enabled = true
+text = "Use [i]RIGHT CLICK[/i] to make a ranged attack."
+
+[node name="ShootText" type="Label" parent="Tutorial Text"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 724.0
+offset_top = 470.0
+offset_right = 1008.0
+offset_bottom = 493.0
+text = "Try shooting all enemies to move on."
+
 [node name="BaseEnemy" parent="." instance=ExtResource("2_vobsw")]
 process_mode = 4
 position = Vector2(-186, -59)
@@ -377,8 +433,16 @@ polygon = PackedVector2Array(833, 528, 897, 495, 960, 528, 897, 560)
 
 [node name="ExplosiveBarrel" parent="." instance=ExtResource("10_7jtif")]
 position = Vector2(1185, 318)
-script = ExtResource("11_fm8fi")
+script = SubResource("CSharpScript_o4xwm")
+
+[node name="Shoot Entrance" type="Area2D" parent="."]
+script = ExtResource("12_fojd7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shoot Entrance"]
+polygon = PackedVector2Array(630, 476, 768, 402, 848, 437, 688, 520)
 
 [connection signal="body_entered" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnEnter"]
 [connection signal="body_exited" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnExit"]
 [connection signal="body_entered" from="Area2D" to="Area2D" method="OnEnter"]
+[connection signal="body_exited" from="Area2D" to="Area2D" method="OnExit"]
+[connection signal="body_exited" from="Shoot Entrance" to="Shoot Entrance" method="OnExit"]
