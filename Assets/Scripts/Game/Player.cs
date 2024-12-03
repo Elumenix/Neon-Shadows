@@ -86,6 +86,8 @@ public partial class Player : CharacterBody2D
 	}
 	public bool GetEnemyCollisionMask {  get { return GetCollisionMaskValue(1); } }
 
+	private string _currentAnimation = "default";
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -497,6 +499,7 @@ public partial class Player : CharacterBody2D
 			{
 				_health = 0;
 				on_Death();
+				//_deathAnimation();
 			}
 		}
 
@@ -744,8 +747,8 @@ public partial class Player : CharacterBody2D
 	/// Resolves the player death, currently (10/08) only changes the dead bool and hides the Player Sprite
 	/// </summary>
 	public async void on_Death()
-	{   
-		GetNode<AudioStreamPlayer>("%MusicPlayer").Stop();
+	{
+        GetNode<AudioStreamPlayer>("%MusicPlayer").Stop();
 		damageSound.Stop();
 		footstepPlayer.Stop();
 		swordSlashAudio.Stop();
@@ -1016,5 +1019,66 @@ public partial class Player : CharacterBody2D
 		// TODO: AudioPlayer doesn't seem to free itself correctly
 		audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
 		GetTree().Root.AddChild(audioPlayer);
+	}
+	/// <summary>
+	/// Called by the animation_changed signal, updating the _currenAnimation String name
+	/// </summary>
+	public void AnimationChanged()
+	{
+		_currentAnimation = _animatedSprite.Animation;
+		GD.Print($"Current Animation: {_currentAnimation}");
+	}
+	/// <summary>
+	/// Called by the animation_finished signal, it checks the currentAnimation and if it is one of the death animations it calls on_Death()
+	/// </summary>
+	public void DeathAnimationFinished()
+	{
+		switch( _currentAnimation )
+		{
+			case "death_left":
+				{
+                    on_Death();
+                    break;
+                }
+			case "death_upleft":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_downleft":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_down":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_downright":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_up":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_upright":
+                {
+                    on_Death();
+                    break;
+                }
+            case "death_right":
+				{
+					on_Death();
+					break;
+				}
+			default:
+				{
+					break;
+				}
+		}
 	}
 }

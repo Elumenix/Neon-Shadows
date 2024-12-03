@@ -1,13 +1,13 @@
-[gd_scene load_steps=64 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=72 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
-[ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
 [ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
+[ext_resource type="Texture2D" uid="uid://dnw6pv4u8axdl" path="res://Assets/Sprites/Enemy/drone-attack.png" id="6_70jdt"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 [ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
@@ -478,11 +478,11 @@ collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 75.0
-_playerDetectRange = 200.0
+_playerDetectRange = 300.0
 _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
-_particles = NodePath("CPUParticles2D")
+_particles = NodePath("")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
@@ -504,7 +504,7 @@ shape = SubResource("RectangleShape2D_ejd0x")
 material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Backward"
+animation = &"Attack_UpRight"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
@@ -512,10 +512,6 @@ libraries = {
 }
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
-visible = false
-position = Vector2(0, -3)
 
 [node name="DroneHit" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
