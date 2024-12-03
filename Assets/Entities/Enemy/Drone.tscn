@@ -7,7 +7,7 @@
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
 [ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
-[ext_resource type="Texture2D" uid="uid://dnw6pv4u8axdl" path="res://Assets/Sprites/Enemy/drone-attack.png" id="6_70jdt"]
+[ext_resource type="Texture2D" uid="uid://dnw6pv4u8axdl" path="res://Assets/Sprites/Enemy/drone-attack.png" id="5_eirfg"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 [ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
@@ -19,6 +19,38 @@ size = Vector2(17, 14.5394)
 shader = ExtResource("4_pfj42")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu4xs"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfrr2"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85f1d"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wq2m"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krpo0"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ny44q"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8256d"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qjsr"]
+atlas = ExtResource("5_eirfg")
+region = Rect2(24, 24, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfvxx"]
 atlas = ExtResource("4_ca8cm")
@@ -202,6 +234,70 @@ region = Rect2(48, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu4xs")
+}],
+"loop": true,
+"name": &"Attack_Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfrr2")
+}],
+"loop": true,
+"name": &"Attack_DownLeft",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85f1d")
+}],
+"loop": true,
+"name": &"Attack_DownRight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wq2m")
+}],
+"loop": true,
+"name": &"Attack_Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krpo0")
+}],
+"loop": true,
+"name": &"Attack_Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ny44q")
+}],
+"loop": true,
+"name": &"Attack_Up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8256d")
+}],
+"loop": true,
+"name": &"Attack_UpLeft",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qjsr")
+}],
+"loop": true,
+"name": &"Attack_UpRight",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lfvxx")
@@ -471,7 +567,7 @@ random_volume_offset_db = 4.1
 streams_count = 1
 stream_0/stream = ExtResource("6_fjoqr")
 
-[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_particles", "_navigationAgent") groups=["Enemy"]]
+[node name="Drone" type="CharacterBody2D" node_paths=PackedStringArray("_navigationAgent") groups=["Enemy"]]
 material = ExtResource("3_lju7x")
 collision_layer = 24
 collision_mask = 4
@@ -482,7 +578,6 @@ _playerDetectRange = 300.0
 _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
-_particles = NodePath("")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
@@ -504,7 +599,7 @@ shape = SubResource("RectangleShape2D_ejd0x")
 material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Attack_UpRight"
+animation = &"Attack_Right"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
