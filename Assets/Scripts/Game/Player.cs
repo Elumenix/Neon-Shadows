@@ -143,7 +143,10 @@ public partial class Player : CharacterBody2D
 		_playerSpriteSize = _animatedSprite.SpriteFrames.GetFrameTexture("default", 0).GetSize();
 
 		GameManager.Instance.player = this;
-	}
+
+        GameManager.Instance.totalGate = GetTree().GetNodesInGroup("Gate").Count;
+		GD.Print(GameManager.Instance.totalGate);
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{

@@ -19,7 +19,7 @@ public partial class GameManager : Node
 	private int _defeatedEnemies;
 	public int DefeatedEnemies { get { return _defeatedEnemies; } }
 	public int currentGate;
-
+	public int totalGate;
 	private static GameManager _instance;
 	public static GameManager Instance
 	{
@@ -50,14 +50,13 @@ public partial class GameManager : Node
 	public void EnemyDefeated()
 	{
 		_defeatedEnemies++;
-		GD.Print("Enemy defeated. Total defeated: ", _defeatedEnemies);
 		CheckIfAllEnemiesDefeated();
 	}
 
 	private void CheckIfAllEnemiesDefeated()
 	{
-		GD.Print("_defeatedEnemies: " + _defeatedEnemies + "  TotalEnemies: " + TotalEnemies);
-		if (_defeatedEnemies >= TotalEnemies)
+		GD.Print(currentGate + ":" + totalGate);
+        if (_defeatedEnemies >= TotalEnemies)
 		{
 			GD.Print("All enemies defeated!");
 
@@ -82,6 +81,16 @@ public partial class GameManager : Node
                     return;
                 }
             }
+
+			if (currentGate > totalGate)
+			{
+				GD.Print("All level complete");
+				Engine.TimeScale = 0;
+				gamePaused = true;
+				Input.SetCustomMouseCursor(cursor);
+
+				(GetTree().GetNodesInGroup("LevelCompleteMenu")[0] as CanvasLayer).Visible = true;
+			}
         }
 	}
 

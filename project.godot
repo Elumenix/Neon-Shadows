@@ -43,6 +43,7 @@ PlatformArea=""
 Gate=""
 EnemySpawner=""
 GameOverMenu=""
+LevelCompleteMenu=""
 
 [input]
 
