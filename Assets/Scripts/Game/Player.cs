@@ -620,12 +620,65 @@ public partial class Player : CharacterBody2D
 		}
 	}
 	/// <summary>
+	/// Calls updateFacing, and then plays the death animation
+	/// </summary>
+	private void _deathAnimation()
+	{
+		updateFacing();
+		switch(_facing)
+		{
+            case (FACING_DIRECTION.Up):
+                {
+                    _animatedSprite.Play("death_up");
+                    break;
+                }
+            case (FACING_DIRECTION.Left):
+                {
+                    _animatedSprite.Play("death_left");
+                    break;
+                }
+            case (FACING_DIRECTION.Right):
+                {
+                    _animatedSprite.Play("death_right");
+                    break;
+                }
+            case (FACING_DIRECTION.Down):
+                {
+                    _animatedSprite.Play("death_down");
+                    break;
+                }
+            case (FACING_DIRECTION.UpLeft):
+                {
+                    _animatedSprite.Play("death_upleft");
+                    break;
+                }
+            case (FACING_DIRECTION.DownLeft):
+                {
+                    _animatedSprite.Play("death_downleft");
+                    break;
+                }
+            case (FACING_DIRECTION.UpRight):
+                {
+                    _animatedSprite.Play("death_upright");
+                    break;
+                }
+            case (FACING_DIRECTION.DownRight):
+                {
+                    _animatedSprite.Play("death_downright");
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+	}
+	/// <summary>
 	/// Update attack variables and instantiate a Slash object check PlayerSlash for more info
 	/// </summary>
 	private void _meleeAttack()
 	{
 		_isAttacking = true;
-
 		_attackAnimation();
 
 		// Rotate Marker to follow the mouse
@@ -642,17 +695,11 @@ public partial class Player : CharacterBody2D
 		slash.Damage = 50;
 		slash.Player = this;
 
-		// Get a (normalized) vector based on rotation
-		Vector2 unscaledVelocity = _VectorFromRotation(slash.RotationDegrees);
-		// Scale by Knockback Amount
-		// Change Slash's linear velocity to new scaled vector;
-		//slash.ConstantLinearVelocity = unscaledVelocity * 22000f;
-
 		if(_attackCount == 0) { slash.Modulate = Colors.White; }
 		else if (_attackCount == 1) 
 		{ 
 			slash.Modulate = Colors.Blue; 
-			slash.GetChild<Sprite2D>(0).FlipV = true;
+			//slash.GetChild<Sprite2D>(0).FlipV = true;
 			//slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 2f;
 		}
 		else if (_attackCount == 2) { 
@@ -694,17 +741,23 @@ public partial class Player : CharacterBody2D
 	/// Resolves the player death, currently (10/08) only changes the dead bool and hides the Player Sprite
 	/// </summary>
 	public async void on_Death()
-	{
+	{   
 		GetNode<AudioStreamPlayer>("%MusicPlayer").Stop();
 		damageSound.Stop();
 		footstepPlayer.Stop();
 		swordSlashAudio.Stop();
 
-		// Switching to death sound
-		damageSound.Stream = deathSound;
+        // Play the death animation
+        _deathAnimation();
+        //await ToSignal(GetTree().CreateTimer(1f), "timeout");
+
+        // Switching to death sound
+        damageSound.Stream = deathSound;
 		damageSound.Play();
-		
-		_dead = true;
+
+
+
+        _dead = true;
 		_animatedSprite.Visible = false;
 		_animationPlayer.Stop();
         await ToSignal(GetTree().CreateTimer(1f), "timeout");
