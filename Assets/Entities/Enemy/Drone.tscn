@@ -1,13 +1,13 @@
-[gd_scene load_steps=64 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=72 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
-[ext_resource type="PackedScene" uid="uid://b3yk12gr2mn1n" path="res://Assets/Entities/ParticleEffect/ChargingAttack.tscn" id="4_h4gms"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
 [ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
+[ext_resource type="Texture2D" uid="uid://dnw6pv4u8axdl" path="res://Assets/Sprites/Enemy/drone-attack.png" id="6_70jdt"]
 [ext_resource type="AudioStream" uid="uid://crnlccndju88r" path="res://Assets/Sounds/metal-whoosh-hit-9-201909_yf1gblWn.mp3" id="6_fjoqr"]
 [ext_resource type="AudioStream" uid="uid://cohwibsm0ryqo" path="res://Assets/Sounds/DroneWhine.wav" id="6_yfkbb"]
 [ext_resource type="AudioStream" uid="uid://dkmvaswcs5ov8" path="res://Assets/Sounds/mixkit-sci-fi-positive-notification-266.wav" id="10_nutrs"]
@@ -19,6 +19,38 @@ size = Vector2(17, 14.5394)
 shader = ExtResource("4_pfj42")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1lgv"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fl2f"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ny54r"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dcjn"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxjeb"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nohry"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75o5k"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rhe5"]
+atlas = ExtResource("6_70jdt")
+region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k168i"]
 atlas = ExtResource("4_ca8cm")
@@ -202,42 +234,66 @@ region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sxyyl"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1lgv")
+}],
 "loop": true,
 "name": &"Attack_Down",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fl2f")
+}],
 "loop": true,
 "name": &"Attack_DownLeft",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ny54r")
+}],
 "loop": true,
 "name": &"Attack_DownRight",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dcjn")
+}],
 "loop": true,
 "name": &"Attack_Left",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxjeb")
+}],
 "loop": true,
 "name": &"Attack_Right",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nohry")
+}],
 "loop": true,
 "name": &"Attack_Up",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75o5k")
+}],
 "loop": true,
 "name": &"Attack_UpLeft",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rhe5")
+}],
 "loop": true,
 "name": &"Attack_UpRight",
 "speed": 5.0
@@ -524,11 +580,11 @@ collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 75.0
-_playerDetectRange = 200.0
+_playerDetectRange = 300.0
 _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
-_particles = NodePath("CPUParticles2D")
+_particles = NodePath("")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
@@ -551,7 +607,7 @@ material = SubResource("ShaderMaterial_58aay")
 position = Vector2(1, -4)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sxyyl")
-animation = &"Forward-Leftward"
+animation = &"Attack_UpRight"
 
 [node name="FlashAnimation" type="AnimationPlayer" parent="EnemySprite"]
 libraries = {
@@ -559,10 +615,6 @@ libraries = {
 }
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="CPUParticles2D" parent="." instance=ExtResource("4_h4gms")]
-visible = false
-position = Vector2(0, -3)
 
 [node name="DroneHit" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

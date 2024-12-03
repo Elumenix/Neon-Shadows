@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://db8ytn0myb6v3" path="res://Assets/Entities/Objects/Camera.tscn" id="6_scdlr"]
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="7_bt3jr"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="8_hwngl"]
-[ext_resource type="PackedScene" uid="uid://b1cw62olhn7q3" path="res://Assets/Entities/Enemy/Ooze.tscn" id="9_komj1"]
+[ext_resource type="PackedScene" uid="uid://dgyibo87gulk3" path="res://Assets/Entities/Enemy/EnemySpawner.tscn" id="9_7dgi2"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_bq7lm")
@@ -300,6 +300,32 @@ navigation_polygon = SubResource("NavigationPolygon_nxaa0")
 [node name="PauseMenu" parent="." instance=ExtResource("7_bt3jr")]
 visible = false
 
-[node name="Ooze" parent="." instance=ExtResource("9_komj1")]
-position = Vector2(-78, 9)
-deathSound = null
+[node name="EnemySpawner" parent="." instance=ExtResource("9_7dgi2")]
+position = Vector2(-480, 81)
+GateNum = 1
+maxSpawnNum = 200
+enemySpawnType = 2
+EnemiesContainerPath = NodePath("../Node2D2")
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("9_7dgi2")]
+position = Vector2(-113, -161)
+GateNum = 1
+maxSpawnNum = 200
+enemySpawnType = 1
+EnemiesContainerPath = NodePath("../Node2D2")
+
+[node name="EnemySpawner3" parent="." instance=ExtResource("9_7dgi2")]
+position = Vector2(-207, 233)
+GateNum = 1
+maxSpawnNum = 200
+enemySpawnType = 1
+EnemiesContainerPath = NodePath("../Node2D2")
+
+[node name="EnemySpawner4" parent="." instance=ExtResource("9_7dgi2")]
+position = Vector2(160, -9)
+GateNum = 1
+maxSpawnNum = 200
+enemySpawnType = 2
+EnemiesContainerPath = NodePath("../Node2D2")
+
+[node name="Node2D2" type="Node2D" parent="."]

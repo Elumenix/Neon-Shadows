@@ -277,9 +277,7 @@ public partial class DroneAI : BaseEnemyAI
 		//show the charging attack particle effect before shoot the bullet
 		PlayAttackAnimation((_player.GlobalPosition - GlobalPosition).Normalized());
 
-        _particles.Show();
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-		_particles.Hide();
 
 		//calculate angle
 		Vector2 bulletDirection = _player.Position - Position;
