@@ -51,14 +51,17 @@ public partial class GameManager : Node
 	{
 		_defeatedEnemies++;
 		CheckIfAllEnemiesDefeated();
+
+		if (GetTree().GetNodesInGroup("EnemyCount").Count > 0) {
+			(GetTree().GetNodesInGroup("EnemyCount")[0] as Label).Text = "Enemy Defeated: " + _defeatedEnemies;
+
+        }
 	}
 
 	private void CheckIfAllEnemiesDefeated()
 	{
-		GD.Print(currentGate + ":" + totalGate);
         if (_defeatedEnemies >= TotalEnemies)
 		{
-			GD.Print("All enemies defeated!");
 
             foreach (var gate in GetTree().GetNodesInGroup("Gate")){
 

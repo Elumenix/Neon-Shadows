@@ -297,6 +297,13 @@ navigation_polygon = SubResource("NavigationPolygon_nxaa0")
 
 [node name="HUD" parent="." instance=ExtResource("8_hwngl")]
 
+[node name="Label" type="Label" parent="HUD" groups=["EnemyCount"]]
+offset_top = 66.0
+offset_right = 40.0
+offset_bottom = 89.0
+text = "Enemy Defeated:
+"
+
 [node name="PauseMenu" parent="." instance=ExtResource("7_bt3jr")]
 visible = false
 
