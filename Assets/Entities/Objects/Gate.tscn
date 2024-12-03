@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://c82tjhmkq5hnt"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Object/Gate.cs" id="1_c1d7w"]
-[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_77x8y"]
+[ext_resource type="PackedScene" uid="uid://dy85nltk1pyon" path="res://Assets/Entities/ParticleEffect/GateParticle.tscn" id="3_4bnrq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j6l5c"]
-size = Vector2(121, 127)
+size = Vector2(204.427, 10.9753)
 
 [node name="Gate" type="StaticBody2D" groups=["Gate"]]
 collision_layer = 255
@@ -12,8 +12,9 @@ collision_mask = 255
 script = ExtResource("1_c1d7w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -0.5)
+position = Vector2(88, -56)
+rotation = -0.570037
 shape = SubResource("RectangleShape2D_j6l5c")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_77x8y")
+[node name="GPUParticles2D" parent="." instance=ExtResource("3_4bnrq")]
+rotation = -0.586419
