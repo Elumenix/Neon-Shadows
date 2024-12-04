@@ -499,8 +499,7 @@ public partial class Player : CharacterBody2D
 			{
 				_health = 0;
 				on_Death();
-				//_deathAnimation();
-			}
+            }
 		}
 
 	}
@@ -719,54 +718,25 @@ public partial class Player : CharacterBody2D
 		// increase attack combo
 		if(_attackCount < 3) { _attackCount++;}
 	}
-	/* Old way we handled attacks, kept for code references
-	public void on_area_2d_area_entered(Area2D collision)
-	{
-		// Vector math to check if the mouse is facing towards 
-		//Vector2 mousePOSinWorld = (GetViewport().GetScreenTransform() * this.GetCanvasTransform()).AffineInverse() * cursor.Position;
-		Vector2 playerToEnemy = this.Position.DirectionTo(collision.Position);
-		Vector2 playerToMouse = this.Position.DirectionTo(this.GetGlobalMousePosition() * this.Transform);
-		//GD.Print($"Dot Product Result: {playerToEnemy.Dot(playerToMouse)}");
-		//attackHitBox.Rotate(playerToEnemy.Dot(playerToMouse));
-		if (playerToEnemy.Dot(playerToMouse) <= 0.0f)
-		{
-			if (collision.Owner.HasMethod("TakeDamage") && _isAttacking)
-			{
-				BaseEnemyAI temp = (BaseEnemyAI)collision.Owner;
-				temp.TakeDamage(50);
-
-				if(_ammo < _MaxAmmo)
-				{
-					_ammo++;
-				}
-			}
-		}
-		
-	}*/
 	/// <summary>
 	/// Resolves the player death, currently (10/08) only changes the dead bool and hides the Player Sprite
 	/// </summary>
 	public async void on_Death()
 	{
+		_deathAnimation();
         GetNode<AudioStreamPlayer>("%MusicPlayer").Stop();
 		damageSound.Stop();
 		footstepPlayer.Stop();
 		swordSlashAudio.Stop();
 
-        // Play the death animation
-        _deathAnimation();
-        //await ToSignal(GetTree().CreateTimer(1f), "timeout");
-
         // Switching to death sound
         damageSound.Stream = deathSound;
 		damageSound.Play();
 
-
-
         _dead = true;
-		_animatedSprite.Visible = false;
 		_animationPlayer.Stop();
         await ToSignal(GetTree().CreateTimer(1f), "timeout");
+		_animatedSprite.Visible = false;
         Engine.TimeScale = 0;
         GameManager.Instance.gamePaused = true;
         Input.SetCustomMouseCursor(GameManager.Instance.cursor);
@@ -796,14 +766,8 @@ public partial class Player : CharacterBody2D
 	/// </summary>
 	private void CreateProjectile()
 	{
-		var projectile = (Projectile)_projectile.Instantiate();
-		//projectile.GlobalPosition = this.GlobalPosition;
-		//projectile.Position = this.Position;
+		Projectile projectile = (Projectile)_projectile.Instantiate();
 		projectile.Position = new Vector2(this.Position.X + 0.5f, this.Position.Y + 0.5f);
-		//Vector2 futurePosition = this.Position;
-		//Vector2 rotation = new Vector2((float)Math.Sin(_marker.RotationDegrees), (float)Math.Cos(_marker.RotationDegrees));
-		//projectile.Position = futurePosition + (rotation * 2.0f);
-		
 		projectile.Rotation = _marker.Rotation;
 
 		GetParent().AddChild(projectile);
