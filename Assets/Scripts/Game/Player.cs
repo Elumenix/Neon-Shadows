@@ -700,16 +700,21 @@ public partial class Player : CharacterBody2D
 		slash.Damage = 50;
 		slash.Player = this;
 
-		if(_attackCount == 0) { slash.Modulate = Colors.White; }
+		if(_attackCount == 0) { 
+			//slash.Modulate = Colors.White;
+			slash.ComboNumber = 1;
+		}
 		else if (_attackCount == 1) 
 		{ 
-			slash.Modulate = Colors.Blue; 
+			//slash.Modulate = Colors.Blue;
+			slash.ComboNumber = 2;
 			//slash.GetChild<Sprite2D>(0).FlipV = true;
 			//slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 2f;
 		}
 		else if (_attackCount == 2) { 
 			// End of combo should deal more knockback then normal
-			slash.Modulate = Colors.Red;
+			//slash.Modulate = Colors.Red;
+			slash.ComboNumber = 3;
 			//slash.ConstantLinearVelocity = slash.ConstantLinearVelocity * 4f;
 		}
 		//GD.Print($"Slash Linear Velocity{slash.ConstantLinearVelocity}");
