@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=19 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://df6ksbgtlj4f2" path="res://Assets/Entities/UI/PauseMenu.tscn" id="7_2va86"]
 [ext_resource type="PackedScene" uid="uid://bllft4767kdgs" path="res://Assets/Entities/UI/hud.tscn" id="8_hdfwm"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/FirstLedge.cs" id="9_ygt6s"]
+[ext_resource type="Theme" uid="uid://dmrcphllqb0po" path="res://Assets/Sprites/UI/gravity-10.tres" id="9_yuwgv"]
 [ext_resource type="PackedScene" uid="uid://b3dgrm1h8cdpi" path="res://Assets/Entities/Objects/ExplosiveBarrel.tscn" id="10_7jtif"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/SecondLedge.cs" id="12_fojd7"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/Reload.cs" id="12_sgxqb"]
@@ -333,6 +334,7 @@ offset_left = -279.0
 offset_top = -81.0
 offset_right = 141.0
 offset_bottom = -58.0
+theme = ExtResource("9_yuwgv")
 text = "Welcome to NEON SHADOWS. Use WASD keys to move"
 
 [node name="AttackText" type="RichTextLabel" parent="Tutorial Text"]
@@ -341,6 +343,7 @@ offset_left = 4.0
 offset_top = 81.0
 offset_right = 409.0
 offset_bottom = 127.0
+theme = ExtResource("9_yuwgv")
 bbcode_enabled = true
 text = "There's an enemy behind you! Use the mouse to
 aim and [i]LEFT CLICK[/i] to swing your sword"
@@ -353,6 +356,7 @@ offset_left = 66.0
 offset_top = 82.0
 offset_right = 265.0
 offset_bottom = 141.0
+theme = ExtResource("9_yuwgv")
 bbcode_enabled = true
 text = "You can Dash over Gaps.
 Press [i] SPACE[/i] to dash"
@@ -374,6 +378,7 @@ offset_left = 575.0
 offset_top = 411.0
 offset_right = 909.0
 offset_bottom = 451.0
+theme = ExtResource("9_yuwgv")
 bbcode_enabled = true
 text = "Use [i]RIGHT CLICK[/i] to make a ranged attack."
 
@@ -385,6 +390,7 @@ offset_left = 724.0
 offset_top = 470.0
 offset_right = 1008.0
 offset_bottom = 493.0
+theme = ExtResource("9_yuwgv")
 text = "Try shooting all enemies to move on."
 
 [node name="BaseEnemy" parent="." instance=ExtResource("2_vobsw")]
