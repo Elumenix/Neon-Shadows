@@ -110,7 +110,6 @@ shape = SubResource("RectangleShape2D_rp8jv")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(10, 0)
-scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_x3wxa")
 
 [node name="Timer" type="Timer" parent="."]
@@ -128,7 +127,6 @@ shape = SubResource("RectangleShape2D_mhw84")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(11, 0)
-scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_luqwp")
 animation = &"combo3"
 
