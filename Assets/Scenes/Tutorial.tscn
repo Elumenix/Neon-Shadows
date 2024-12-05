@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=25 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/Reload.cs" id="12_sgxqb"]
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="14_eal5d"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/WinArea.cs" id="16_0j8vk"]
+[ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="19_apypl"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_kpb6d")
@@ -548,6 +549,11 @@ position = Vector2(1789, 1051)
 GateNum = 2
 EnemiesContainerPath = NodePath("../EnemiesContainer2")
 InitEnemiesNum = 8
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("19_apypl")
+autoplay = true
 
 [connection signal="body_entered" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnEnter"]
 [connection signal="body_exited" from="First Ledge Text Collider" to="First Ledge Text Collider" method="OnExit"]
