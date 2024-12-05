@@ -86,7 +86,7 @@ offset_bottom = 219.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
 Learn the basics before you jump into the game.
-Not currently completely finished"
+"
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
@@ -186,7 +186,7 @@ offset_right = 351.598
 offset_bottom = 219.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
-Not Implemented!"
+See how long you can survive in an endless onslught of enemies!"
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
