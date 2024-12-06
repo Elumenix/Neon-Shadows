@@ -1,9 +1,10 @@
-[gd_scene load_steps=72 format=3 uid="uid://bv60t6fvof5dh"]
+[gd_scene load_steps=73 format=3 uid="uid://bv60t6fvof5dh"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/AI/DroneAI.cs" id="1_tmfyi"]
 [ext_resource type="PackedScene" uid="uid://jqek1thhuhfn" path="res://Assets/Entities/Enemy/bullet.tscn" id="2_wqjde"]
 [ext_resource type="Material" uid="uid://b7dddu8ji626a" path="res://Assets/Shader/bloom_material.tres" id="3_lju7x"]
 [ext_resource type="Texture2D" uid="uid://cnrddbicf7w8j" path="res://Assets/Sprites/Enemy/drone.png" id="4_ca8cm"]
+[ext_resource type="AudioStream" uid="uid://1ka35nadb6hu" path="res://Assets/Sounds/medium-explosion-40472.mp3" id="4_hc285"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_pfj42"]
 [ext_resource type="Texture2D" uid="uid://66eaaipt6l10" path="res://Assets/Sprites/Enemy/drone-spawn.png" id="5_31rkc"]
 [ext_resource type="Texture2D" uid="uid://bafkpxg4hgubf" path="res://Assets/Sprites/Enemy/drone-death.png" id="5_b3ha6"]
@@ -578,6 +579,7 @@ _playerDetectRange = 300.0
 _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
+deathSound = ExtResource("4_hc285")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0

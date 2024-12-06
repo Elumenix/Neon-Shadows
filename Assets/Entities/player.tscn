@@ -1,8 +1,9 @@
-[gd_scene load_steps=108 format=3 uid="uid://dgslb6ct47jmy"]
+[gd_scene load_steps=109 format=3 uid="uid://dgslb6ct47jmy"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/Game/Player.cs" id="1_3yn2a"]
 [ext_resource type="PackedScene" uid="uid://c5um6b05njapt" path="res://Assets/Entities/Dash.tscn" id="2_oi25e"]
 [ext_resource type="PackedScene" uid="uid://b7n5ul88o2x42" path="res://Assets/Entities/ParticleEffect/FootStep.tscn" id="2_p3t5q"]
+[ext_resource type="AudioStream" uid="uid://q8qkopni0qqr" path="res://Assets/Sounds/SUB_DROP_DEEP.wav" id="2_vm2ke"]
 [ext_resource type="Texture2D" uid="uid://dh7u3do6xdbcy" path="res://Assets/Sprites/player-walk.png" id="4_bb74h"]
 [ext_resource type="Shader" path="res://Assets/Shader/Damaged.gdshader" id="4_winvi"]
 [ext_resource type="PackedScene" uid="uid://b6dfh432kt4s1" path="res://Assets/Entities/ParticleEffect/Wind.tscn" id="6_nkt72"]
@@ -838,6 +839,7 @@ position = Vector2(0, -2)
 collision_layer = 17
 collision_mask = 3
 script = ExtResource("1_3yn2a")
+deathSound = ExtResource("2_vm2ke")
 _fallSpeed = 30.0
 footstepParticle = ExtResource("2_p3t5q")
 stepDistance = 15.0

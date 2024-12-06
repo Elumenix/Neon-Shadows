@@ -57,7 +57,7 @@ public partial class Player : CharacterBody2D
 	int lastFrame = 0;
 
 
-	//falling off edges
+	// Falling off edges
 	private bool _isFalling = false;
 	private Vector2 _safePosition; 
 	private Timer _safePositionTimer;
