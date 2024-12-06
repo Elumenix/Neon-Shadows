@@ -77,7 +77,9 @@ public partial class EnemySpawner : Node2D
 			// Add the enemy to the enemies container instead of the spawner's parent
 			enemiesContainer.AddChild(node);
 			(node as Node2D).GlobalPosition = GlobalPosition;
-		}
+			(node as Node2D)._Ready();
+
+        }
 
 	}
 }

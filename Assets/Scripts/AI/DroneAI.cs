@@ -48,7 +48,7 @@ public partial class DroneAI : BaseEnemyAI
 		base._Ready();
 		_usePathFinding = false;
 		currentShootCooldown = shootCooldown;
-		_aggroDetectRange = _playerDetectRange * 3;
+		_aggroDetectRange = _playerDetectRange * 10;
 
 		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
 
@@ -275,7 +275,7 @@ public partial class DroneAI : BaseEnemyAI
 
 		//_droneState = DroneFSM.Attacking;
 		//show the charging attack particle effect before shoot the bullet
-		PlayAttackAnimation((_player.GlobalPosition - GlobalPosition).Normalized());
+		PlayAttackAnimation((_player.Position - Position).Normalized());
 
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 
