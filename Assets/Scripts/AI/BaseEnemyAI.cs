@@ -30,16 +30,13 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     protected Timer _oneSecTimer;
 
-    public override async void _Ready()
+    public override void _Ready()
 	{
 		isDead = false;
 		currentHealth = MaxHealth;
 
-		// Small delay for initialization
-		await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
-
 		// Get player node (assuming player is in the "Player" group)
-		_player = GetTree().GetNodesInGroup("Player")[0] as Node2D;
+		_player = GameManager.Instance.player;
 
 		// Connect the Area2D signal for collision detection
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
@@ -64,7 +61,6 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
 	{
-
         //update the target position and exit if there are none
         UpdateNavigationTarget();
 		Vector2 nextPathPosition = nextPathPosition = _navigationAgent.GetNextPathPosition();

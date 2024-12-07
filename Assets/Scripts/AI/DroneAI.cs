@@ -112,7 +112,7 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_shouldMove = true;
 			_animatedSprite.Play("Forward");
-		}
+        }
 		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
 		{
 			QueueFree();
@@ -148,7 +148,7 @@ public partial class DroneAI : BaseEnemyAI
 	/// </summary>
 	private void UpdateNavigationTarget()
 	{
-		if (_player != null)
+		if (GameManager.Instance.player != null)
 		{
 			_navigationAgent.TargetPosition = _targetPosition;
 		}
@@ -245,17 +245,17 @@ public partial class DroneAI : BaseEnemyAI
 	/// </summary>
 	/// <returns></returns>
 	private bool IsPlayerTooClose() {
-		if (_player == null) {
+		if (GameManager.Instance.player == null) {
 			return false;
 		}
-		return new BetterMath().DistanceBetweenTwoVector(_player.Position, Position) < _moveStopRange;
+		return new BetterMath().DistanceBetweenTwoVector(GameManager.Instance.player.Position, Position) < _moveStopRange;
 	}
 
 	/// <summary>
 	/// detect if player is in range of the drone's detection range
 	/// </summary>
 	private void DetectPlayer() {
-		if (_player == null) {
+		if (GameManager.Instance.player == null) {
 			_isPlayerInRange = false;
 			return;
 		}
@@ -275,12 +275,12 @@ public partial class DroneAI : BaseEnemyAI
 
 		//_droneState = DroneFSM.Attacking;
 		//show the charging attack particle effect before shoot the bullet
-		PlayAttackAnimation((_player.Position - Position).Normalized());
+		PlayAttackAnimation(GlobalPosition.DirectionTo(GameManager.Instance.player.GlobalPosition));
 
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 
 		//calculate angle
-		Vector2 bulletDirection = _player.Position - Position;
+		Vector2 bulletDirection = GlobalPosition.DirectionTo(GameManager.Instance.player.GlobalPosition);
 		float shootAngle = new BetterMath().VectorToAngle(bulletDirection);
 		shootAngle += (float)(new Random().NextDouble() * (_shootOffset*2) - _shootOffset);
 
@@ -290,7 +290,7 @@ public partial class DroneAI : BaseEnemyAI
 		Node node = _bullet.Instantiate();
 		(node as Node2D).Position = Position;
 		(node as Node2D).Rotation = shootAngle;
-		(node as Bullet).player = _player;
+		(node as Bullet).player = GameManager.Instance.player;
 		GetParent().AddChild(node);
 		PlayBulletSound();
 
