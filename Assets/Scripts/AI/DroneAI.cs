@@ -48,7 +48,7 @@ public partial class DroneAI : BaseEnemyAI
 		base._Ready();
 		_usePathFinding = false;
 		currentShootCooldown = shootCooldown;
-		_aggroDetectRange = _playerDetectRange * 10;
+		_aggroDetectRange = _playerDetectRange * 3;
 
 		droneHit = GetNode<AudioStreamPlayer2D>("%DroneHit");
 
@@ -112,7 +112,7 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_shouldMove = true;
 			_animatedSprite.Play("Forward");
-            _playerDetectRange = _aggroDetectRange;
+            _playerDetectRange = 400;
         }
 		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
 		{
@@ -265,6 +265,8 @@ public partial class DroneAI : BaseEnemyAI
 		if (_isPlayerInRange && !detectedPlayer)
 		{
 			detectedPlayer = true;
+			_playerDetectRange = _aggroDetectRange;
+			_detectionRange = _aggroDetectRange;
 			GetNode<AudioStreamPlayer2D>("%NoticeSound").Play();
 		}
 	}
