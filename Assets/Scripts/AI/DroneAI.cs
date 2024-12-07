@@ -112,6 +112,7 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_shouldMove = true;
 			_animatedSprite.Play("Forward");
+            _playerDetectRange = _aggroDetectRange;
         }
 		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
 		{
