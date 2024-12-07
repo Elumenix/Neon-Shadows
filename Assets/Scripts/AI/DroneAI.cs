@@ -112,7 +112,7 @@ public partial class DroneAI : BaseEnemyAI
 		{
 			_shouldMove = true;
 			_animatedSprite.Play("Forward");
-            _playerDetectRange = 400;
+            _playerDetectRange = 275;
         }
 		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death")
 		{
@@ -289,6 +289,9 @@ public partial class DroneAI : BaseEnemyAI
 
 		UpdateAnimation(new BetterMath().AngleToVector(shootAngle));
 
+		// Don't let drone fire if it's in it's death animations
+		if (isDead) return;
+		
 		//shoot bullet
 		Node node = _bullet.Instantiate();
 		(node as Node2D).Position = Position;

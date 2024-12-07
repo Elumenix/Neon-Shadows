@@ -851,8 +851,8 @@ collision_mask = 4
 script = ExtResource("1_msgnd")
 _animationPlayer = NodePath("EnemySprite/FlashAnimation")
 deathSound = ExtResource("2_lnvbw")
-_speed = 10.0
-_maxSpeed = 10.0
+_speed = 15.0
+_maxSpeed = 15.0
 _navigationAgent = NodePath("NavigationAgent2D")
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]

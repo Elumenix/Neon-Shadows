@@ -575,7 +575,7 @@ collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 75.0
-_playerDetectRange = 300.0
+_playerDetectRange = 275.0
 _shootOffset = 0.2
 targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
@@ -618,7 +618,7 @@ stream = SubResource("AudioStreamRandomizer_rgyqe")
 [node name="ConstantWhine" type="AudioStreamPlayer2D" parent="."]
 visible = false
 stream = ExtResource("6_yfkbb")
-volume_db = -8.475
+volume_db = -15.408
 autoplay = true
 max_distance = 300.0
 attenuation = 2.0
