@@ -53,6 +53,7 @@ public partial class Player : CharacterBody2D
 	private AudioStreamPlayer2D footstepPlayer;
 	private AudioStreamPlayer2D swordSlashAudio;
 	private AudioStreamPlayer2D damageSound;
+	private AudioStreamPlayer2D dashSound;
 	[Export] private AudioStream deathSound;
 	int lastFrame = 0;
 
@@ -121,6 +122,7 @@ public partial class Player : CharacterBody2D
 		footstepPlayer = GetNode<AudioStreamPlayer2D>("%FootstepPlayer");
 		swordSlashAudio = GetNode<AudioStreamPlayer2D>("%SwordAudio");
 		damageSound = GetNode<AudioStreamPlayer2D>("%DamageSound");
+		dashSound = GetNode<AudioStreamPlayer2D>("%DashSound");
 
 		//init the variables needed for falling off edges mechanic
 
@@ -162,6 +164,7 @@ public partial class Player : CharacterBody2D
 			{
 				// Starts the dash if the player has pressed the dash button, is able to dash, and isn't currently dashing
 				_dash.StartDash(_facing, _DashDuration);
+				dashSound.Play();
 			}
 			if(Input.IsActionJustReleased("dash") && _dash.IsDashing)
 			{
