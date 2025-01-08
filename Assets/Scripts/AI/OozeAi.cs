@@ -18,6 +18,7 @@ public partial class OozeAi : BaseEnemyAI
 	private AudioStreamPlayer2D slimeAudio;
 	private AudioStreamPlayer2D lungeAudio;
 	[Export] private AudioStream deathSound;
+	private bool deathSoundPlayed = false;
 
 	public override void _Ready()
 	{
@@ -138,6 +139,7 @@ public partial class OozeAi : BaseEnemyAI
 	
 	private void StartLunge()
 	{
+		if (isDead) return;
 		lungeAudio.Play();
 		_shouldMove = true;
 		_isLunging = true;
@@ -326,12 +328,15 @@ public partial class OozeAi : BaseEnemyAI
 
 	public override void PlayDamageSound()
 	{
+		if (isDead) return;
 		lungeAudio.Stop();
 		slimeAudio.Play();
 	}
 
 	public override void PlayDeathSound()
 	{
+		if (deathSoundPlayed) return;
+		deathSoundPlayed = true;
 		lungeAudio.Stop();
 		slimeAudio.Stop();
 
