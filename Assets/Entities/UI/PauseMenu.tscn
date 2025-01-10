@@ -66,6 +66,7 @@ theme_override_font_sizes/font_size = 10
 text = "Options"
 
 [node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
+visible = false
 layout_mode = 0
 offset_left = 116.216
 offset_top = -60.9459
