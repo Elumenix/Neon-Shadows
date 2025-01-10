@@ -10,6 +10,10 @@ public partial class PauseMenu : CanvasLayer
 	private Panel _restartConfirmPanel;
 	[Export]
 	private Panel _OptionsPanel;
+	
+	// Audio Channel
+	private int masterBusIndex;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -17,6 +21,7 @@ public partial class PauseMenu : CanvasLayer
 		//don't remove these two line, it will break the game(don't ask me why)
 		GameManager.Instance.PauseGame();
 		GameManager.Instance.PauseGame();
+		masterBusIndex = AudioServer.GetBusIndex("Master");
 	}
 
 	/// <summary>
@@ -120,5 +125,15 @@ public partial class PauseMenu : CanvasLayer
         GameManager.Instance._Ready();
 		(GameManager.Instance.player as Player).RespawnPlayer();
 		GetTree().ChangeSceneToFile("res://Assets/Scenes/Main Menu.tscn");
+	}
+
+	public void OnVolumeChanged(float value)
+	{
+		// logarithmically converts value to be between -40db (essentially mute) to 0db (normal volume)
+		float normalized = Mathf.Clamp(value / 100, 0.01f, 1);
+		float dB = Mathf.Log(normalized) * 20;
+		
+		// Set Volume
+		AudioServer.SetBusVolumeDb(masterBusIndex, dB);
 	}
 }

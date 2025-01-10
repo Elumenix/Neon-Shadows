@@ -66,12 +66,37 @@ theme_override_font_sizes/font_size = 10
 text = "Option"
 
 [node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
-visible = false
 layout_mode = 0
 offset_left = 116.216
 offset_top = -60.9459
 offset_right = 305.216
 offset_bottom = 108.054
+
+[node name="HSlider" type="HSlider" parent="Panel/VBoxContainer/Options/Option Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -54.5
+offset_top = 24.0
+offset_right = 54.5
+offset_bottom = 40.0
+grow_horizontal = 2
+value = 100.0
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Options/Option Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.7433
+offset_top = 10.0811
+offset_right = 75.2567
+offset_bottom = 59.0811
+grow_horizontal = 2
+text = "Volume"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Restart" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -161,6 +186,7 @@ autowrap_mode = 2
 
 [connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="OnResumePressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="OnOptionPressed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/Options/Option Panel/HSlider" to="." method="OnVolumeChanged"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="OnRestartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/Yes" to="." method="OnRestartYesPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/No" to="." method="OnRestartNoPressed"]
