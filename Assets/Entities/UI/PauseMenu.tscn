@@ -63,7 +63,7 @@ layout_mode = 2
 theme = ExtResource("5_ipimc")
 theme_override_fonts/font = ExtResource("4_l4ygw")
 theme_override_font_sizes/font_size = 10
-text = "Option"
+text = "Options"
 
 [node name="Option Panel" type="Panel" parent="Panel/VBoxContainer/Options"]
 layout_mode = 0
