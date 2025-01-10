@@ -301,6 +301,14 @@ public partial class OozeAi : BaseEnemyAI
 
 	protected override void HandleDeath()
 	{
+		if(rng.Randf() <= _heartDropChance)
+		{
+            CallDeferred("_spawnHealthPickUp");
+        }
+		else
+		{
+			spawnedHeart = true;
+		}
 		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
 		if (!isDead)
 		{

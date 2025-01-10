@@ -43,7 +43,7 @@ public partial class DroneAI : BaseEnemyAI
 	private AudioStreamPlayer2D droneHit;
 	[Export] private AudioStream deathSound;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		base._Ready();
 		_usePathFinding = false;
@@ -435,7 +435,15 @@ public partial class DroneAI : BaseEnemyAI
 
 	protected override void HandleDeath()
 	{
-		Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        if (rng.Randf() <= _heartDropChance)
+        {
+            CallDeferred("_spawnHealthPickUp");
+        }
+        else
+        {
+            spawnedHeart = true;
+        }
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
 		if (!isDead) {
 			GameManager.Instance.EnemyDefeated();
 		}
@@ -488,4 +496,6 @@ public partial class DroneAI : BaseEnemyAI
 		audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
 		GetTree().Root.AddChild(audioPlayer);
 	}
+
+	
 }

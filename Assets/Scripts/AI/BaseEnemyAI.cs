@@ -30,6 +30,11 @@ public partial class BaseEnemyAI : CharacterBody2D
 
     protected Timer _oneSecTimer;
 
+	private PackedScene _heartPickUp = GD.Load<PackedScene>("res://Assets/Entities/Objects/HeartPickUp.tscn");
+	[ExportCategory("Misc")]
+	[Export(PropertyHint.Range, "0.0,1.0")] protected float _heartDropChance;
+	protected RandomNumberGenerator rng;
+	protected bool spawnedHeart = false;
     public override void _Ready()
 	{
 		isDead = false;
@@ -56,6 +61,8 @@ public partial class BaseEnemyAI : CharacterBody2D
 		_knocked = false;
 		_knockbackTimer = GetNode<Timer>("KnockbackTimer");
 		_knockbackTimer.Timeout += _knockbackTimerOut;
+
+		rng = new RandomNumberGenerator();
     }
 
 
@@ -272,4 +279,16 @@ public partial class BaseEnemyAI : CharacterBody2D
 	{
 		return _iFrames > 0.0f;
 	}
+
+    protected void _spawnHealthPickUp()
+    {
+		if (spawnedHeart)
+		{
+			return;
+		}
+        HeartPickUp temp = (HeartPickUp)_heartPickUp.Instantiate();
+		temp.Position = this.Position;
+        GetParent().AddChild(temp);
+		spawnedHeart = true;
+    }
 }
