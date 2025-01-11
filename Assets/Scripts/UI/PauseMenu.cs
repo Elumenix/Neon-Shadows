@@ -22,6 +22,13 @@ public partial class PauseMenu : CanvasLayer
 		GameManager.Instance.PauseGame();
 		GameManager.Instance.PauseGame();
 		masterBusIndex = AudioServer.GetBusIndex("Master");
+		
+		// This whole set of instructions is needed so that the visual volume level matches the current volume
+		// Logarithmically converting db to a volume value 
+		float volumeDb = AudioServer.GetBusVolumeDb(masterBusIndex);
+		float volume = Mathf.DbToLinear(volumeDb) * 100;
+		
+		GetNode<HSlider>("%VolumeSlider").Value = volume;
 	}
 
 	/// <summary>
@@ -129,9 +136,8 @@ public partial class PauseMenu : CanvasLayer
 
 	public void OnVolumeChanged(float value)
 	{
-		// logarithmically converts value to be between -40db (essentially mute) to 0db (normal volume)
-		float normalized = Mathf.Clamp(value / 100, 0.01f, 1);
-		float dB = Mathf.Log(normalized) * 20;
+		// Decibels will logarithmically go from -40 to 0
+		float dB = Mathf.LinearToDb(value / 100);
 		
 		// Set Volume
 		AudioServer.SetBusVolumeDb(masterBusIndex, dB);

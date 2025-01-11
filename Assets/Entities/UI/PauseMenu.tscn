@@ -73,7 +73,8 @@ offset_top = -60.9459
 offset_right = 305.216
 offset_bottom = 108.054
 
-[node name="HSlider" type="HSlider" parent="Panel/VBoxContainer/Options/Option Panel"]
+[node name="VolumeSlider" type="HSlider" parent="Panel/VBoxContainer/Options/Option Panel"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -187,7 +188,7 @@ autowrap_mode = 2
 
 [connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="OnResumePressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="OnOptionPressed"]
-[connection signal="value_changed" from="Panel/VBoxContainer/Options/Option Panel/HSlider" to="." method="OnVolumeChanged"]
+[connection signal="value_changed" from="Panel/VBoxContainer/Options/Option Panel/VolumeSlider" to="." method="OnVolumeChanged"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="OnRestartPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/Yes" to="." method="OnRestartYesPressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Restart/Confirm Restart/No" to="." method="OnRestartNoPressed"]
