@@ -575,16 +575,14 @@ collision_mask = 4
 motion_mode = 1
 script = ExtResource("1_tmfyi")
 _moveStopRange = 75.0
-_playerDetectRange = 275.0
 _shootOffset = 0.2
-targetMaxOffset = Vector2(50, 50)
 _bullet = ExtResource("2_wqjde")
 deathSound = ExtResource("4_hc285")
 MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
 _navigationAgent = NodePath("NavigationAgent2D")
-_heartDropChance = 0.2
+_detectionRange = 150.0
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0

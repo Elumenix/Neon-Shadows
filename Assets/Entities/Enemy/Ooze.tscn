@@ -854,7 +854,6 @@ deathSound = ExtResource("2_lnvbw")
 _speed = 15.0
 _maxSpeed = 15.0
 _navigationAgent = NodePath("NavigationAgent2D")
-_heartDropChance = 0.2
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_esoql")

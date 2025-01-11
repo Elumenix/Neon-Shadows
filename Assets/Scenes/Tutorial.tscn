@@ -341,27 +341,35 @@ position = Vector2(1500, 745)
 
 [node name="Drone" parent="TileMap" instance=ExtResource("3_ocetf")]
 position = Vector2(1459, 942)
+_heartDropChance = 0.0
 
 [node name="Drone2" parent="TileMap" instance=ExtResource("3_ocetf")]
 position = Vector2(1691, 825)
+_heartDropChance = 0.0
 
 [node name="Ooze" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1728, 939)
+_heartDropChance = 0.0
 
 [node name="Ooze2" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1747, 913)
+_heartDropChance = 0.0
 
 [node name="Ooze3" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1624, 967)
+_heartDropChance = 0.0
 
 [node name="Ooze4" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1556, 765)
+_heartDropChance = 0.0
 
 [node name="Ooze5" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1391, 803)
+_heartDropChance = 0.0
 
 [node name="Ooze6" parent="TileMap" instance=ExtResource("8_esj6q")]
 position = Vector2(1389, 870)
+_heartDropChance = 0.0
 
 [node name="Node2D" type="Node2D" parent="." groups=["PlatformArea"]]
 position = Vector2(139, 101)
