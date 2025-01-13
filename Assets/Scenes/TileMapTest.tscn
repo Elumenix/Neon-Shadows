@@ -1,5 +1,6 @@
-[gd_scene load_steps=23 format=4 uid="uid://bn6mynelmrsuo"]
+[gd_scene load_steps=24 format=4 uid="uid://bn6mynelmrsuo"]
 
+[ext_resource type="Texture2D" uid="uid://ctwa3v2c01ftk" path="res://Assets/Sprites/Object/game-bg.png" id="1_7mkmt"]
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_qr48g"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_y3tdm"]
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="3_0egtm"]
@@ -313,10 +314,21 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(832, 305, 416, 97, 320,
 agent_radius = 5.0
 
 [sub_resource type="Environment" id="Environment_ye1nt"]
+ambient_light_energy = 0.0
 
 [node name="GameTest2" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(341, 217)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+z_index = -3
+texture = ExtResource("1_7mkmt")
 
 [node name="TileMap" type="Node2D" parent="."]
 
