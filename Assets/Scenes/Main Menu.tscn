@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c56j57dopopcp"]
 
-[ext_resource type="Texture2D" uid="uid://blka11sss30wb" path="res://Assets/Sprites/Menu/TempMenuBackground.jpg" id="1_6d3ub"]
+[ext_resource type="Texture2D" uid="uid://i885utay11cm" path="res://Assets/Sprites/Menu/titlescreen.png" id="1_6d3ub"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/MainMenuStart.cs" id="1_dlniu"]
 [ext_resource type="Script" path="res://Assets/Scripts/UI/PlayButton.cs" id="2_pph0l"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="2_qj7re"]
@@ -17,17 +17,16 @@ _OptionsPanel = NodePath("Option Panel")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
-offset_right = 23.0
-offset_bottom = 23.0
-scale = Vector2(28.8, 16.2)
+offset_right = 640.0
+offset_bottom = 360.0
 texture = ExtResource("1_6d3ub")
 expand_mode = 2
 
 [node name="Title Label" type="RichTextLabel" parent="."]
-offset_left = 192.0
-offset_top = 71.0
-offset_right = 495.0
-offset_bottom = 221.0
+offset_left = 190.0
+offset_top = 36.0
+offset_right = 493.0
+offset_bottom = 186.0
 theme_override_fonts/normal_font = ExtResource("2_qj7re")
 theme_override_font_sizes/normal_font_size = 40
 text = "Neon
@@ -38,20 +37,20 @@ threaded = true
 
 [node name="Button" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 60)
-offset_left = 257.5
-offset_top = 226.0
-offset_right = 382.5
-offset_bottom = 291.0
+offset_left = 262.0
+offset_top = 250.0
+offset_right = 387.0
+offset_bottom = 315.0
 theme_override_fonts/font = ExtResource("2_qj7re")
 theme_override_font_sizes/font_size = 24
 text = "Play"
 script = ExtResource("2_pph0l")
 
 [node name="Options" type="Button" parent="."]
-offset_left = 275.0
-offset_top = 300.0
-offset_right = 365.0
-offset_bottom = 318.0
+offset_left = 279.5
+offset_top = 324.0
+offset_right = 369.5
+offset_bottom = 342.0
 theme = ExtResource("6_luoi8")
 theme_override_fonts/font = ExtResource("7_2ag3m")
 theme_override_font_sizes/font_size = 10
