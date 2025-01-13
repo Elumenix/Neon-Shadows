@@ -28,6 +28,7 @@ public partial class DroneAI : BaseEnemyAI
     private AudioStreamPlayer2D _droneHitAudio;
     private double _attackCooldownTimer = 0.0;
     private Timer _stateTimer;
+    private Timer _stateTimeout;
     private bool _hasFired = false;
 
     public override void _Ready()
@@ -46,6 +47,14 @@ public partial class DroneAI : BaseEnemyAI
             AddChild(_stateTimer);
         }
         _movementCompleted = true;
+
+        _stateTimeout = new Timer();
+        _stateTimeout.OneShot = true;
+        _stateTimeout.WaitTime = 3.0f;
+        _stateTimeout.Timeout += OnStateTimeout;
+        AddChild(_stateTimeout);
+
+
         Spawn();
     }
 
@@ -78,7 +87,10 @@ public partial class DroneAI : BaseEnemyAI
             QueueFree();
         }
     }
-
+    private void OnStateTimeout()
+    {
+        SetState(DroneFSM.Detecting);
+    }
     private void HandleState(double delta)
     {
         switch (_currentState)
@@ -129,7 +141,6 @@ public partial class DroneAI : BaseEnemyAI
     {
         if (_currentState == newState) return;
 
-        GD.Print($"Drone transitioning from {_currentState} to {newState}");
         _currentState = newState;
 
         if (newState == DroneFSM.AttackCharging)
@@ -212,7 +223,6 @@ public partial class DroneAI : BaseEnemyAI
             );
 
         _movementCompleted = false;
-        GD.Print(_targetPosition +":" + _player.GlobalPosition);
     }
 
     private void PlayBulletSound()
