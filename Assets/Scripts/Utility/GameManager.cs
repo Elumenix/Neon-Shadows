@@ -60,6 +60,7 @@ public partial class GameManager : Node
 
 	private void CheckIfAllEnemiesDefeated()
 	{
+		GD.Print(_defeatedEnemies + "/" + TotalEnemies);
         if (_defeatedEnemies >= TotalEnemies)
 		{
 

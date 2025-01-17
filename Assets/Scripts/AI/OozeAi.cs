@@ -97,10 +97,17 @@ public partial class OozeAi : BaseEnemyAI
 			}
 
 			MoveAndSlide();
-        }else if (!IsOnPlatform() && !_isSpawning)
+        }else if (!IsOnPlatform() && !_isSpawning && !isDead)
         {
+            if (!isDead)
+            {
+                GameManager.Instance.EnemyDefeated();
+            }
+            isDead = true;
             _animationPlayer.Play("Fall");
             GetNode<Timer>("ZIndexTimer").Start();
+
+			_oneSecTimer.Start();
         }
 
 
@@ -122,7 +129,7 @@ public partial class OozeAi : BaseEnemyAI
 			_lungeCooldownTimer.Start();
 			_isSpawning = false;
 		}
-		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death") {
+		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death" || _animatedSprite.Animation.ToString().Substring(0, 4) == "Fall") {
 			QueueFree();
 		} 
 	}

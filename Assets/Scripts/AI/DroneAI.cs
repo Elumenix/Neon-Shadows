@@ -50,7 +50,7 @@ public partial class DroneAI : BaseEnemyAI
 
         _stateTimeout = new Timer();
         _stateTimeout.OneShot = true;
-        _stateTimeout.WaitTime = 3.0f;
+        _stateTimeout.WaitTime = 2.0f;
         _stateTimeout.Timeout += OnStateTimeout;
         AddChild(_stateTimeout);
 
@@ -132,6 +132,7 @@ public partial class DroneAI : BaseEnemyAI
                 break;
 
             case DroneFSM.Attacking:
+                PlayAttackAnimation(GlobalPosition.DirectionTo(_player.GlobalPosition));
                 Attack();
                 break;
         }
@@ -168,7 +169,7 @@ public partial class DroneAI : BaseEnemyAI
                            (float)GD.RandRange(-_shootOffset, _shootOffset);
 
         var bullet = _bullet.Instantiate<Bullet>();
-        bullet.Position = GlobalPosition;
+        bullet.GlobalPosition = GlobalPosition;
         bullet.Rotation = shootAngle;
         bullet.player = _player;
         GetParent().AddChild(bullet);
