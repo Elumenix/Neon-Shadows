@@ -168,11 +168,11 @@ public partial class DroneAI : BaseEnemyAI
         float shootAngle = Mathf.Atan2(bulletDirection.Y, bulletDirection.X) +
                            (float)GD.RandRange(-_shootOffset, _shootOffset);
 
-        var bullet = _bullet.Instantiate<Bullet>();
-        bullet.GlobalPosition = GlobalPosition;
-        bullet.Rotation = shootAngle;
-        bullet.player = _player;
-        GetParent().AddChild(bullet);
+        Node node = _bullet.Instantiate();
+        (node as Node2D).Position = Position;
+        (node as Node2D).Rotation = shootAngle;
+        (node as Bullet).player = GameManager.Instance.player;
+        GetParent().AddChild(node);
 
         PlayBulletSound();
 
