@@ -311,10 +311,15 @@ public partial class DroneAI : BaseEnemyAI
 
     protected override void HandleDeath()
     {
-        base.HandleDeath();
-
-        PlayDeathAnimation(GlobalPosition.DirectionTo(_player.GlobalPosition));
-        _animatedSprite.Play("Death");
-        _oneSecTimer.Start();
+        Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
+        if (!isDead)
+        {
+            GameManager.Instance.EnemyDefeated();
+        }
+        PlayDeathAnimation(direction);
+        isDead = true;
+        _shouldMove = false;
+        if (_oneSecTimer.TimeLeft == 0)
+            _oneSecTimer.Start();
     }
 }

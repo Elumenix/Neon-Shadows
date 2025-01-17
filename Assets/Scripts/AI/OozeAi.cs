@@ -97,16 +97,14 @@ public partial class OozeAi : BaseEnemyAI
 			}
 
 			MoveAndSlide();
-
-            if (!IsOnPlatform())
-            {
-                _animationPlayer.Play("Fall");
-                GetNode<Timer>("ZIndexTimer").Start();
-            }
+        }else if (!IsOnPlatform() && !_isSpawning)
+        {
+            _animationPlayer.Play("Fall");
+            GetNode<Timer>("ZIndexTimer").Start();
         }
 
 
-	}
+    }
 
 	private void OnChargeFinished()
 	{
