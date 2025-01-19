@@ -50,7 +50,7 @@ public partial class DroneAI : BaseEnemyAI
 
         _stateTimeout = new Timer();
         _stateTimeout.OneShot = true;
-        _stateTimeout.WaitTime = 2.0f;
+        _stateTimeout.WaitTime = 1.5f;
         _stateTimeout.Timeout += OnStateTimeout;
         AddChild(_stateTimeout);
 
