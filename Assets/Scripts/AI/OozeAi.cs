@@ -12,6 +12,7 @@ public partial class OozeAi : BaseEnemyAI
 	private bool _isLunging = false;
 	private bool _isLungeCooldown = false;
 	private bool _isCharging = false;
+	[Export] private bool tutorialEnemy = false;
 	[Export] private AnimationPlayer _animationPlayer;
 	private Timer _ZIndexTimer;
 	private bool _isSpawning;
@@ -137,7 +138,7 @@ public partial class OozeAi : BaseEnemyAI
 
 	private bool IsOnPlatform()
 	{
-		return GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
+		return tutorialEnemy || GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
 	}
 
 	public void StartChargeLunge() {

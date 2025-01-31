@@ -217,7 +217,7 @@ texture_region_size = Vector2i(32, 16)
 2:6/size_in_atlas = Vector2i(1, 3)
 2:6/next_alternative_id = 2
 2:6/0 = 0
-2:6/0/texture_origin = Vector2i(-16, 9)
+2:6/0/texture_origin = Vector2i(-16, -8)
 2:6/0/y_sort_origin = -16
 2:6/1 = 1
 2:6/1/texture_origin = Vector2i(-16, 9)
@@ -404,7 +404,7 @@ position = Vector2(139, 101)
 
 [node name="PlatformArea" type="Area2D" parent="Node2D"]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/PlatformArea"]
+[node name="EdgeDetect" type="CollisionPolygon2D" parent="Node2D/PlatformArea"]
 position = Vector2(-600, -1224)
 polygon = PackedVector2Array(1037, 1139, 429, 835, -371, 1235, 237, 1539)
 
@@ -534,15 +534,19 @@ offset_bottom = 1053.0
 theme = ExtResource("9_yuwgv")
 text = "Congratulations You Win!"
 
-[node name="BaseEnemy" parent="." instance=ExtResource("2_vobsw")]
+[node name="Ooze" parent="." instance=ExtResource("8_esj6q")]
 process_mode = 4
-position = Vector2(-186, -59)
+position = Vector2(-120, -16)
+_lungeSpeed = 0.0
+tutorialEnemy = true
+_maxSpeed = 40.0
+_heartDropChance = 1.0
 
 [node name="First Ledge Text Collider" type="Area2D" parent="." node_paths=PackedStringArray("_walkText", "_enemyWarningText", "_enemy", "_dashText")]
 script = ExtResource("9_ygt6s")
 _walkText = NodePath("../Tutorial Text/WalkText")
 _enemyWarningText = NodePath("../Tutorial Text/AttackText")
-_enemy = NodePath("../BaseEnemy")
+_enemy = NodePath("../Ooze")
 _dashText = NodePath("../Tutorial Text/DashText")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="First Ledge Text Collider"]
