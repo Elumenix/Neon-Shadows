@@ -1,6 +1,7 @@
-[gd_scene load_steps=25 format=4 uid="uid://dg6vltwq2ow1e"]
+[gd_scene load_steps=29 format=4 uid="uid://dg6vltwq2ow1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgslb6ct47jmy" path="res://Assets/Entities/player.tscn" id="1_kpb6d"]
+[ext_resource type="Texture2D" uid="uid://bkrha6qwfrc50" path="res://Assets/Sprites/Object/clear-game-bg.png" id="1_m7sc7"]
 [ext_resource type="PackedScene" uid="uid://dx50r3tdnt0wo" path="res://Assets/Entities/Enemy/slime.tscn" id="2_vobsw"]
 [ext_resource type="PackedScene" uid="uid://bv60t6fvof5dh" path="res://Assets/Entities/Enemy/Drone.tscn" id="3_ocetf"]
 [ext_resource type="Texture2D" uid="uid://clyo1sivettyy" path="res://Assets/Sprites/Object/isometric-sandbox-sheet.png" id="4_v1syt"]
@@ -19,6 +20,13 @@
 [ext_resource type="PackedScene" uid="uid://c82tjhmkq5hnt" path="res://Assets/Entities/Objects/Gate.tscn" id="14_eal5d"]
 [ext_resource type="Script" path="res://Assets/Scripts/Tutorial Scripts/WinArea.cs" id="16_0j8vk"]
 [ext_resource type="AudioStream" uid="uid://bcf5gpdiimn6p" path="res://Assets/Sounds/music_zapsplat_aiming_high.mp3" id="19_apypl"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_26va3"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_y2x5n"]
+
+[sub_resource type="MeshTexture" id="MeshTexture_qkg1g"]
+mesh = SubResource("QuadMesh_y2x5n")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ajvvt"]
 scenes/1/scene = ExtResource("1_kpb6d")
@@ -290,6 +298,34 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-224, 416, 576, 16, -32
 agent_radius = 5.0
 
 [node name="ArenaScene" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.0823529, 0.0823529, 0.129412, 0.784314)
+z_index = -2
+position = Vector2(-113.374, 555.843)
+rotation = -3.14159
+scale = Vector2(6714.48, -4108.16)
+mesh = SubResource("QuadMesh_26va3")
+texture = SubResource("MeshTexture_qkg1g")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="."]
+modulate = Color(0.0823529, 0.0823529, 0.129412, 0.788235)
+z_index = -5
+position = Vector2(-407.977, 866.548)
+rotation = -3.14159
+scale = Vector2(5402.04, -3398.06)
+mesh = SubResource("QuadMesh_26va3")
+
+[node name="Sprite2D2" type="Polygon2D" parent="."]
+z_index = -1
+texture_repeat = 2
+position = Vector2(-231.5, 345.5)
+scale = Vector2(11.2984, 12.3306)
+texture = ExtResource("1_m7sc7")
+texture_scale = Vector2(12.5, 12.5)
+polygon = PackedVector2Array(-320, 180, -320, -180, 320, -180, 320, 180)
+uv = PackedVector2Array(0, 360, 0, 0, 640, 0, 640, 360)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
 
 [node name="TileMap" type="Node2D" parent="."]
 

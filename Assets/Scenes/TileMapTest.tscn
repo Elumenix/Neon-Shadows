@@ -21,10 +21,10 @@
 
 [sub_resource type="QuadMesh" id="QuadMesh_y6eq8"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_y2x5n"]
+[sub_resource type="QuadMesh" id="QuadMesh_gmkc6"]
 
 [sub_resource type="MeshTexture" id="MeshTexture_2ib8a"]
-mesh = SubResource("QuadMesh_y2x5n")
+mesh = SubResource("QuadMesh_gmkc6")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yeygk"]
 scenes/1/scene = ExtResource("1_qr48g")
@@ -546,7 +546,6 @@ EnemiesContainerPath = NodePath("../EnemiesContainer")
 [node name="Gate" parent="." instance=ExtResource("15_6fqwe")]
 position = Vector2(595, 1471)
 rotation = 0.044848
-scale = Vector2(1, 1)
 GateNum = 1
 EnemiesContainerPath = NodePath("../EnemiesContainer")
 InitEnemiesNum = 3
