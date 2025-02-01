@@ -4,15 +4,15 @@
 [ext_resource type="AudioStream" uid="uid://1ka35nadb6hu" path="res://Assets/Sounds/medium-explosion-40472.mp3" id="3_88yuj"]
 [ext_resource type="Shader" path="res://Assets/Shader/ShockWave.gdshader" id="3_comoq"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pikrn"]
+radius = 96.0052
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iotil"]
 shader = ExtResource("3_comoq")
 shader_parameter/center = Vector2(0.5, 0.5)
 shader_parameter/force = 0.5
 shader_parameter/size = 0.37
 shader_parameter/thickness = 0.005
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_pikrn"]
-radius = 96.0052
 
 [sub_resource type="Animation" id="Animation_gxkku"]
 resource_name = "Explode"
@@ -75,12 +75,14 @@ _data = {
 "RESET": SubResource("Animation_bkxba")
 }
 
-[node name="Explosion" type="RigidBody2D"]
+[node name="Explosion" type="Area2D"]
 disable_mode = 2
 collision_layer = 0
 collision_mask = 16
-freeze = true
 script = ExtResource("1_gra11")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pikrn")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_iotil")
@@ -96,9 +98,6 @@ wait_time = 0.3
 one_shot = true
 autostart = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_pikrn")
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_88yuj")
 autoplay = true
@@ -108,5 +107,3 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_sv8ts")
 }
-
-[connection signal="body_entered" from="." to="." method="InExplosion"]

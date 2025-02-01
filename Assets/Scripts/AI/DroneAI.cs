@@ -199,7 +199,7 @@ public partial class DroneAI : BaseEnemyAI
 
             UpdateAnimation(direction);
 
-            if (GlobalPosition.DistanceTo(_targetPosition) < 1)
+            if (GlobalPosition.DistanceTo(_targetPosition) < 5)
             {
                 _movementCompleted = true;
                 SetState(DroneFSM.AttackCharging);
