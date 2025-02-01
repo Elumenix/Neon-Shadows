@@ -272,6 +272,7 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("attack_ranged") && !_isShooting)
 		{
 			Vector2 mousePOSinPlayer = this.GetGlobalMousePosition();
+			mousePOSinPlayer += new Vector2(5, 7); // Offset from the mouse pointer to crosshair
 			// Create a Ranged Attack
 			_marker.LookAt(mousePOSinPlayer);
 			if (_ammo > 0)
@@ -960,9 +961,7 @@ public partial class Player : CharacterBody2D
 			particleInstance.QueueFree();
 		};
 	}
-
-
-
+	
 	private Color GetScreenColorUnderPlayer()
 	{
 		Viewport viewport = GetViewport();
