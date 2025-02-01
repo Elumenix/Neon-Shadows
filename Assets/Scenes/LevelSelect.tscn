@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://di7sqrj73qtt1"]
+[gd_scene load_steps=9 format=3 uid="uid://di7sqrj73qtt1"]
 
 [ext_resource type="Script" path="res://Assets/Scripts/UI/LevelSelect.cs" id="1_6gxph"]
 [ext_resource type="Theme" uid="uid://cnrjccknkhvl4" path="res://Assets/Sprites/UI/gravity-8.tres" id="2_i46hr"]
-[ext_resource type="Texture2D" uid="uid://cigb7bhas8xak" path="res://icon.svg" id="2_xk8ig"]
 [ext_resource type="FontFile" uid="uid://dy60w3plk1epy" path="res://Assets/Sprites/UI/GravityBold8.ttf" id="3_6tgq0"]
 [ext_resource type="AudioStream" uid="uid://dlifsm4hbrms2" path="res://Assets/Sounds/cyberpunk-beat-64649.mp3" id="3_ho7jm"]
 [ext_resource type="Theme" uid="uid://dmrcphllqb0po" path="res://Assets/Sprites/UI/gravity-10.tres" id="4_e6r2t"]
+[ext_resource type="Texture2D" uid="uid://m7o13kcxhmmy" path="res://Assets/Sprites/Menu/Tutorial.jpg" id="5_csmkl"]
+[ext_resource type="Texture2D" uid="uid://dhvfe00tj7tgs" path="res://Assets/Sprites/Menu/Level 1.jpg" id="6_46rtn"]
+[ext_resource type="Texture2D" uid="uid://gllao8tcjj7p" path="res://Assets/Sprites/Menu/Arena.jpg" id="7_lpikw"]
 
 [node name="LevelSelect" type="CanvasLayer" node_paths=PackedStringArray("_tutorialDescriptionPanel", "_levelOneDescriptionPanel", "_arenaDescriptionPanel", "_quitConfirmPanel")]
 script = ExtResource("1_6gxph")
@@ -61,28 +63,28 @@ theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 41.6216
-offset_top = 3.78378
-offset_right = 169.622
-offset_bottom = 131.784
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_xk8ig")
+offset_left = 41.622
+offset_top = 20.0
+offset_right = 1001.62
+offset_bottom = 788.0
+scale = Vector2(0.108, 0.108)
+texture = ExtResource("5_csmkl")
 
 [node name="Level" type="Label" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.02703
-offset_top = 105.405
-offset_right = 65.027
-offset_bottom = 128.405
+offset_left = 7.027
+offset_top = 110.405
+offset_right = 97.027
+offset_bottom = 133.405
 scale = Vector2(0.5, 0.5)
 text = "Tutorial:"
 
 [node name="Description" type="Label" parent="Panel/VBoxContainer/Tutorial/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.56757
-offset_top = 118.378
+offset_left = 7.568
+offset_top = 123.378
 offset_right = 351.598
-offset_bottom = 219.378
+offset_bottom = 224.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
 Learn the basics before you jump into the game.
@@ -112,31 +114,31 @@ theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 41.6216
-offset_top = 3.78378
-offset_right = 169.622
-offset_bottom = 131.784
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_xk8ig")
+offset_left = 41.622
+offset_top = 20.0
+offset_right = 1001.62
+offset_bottom = 788.0
+scale = Vector2(0.108108, 0.108108)
+texture = ExtResource("6_46rtn")
 
 [node name="Level" type="Label" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.02703
-offset_top = 105.405
-offset_right = 65.027
-offset_bottom = 128.405
+offset_left = 7.027
+offset_top = 110.405
+offset_right = 83.027
+offset_bottom = 133.405
 scale = Vector2(0.5, 0.5)
 text = "Level 1:"
 
 [node name="Description" type="Label" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.56757
-offset_top = 118.378
+offset_left = 7.568
+offset_top = 123.378
 offset_right = 351.598
-offset_bottom = 219.378
+offset_bottom = 224.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
-The first level of neon shadows, are you ready for the waves of enemy?"
+The first level of neon shadows. Are you ready to fight your way through the city?"
 autowrap_mode = 3
 
 [node name="Start" type="Button" parent="Panel/VBoxContainer/Level1/LevelInfoPanel"]
@@ -162,28 +164,28 @@ theme = ExtResource("4_e6r2t")
 
 [node name="LevelImg" type="TextureRect" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 41.6216
-offset_top = 3.78378
-offset_right = 169.622
-offset_bottom = 131.784
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_xk8ig")
+offset_left = 41.622
+offset_top = 20.0
+offset_right = 1001.62
+offset_bottom = 788.0
+scale = Vector2(0.108, 0.108)
+texture = ExtResource("7_lpikw")
 
 [node name="Level" type="Label" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.02703
-offset_top = 105.405
+offset_left = 7.027
+offset_top = 110.405
 offset_right = 65.027
-offset_bottom = 128.405
+offset_bottom = 133.405
 scale = Vector2(0.5, 0.5)
 text = "Arena"
 
 [node name="Description" type="Label" parent="Panel/VBoxContainer/Arena/LevelInfoPanel"]
 layout_mode = 0
-offset_left = 7.56757
-offset_top = 118.378
+offset_left = 7.568
+offset_top = 123.378
 offset_right = 351.598
-offset_bottom = 219.378
+offset_bottom = 224.378
 scale = Vector2(0.5, 0.5)
 text = "Description: 
 See how long you can survive in an endless onslught of enemies!"
