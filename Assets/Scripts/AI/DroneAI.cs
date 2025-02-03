@@ -187,10 +187,15 @@ public partial class DroneAI : BaseEnemyAI
     {
         if (_player == null) return false;
 
-        if (GlobalPosition.DistanceTo(_player.GlobalPosition) > _detectionRange)
+        float dist = GlobalPosition.DistanceTo(_player.GlobalPosition);
+        if (dist > _detectionRange)
         {
             // Drone loses track of the player
-            _playerDetected = false;
+            if (_playerDetected && dist > _detectionRange * 2)
+            {
+                _playerDetected = false;
+            }
+            
             return false;
         }
 

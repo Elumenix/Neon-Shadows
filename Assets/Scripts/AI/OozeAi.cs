@@ -61,7 +61,6 @@ public partial class OozeAi : BaseEnemyAI
 			return;
 		}
 
-
         if (_isCharging)
         {
             PlayWalkAnimation(GlobalPosition.DirectionTo(_player.GlobalPosition));
@@ -98,7 +97,8 @@ public partial class OozeAi : BaseEnemyAI
 			}
 
 			MoveAndSlide();
-        }else if (!IsOnPlatform() && !_isSpawning && !isDead)
+        }
+        else if (!IsOnPlatform() && !_isSpawning && !isDead)
         {
             if (!isDead)
             {
@@ -110,8 +110,6 @@ public partial class OozeAi : BaseEnemyAI
 
 			_oneSecTimer.Start();
         }
-
-
     }
 
 	private void OnChargeFinished()
@@ -130,7 +128,8 @@ public partial class OozeAi : BaseEnemyAI
 			_lungeCooldownTimer.Start();
 			_isSpawning = false;
 		}
-		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death" || _animatedSprite.Animation.ToString().Substring(0, 4) == "Fall") {
+		else if (_animatedSprite.Animation.ToString().Substring(0, 5) == "Death" || 
+		         _animatedSprite.Animation.ToString().Substring(0, 4) == "Fall") {
 			QueueFree();
 		} 
 	}
@@ -138,7 +137,8 @@ public partial class OozeAi : BaseEnemyAI
 
 	private bool IsOnPlatform()
 	{
-		return tutorialEnemy || GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea").OverlapsArea(GetNode<Area2D>("EdgeDetect"));
+		return tutorialEnemy || GetTree().GetNodesInGroup("PlatformArea")[0].GetNode<Area2D>("PlatformArea")
+			.OverlapsArea(GetNode<Area2D>("EdgeDetect"));
 	}
 
 	public void StartChargeLunge() {

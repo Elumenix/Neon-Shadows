@@ -582,7 +582,7 @@ MaxHealth = 150
 _speed = 300.0
 _maxSpeed = 300.0
 _navigationAgent = NodePath("NavigationAgent2D")
-_detectionRange = 150.0
+_detectionRange = 100.0
 _heartDropChance = 0.2
 
 [node name="Area2D" type="Area2D" parent="."]
