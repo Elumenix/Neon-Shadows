@@ -30,6 +30,7 @@ public partial class DroneAI : BaseEnemyAI
     private Timer _stateTimer;
     private Timer _stateTimeout;
     private bool _hasFired = false;
+    private bool _playerDetected = false;
 
     public override void _Ready()
     {
@@ -186,7 +187,19 @@ public partial class DroneAI : BaseEnemyAI
     {
         if (_player == null) return false;
 
-        return GlobalPosition.DistanceTo(_player.GlobalPosition) < _detectionRange;
+        if (GlobalPosition.DistanceTo(_player.GlobalPosition) > _detectionRange)
+        {
+            // Drone loses track of the player
+            _playerDetected = false;
+            return false;
+        }
+
+        // Early out if the drone already knows the player is there
+        if (_playerDetected) return true;
+        
+        GetNode<AudioStreamPlayer2D>("%NoticeSound").Play();
+        _playerDetected = true;
+        return true;
     }
 
     private void MoveTowardsTarget(double delta)
@@ -228,8 +241,17 @@ public partial class DroneAI : BaseEnemyAI
 
     private void PlayBulletSound()
     {
-        _droneHitAudio.PitchScale = (float)GD.RandRange(1.0, 1.5);
-        _droneHitAudio.Play();
+        var audioPlayer = new AudioStreamPlayer2D
+        {
+            Stream = GameManager.Instance.bulletSoundEffect,
+            Position = GlobalPosition,
+            Autoplay = true,
+            PitchScale = (float)GD.RandRange(1.0, 3.0)
+        };
+		
+        // TODO: AudioPlayer doesn't seem to free itself correctly
+        audioPlayer.Connect("finished", new Callable(audioPlayer, nameof(audioPlayer.QueueFree)));
+        GetTree().Root.AddChild(audioPlayer);
     }
 
     private void UpdateAnimation(Vector2 direction)
@@ -308,6 +330,21 @@ public partial class DroneAI : BaseEnemyAI
 
         _animatedSprite.Play("Spawn");
         _oneSecTimer.Start();
+    }
+    
+    public override void PlayDamageSound()
+    {
+        _droneHitAudio.Play();
+    }
+
+    public override void PlayDeathSound()
+    {
+        // Quickly switching any playing tracks and switching to play death sound
+        _droneHitAudio.Stop();
+        _droneHitAudio.Stream = deathSound;
+        _droneHitAudio.Play();
+		
+        base.PlayDeathSound();
     }
 
     protected override void HandleDeath()
