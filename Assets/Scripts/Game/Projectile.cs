@@ -7,8 +7,6 @@ public partial class Projectile : RigidBody2D
 	private float _speed;
 	public Vector2 Heading;
 	private Area2D _area;
-	private bool offScreen = false;
-	private double timer = 2.0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -17,7 +15,6 @@ public partial class Projectile : RigidBody2D
 		_speed = 200.0f;
 		Heading = Vector2.Zero;
 		_area = GetNode<Area2D>("Area2D");
-		ProcessMode = ProcessModeEnum.Always;
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -34,17 +31,6 @@ public partial class Projectile : RigidBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-		// Delete bullet two seconds after it goes offscreen, so a moving camera doesn't prevent
-		// what was obviously about to be an enemy hit
-		if (offScreen)
-		{
-			timer -= delta;
-
-			if (timer < 0)
-			{
-				QueueFree();
-			}
-		}
 	}
 	
 	/// <summary>
@@ -52,7 +38,7 @@ public partial class Projectile : RigidBody2D
 	/// </summary>
 	public void _on_visible_on_screen_enabler_2d_screen_exited()
 	{
-		offScreen = true;
+		QueueFree();
 	}
 
 	public void OnCollision(Node2D collider)
